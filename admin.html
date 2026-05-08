@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Pokepluse</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body { overflow-x: hidden; }
+    .admin-wrap { display: none; }
+    .lock-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); }
+    .lock-card { background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 2.5rem; width: 100%; max-width: 380px; text-align: center; }
+    .lock-card h2 { margin-bottom: 0.5rem; }
+    .lock-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .stat-card .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .stat-card .value { font-size: 2rem; font-weight: 800; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .product-form { background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 2rem; }
+    .product-form h3 { margin-bottom: 1.25rem; font-size: 1rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-full { grid-column: 1 / -1; }
+    .admin-product-table .product-row { display: grid; grid-template-columns: 60px 1fr auto auto auto; gap: 1rem; align-items: center; padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-glass); font-size: 0.875rem; }
+    .admin-product-table .product-row:hover { background: var(--bg-card); }
+    .product-row img { width: 55px; height: 55px; object-fit: contain; border-radius: var(--radius-sm); }
+    .action-btns { display: flex; gap: 0.5rem; }
+    .btn-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); background: none; color: var(--text-secondary); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+    .btn-icon:hover { background: var(--bg-glass); color: var(--text-primary); }
+    .btn-icon.danger:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: var(--red); }
+    .order-row { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-glass); }
+    .order-row:hover { background: var(--bg-card); }
+    @media (max-width: 768px) { .admin-layout { grid-template-columns: 1fr; } .admin-sidebar { display: none; } .form-grid { grid-template-columns: 1fr; } .admin-product-table .product-row { grid-template-columns: 50px 1fr auto; } }
+  </style>
+</head>
+<body>
+<!-- Google Translate Widget -->
+<div style="position: absolute; top: 1rem; right: 1rem; z-index: 100;">
+  <div id="google_translate_element"></div>
+</div>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lock-screen">
+  <div class="lock-card">
+    <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+    <h2>Admin Dashboard</h2>
+    <p>Enter your admin password to continue</p>
+    <div class="form-group" style="text-align:left;">
+      <label>Password</label>
+      <input type="password" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')checkPassword()"/>
+    </div>
+    <div id="pass-error" style="color:var(--red);font-size:0.85rem;margin-bottom:1rem;display:none;">Incorrect password.</div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="checkPassword()">
+      <i class="fa fa-unlock"></i> Access Dashboard
+    </button>
+    <div style="margin-top:1rem;"><a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">← Back to Store</a></div>
+  </div>
+</div>
+
+<!-- ADMIN WRAP -->
+<div class="admin-wrap" id="admin-wrap">
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="nav-logo" style="display:block;margin-bottom:0.5rem;font-size:1.2rem;">⚡ Pokepluse</a>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1.5rem;">Admin Panel</div>
+      <ul class="admin-nav">
+        <li><button class="admin-nav-btn active" onclick="showTab('overview',this)"><i class="fa fa-chart-pie" style="width:18px;"></i> Overview</button></li>
+        <li><button class="admin-nav-btn" onclick="showTab('products',this)"><i class="fa fa-boxes-stacked" style="width:18px;"></i> Products</button></li>
+        <li><button class="admin-nav-btn" onclick="showTab('orders',this)"><i class="fa fa-clipboard-list" style="width:18px;"></i> Orders</button></li>
+      </ul>
+      <div style="position:absolute;bottom:2rem;left:1rem;right:1rem;">
+        <a href="index.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">← Visit Store</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+      <!-- OVERVIEW -->
+      <div class="tab-content active" id="tab-overview">
+        <h2 style="margin-bottom:1.75rem;">Dashboard Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Total Products</div>
+            <div class="value" id="stat-products" style="color:var(--blue);">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Total Orders</div>
+            <div class="value" id="stat-orders" style="color:var(--gold);">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Pending Inquiries</div>
+            <div class="value" id="stat-pending" style="color:var(--red);">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">In Stock Items</div>
+            <div class="value" id="stat-instock" style="color:var(--green);">—</div>
+          </div>
+        </div>
+        <h3 style="margin-bottom:1rem;">Recent Orders</h3>
+        <div class="glass-card" id="recent-orders-list" style="overflow:hidden;"></div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="tab-content" id="tab-products">
+        <h2 style="margin-bottom:1.75rem;">Product Management</h2>
+
+        <!-- ADD/EDIT FORM -->
+        <div class="product-form" id="product-form-wrap">
+          <h3 id="form-title">➕ Add New Product</h3>
+          <input type="hidden" id="edit-product-id"/>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Product Name *</label>
+              <input type="text" id="prod-name" placeholder="e.g. Pokemon Battle Partners sv9"/>
+            </div>
+            <div class="form-group">
+              <label>Price ($) *</label>
+              <input type="number" id="prod-price" placeholder="89.99" step="0.01"/>
+            </div>
+            <div class="form-group">
+              <label>Category *</label>
+              <select id="prod-category">
+                <option value="japanese-pokemon">Japanese Pokémon</option>
+                <option value="korean-pokemon">Korean Pokémon</option>
+                <option value="chinese-pokemon">Chinese Pokémon</option>
+                <option value="one-piece">One Piece TCG</option>
+              </select>
+            </div>
+            <div class="form-group" style="position:relative;">
+              <label>Product Type <i class="fa fa-info-circle" style="color:var(--text-muted);margin-left:5px;" title="Select the kind of product this is (e.g., a sealed booster box, a single raw card, etc.)."></i></label>
+              <select id="prod-type">
+                <option>Booster Box</option>
+                <option>Booster Pack</option>
+                <option>Gift Set</option>
+                <option>Single Card</option>
+                <option>Collection Box</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Stock Status</label>
+              <select id="prod-stock">
+                <option value="in_stock">In Stock</option>
+                <option value="sold_out">Sold Out</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Featured?</label>
+              <select id="prod-featured">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+            </div>
+            <div class="form-group form-full">
+              <label>Description</label>
+              <textarea id="prod-desc" rows="3" placeholder="Product description..."></textarea>
+            </div>
+            <div class="form-group form-full" style="background:var(--bg-card); padding:1.5rem; border:1px solid var(--border-glass); border-radius:var(--radius-md);">
+              <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <span>Images <i class="fa fa-info-circle" style="color:var(--text-muted);margin-left:5px;" title="Images are stored in the cloud. Upload new images below. You can see previews of the uploaded images. Provide multiple images for clients to view different angles/sides."></i></span>
+              </label>
+              
+              <div id="image-previews" style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;">
+                <div style="color:var(--text-muted); font-size:0.85rem; font-style:italic;">No images added yet.</div>
+              </div>
+              
+              <input type="file" id="prod-image-upload" multiple accept="image/*" onchange="uploadImages(event)" style="margin-bottom:1rem;"/>
+              
+              <label style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; display:block;">Raw Image URLs (One per line - Advanced):</label>
+              <textarea id="prod-images" rows="3" placeholder="https://.../image.webp" oninput="renderImagePreviews()"></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="saveProduct()"><i class="fa fa-save"></i> Save Product</button>
+            <button class="btn btn-outline" onclick="resetForm()"><i class="fa fa-times"></i> Reset</button>
+          </div>
+          <div id="form-msg" style="margin-top:1rem;font-size:0.875rem;display:none;"></div>
+        </div>
+
+        <!-- PRODUCT LIST -->
+        <div class="glass-card" style="overflow:hidden;">
+          <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border-glass);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;">All Products</span>
+            <input type="text" id="prod-search" placeholder="Search..." style="padding:0.4rem 0.8rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:50px;color:var(--text-primary);font-family:'Outfit',sans-serif;outline:none;font-size:0.85rem;" oninput="renderProductList()"/>
+          </div>
+          <div class="admin-product-table" id="admin-product-table"></div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="tab-content" id="tab-orders">
+        <h2 style="margin-bottom:1.75rem;">Order Management</h2>
+        <div class="glass-card" style="overflow:hidden;" id="orders-table"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  const ADMIN_PASSWORD = 'admin2024';
+  let allAdminProducts = [];
+  let allOrders = [];
+
+  function checkPassword() {
+    const pass = document.getElementById('admin-pass').value;
+    if (pass === ADMIN_PASSWORD) {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('admin-wrap').style.display = 'block';
+      initAdmin();
+    } else {
+      document.getElementById('pass-error').style.display = 'block';
+    }
+  }
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+    btn.classList.add('active');
+    if (tab === 'orders') loadOrders();
+  }
+
+  async function initAdmin() {
+    const [{ count: prodCount }, { count: orderCount }, { count: pendingCount }, { count: inStockCount }] = await Promise.all([
+      supabase.from('products').select('*', {count:'exact',head:true}),
+      supabase.from('orders').select('*', {count:'exact',head:true}),
+      supabase.from('orders').select('*', {count:'exact',head:true}).eq('status','pending'),
+      supabase.from('products').select('*', {count:'exact',head:true}).eq('stock_status','in_stock'),
+    ]);
+    document.getElementById('stat-products').textContent = prodCount ?? 0;
+    document.getElementById('stat-orders').textContent = orderCount ?? 0;
+    document.getElementById('stat-pending').textContent = pendingCount ?? 0;
+    document.getElementById('stat-instock').textContent = inStockCount ?? 0;
+
+    const { data: recentOrders } = await supabase.from('orders').select('*').order('created_at',{ascending:false}).limit(5);
+    const rEl = document.getElementById('recent-orders-list');
+    if (!recentOrders?.length) { rEl.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--text-muted);">No orders yet.</div>'; }
+    else rEl.innerHTML = recentOrders.map(o=>renderOrderRow(o)).join('');
+
+    loadProductList();
+  }
+
+  async function loadProductList() {
+    const { data } = await supabase.from('products').select('*').order('created_at',{ascending:false});
+    allAdminProducts = data || [];
+    renderProductList();
+  }
+
+  function renderProductList() {
+    const search = document.getElementById('prod-search')?.value.toLowerCase() || '';
+    const filtered = allAdminProducts.filter(p=>!search||p.name.toLowerCase().includes(search));
+    const el = document.getElementById('admin-product-table');
+    if (!filtered.length) { el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--text-muted);">No products found.</div>'; return; }
+    
+    // Group products by category
+    const grouped = {};
+    filtered.forEach(p => {
+      const cat = p.category || 'other';
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(p);
+    });
+
+    let html = '';
+    for (const [cat, products] of Object.entries(grouped)) {
+      html += `<div style="background:var(--bg-secondary); padding:0.85rem 1.25rem; font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--gold); border-bottom:1px solid var(--border-glass); border-top:1px solid var(--border-glass);">
+        ${getCategoryLabel(cat)} <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;margin-left:0.5rem;text-transform:none;">(${products.length} products)</span>
+      </div>`;
+      html += products.map(p=>`
+        <div class="product-row">
+          <img src="${encodeURI(p.images?.[0]||'')}" onerror="this.style.background='var(--bg-card)';this.removeAttribute('src')"/>
+          <div>
+            <div style="font-weight:600;font-size:0.875rem;margin-bottom:2px;">${p.name}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">${p.product_type || 'Unknown Type'}</div>
+          </div>
+          <span class="stock-badge ${p.stock_status==='in_stock'?'stock-in':'stock-out'}" style="white-space:nowrap;">${p.stock_status==='in_stock'?'In Stock':'Sold Out'}</span>
+          <span style="font-weight:700;color:var(--gold);">$${Number(p.price).toFixed(2)}</span>
+          <div class="action-btns">
+            <button class="btn-icon" onclick="editProduct('${p.id}')" title="Edit"><i class="fa fa-edit"></i></button>
+            <button class="btn-icon" onclick="toggleStock('${p.id}','${p.stock_status}')" title="Toggle Stock"><i class="fa fa-toggle-${p.stock_status==='in_stock'?'on':'off'}"></i></button>
+            <button class="btn-icon danger" onclick="deleteProduct('${p.id}')" title="Delete"><i class="fa fa-trash"></i></button>
+          </div>
+        </div>`).join('');
+    }
+    el.innerHTML = html;
+  }
+
+  async function saveProduct() {
+    const id = document.getElementById('edit-product-id').value;
+    const name = document.getElementById('prod-name').value.trim();
+    const price = parseFloat(document.getElementById('prod-price').value);
+    const category = document.getElementById('prod-category').value;
+    const product_type = document.getElementById('prod-type').value;
+    const stock_status = document.getElementById('prod-stock').value;
+    const description = document.getElementById('prod-desc').value.trim();
+    const featured = document.getElementById('prod-featured').value === 'true';
+    const images = document.getElementById('prod-images').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const msgEl = document.getElementById('form-msg');
+
+    if (!name||!price||!category) { msgEl.style.cssText='display:block;color:var(--red);'; msgEl.textContent='Please fill in Name, Price and Category.'; return; }
+
+    const payload = { name, price, category, product_type, stock_status, description, featured, images };
+    let error;
+    if (id) {
+      ({ error } = await supabase.from('products').update(payload).eq('id',id));
+    } else {
+      ({ error } = await supabase.from('products').insert(payload));
+    }
+
+    if (error) { msgEl.style.cssText='display:block;color:var(--red);'; msgEl.textContent='Error: '+error.message; return; }
+    msgEl.style.cssText='display:block;color:var(--green);'; msgEl.textContent = id ? '✅ Product updated!' : '✅ Product added!';
+    resetForm();
+    loadProductList();
+    setTimeout(()=>msgEl.style.display='none',3000);
+  }
+
+  function editProduct(id) {
+    const p = allAdminProducts.find(x=>x.id===id);
+    if (!p) return;
+    document.getElementById('edit-product-id').value = p.id;
+    document.getElementById('prod-name').value = p.name;
+    document.getElementById('prod-price').value = p.price;
+    document.getElementById('prod-category').value = p.category;
+    document.getElementById('prod-type').value = p.product_type || 'Booster Box';
+    document.getElementById('prod-stock').value = p.stock_status;
+    document.getElementById('prod-desc').value = p.description || '';
+    document.getElementById('prod-featured').value = String(p.featured);
+    document.getElementById('prod-images').value = (p.images||[]).join('\n');
+    document.getElementById('form-title').textContent = '✏️ Edit Product';
+    renderImagePreviews();
+    document.getElementById('product-form-wrap').scrollIntoView({behavior:'smooth'});
+  }
+
+  function resetForm() {
+    document.getElementById('edit-product-id').value = '';
+    document.getElementById('prod-name').value = '';
+    document.getElementById('prod-price').value = '';
+    document.getElementById('prod-category').value = 'japanese-pokemon';
+    document.getElementById('prod-type').value = 'Booster Box';
+    document.getElementById('prod-stock').value = 'in_stock';
+    document.getElementById('prod-desc').value = '';
+    document.getElementById('prod-featured').value = 'false';
+    document.getElementById('prod-images').value = '';
+    document.getElementById('prod-image-upload').value = '';
+    document.getElementById('form-title').textContent = '➕ Add New Product';
+    renderImagePreviews();
+  }
+
+  function renderImagePreviews() {
+    const urls = document.getElementById('prod-images').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const container = document.getElementById('image-previews');
+    if (!urls.length) {
+      container.innerHTML = '<div style="color:var(--text-muted); font-size:0.85rem; font-style:italic;">No images added yet.</div>';
+      return;
+    }
+    
+    container.innerHTML = urls.map((url, index) => `
+      <div style="position:relative; width:80px; height:80px; border-radius:var(--radius-sm); border:1px solid var(--border-glass); background:var(--bg-secondary); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+        <img src="${encodeURI(url)}" style="max-width:100%; max-height:100%; object-fit:contain;"/>
+        <button onclick="removeImage(${index})" type="button" style="position:absolute; top:4px; right:4px; background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:20px; height:20px; font-size:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='rgba(239,68,68,0.9)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'"><i class="fa fa-times"></i></button>
+      </div>
+    `).join('');
+  }
+
+  function removeImage(index) {
+    const textarea = document.getElementById('prod-images');
+    const urls = textarea.value.split('\n').map(s=>s.trim()).filter(Boolean);
+    urls.splice(index, 1);
+    textarea.value = urls.join('\n');
+    renderImagePreviews();
+  }
+
+  async function uploadImages(event) {
+    const files = event.target.files;
+    if (!files.length) return;
+    const msgEl = document.getElementById('form-msg');
+    msgEl.style.cssText='display:block;color:var(--text-primary);';
+    msgEl.textContent='Uploading images... please wait.';
+    
+    const textarea = document.getElementById('prod-images');
+    let uploadedPaths = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+      const filePath = `product_images/${fileName}`;
+
+      const { data, error } = await supabase.storage.from('products').upload(filePath, file);
+      
+      if (error) {
+        msgEl.style.cssText='display:block;color:var(--red);';
+        msgEl.textContent='Upload Error: ' + error.message;
+        return;
+      }
+      
+      const { data: { publicUrl } } = supabase.storage.from('products').getPublicUrl(filePath);
+      uploadedPaths.push(publicUrl);
+    }
+    
+    if (uploadedPaths.length) {
+       const currentVal = textarea.value.trim();
+       textarea.value = currentVal ? currentVal + '\n' + uploadedPaths.join('\n') : uploadedPaths.join('\n');
+       renderImagePreviews();
+       msgEl.style.cssText='display:block;color:var(--green);';
+       msgEl.textContent='Images uploaded successfully!';
+       setTimeout(()=>msgEl.style.display='none',3000);
+    }
+  }
+
+  async function toggleStock(id, currentStatus) {
+    const newStatus = currentStatus === 'in_stock' ? 'sold_out' : 'in_stock';
+    await supabase.from('products').update({stock_status:newStatus}).eq('id',id);
+    loadProductList();
+  }
+
+  async function deleteProduct(id) {
+    if (!confirm('Delete this product? This cannot be undone.')) return;
+    await supabase.from('products').delete().eq('id',id);
+    loadProductList();
+  }
+
+  async function loadOrders() {
+    const { data } = await supabase.from('orders').select('*').order('created_at',{ascending:false});
+    allOrders = data || [];
+    const el = document.getElementById('orders-table');
+    if (!allOrders.length) { el.innerHTML='<div style="padding:2rem;text-align:center;color:var(--text-muted);">No orders yet.</div>'; return; }
+    el.innerHTML = allOrders.map(o=>renderOrderRow(o, true)).join('');
+  }
+
+  function renderOrderRow(o, showActions=false) {
+    const date = new Date(o.created_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+    const statusClass = `status-${o.status}`;
+    return `<div class="order-row">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem;">
+        <div>
+          <span style="font-weight:700;font-size:0.875rem;">${o.user_name||'Guest'}</span>
+          <span style="color:var(--text-muted);font-size:0.8rem;margin-left:0.75rem;">${o.user_email||''}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span class="status-badge ${statusClass}">${o.status}</span>
+          <span style="font-weight:700;color:var(--gold);">$${Number(o.total_price).toFixed(2)}</span>
+        </div>
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:${showActions?'0.75rem':'0'};">${date} · ${o.payment_method||'N/A'} · ${(o.items||[]).length} item(s)</div>
+      ${showActions?`<div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')">✅ Confirm</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')">❌ Cancel</button>
+      </div>`:''}
+    </div>`;
+  }
+
+  async function updateOrderStatus(id, status) {
+    await supabase.from('orders').update({status}).eq('id',id);
+    loadOrders();
+    showToast(`Order marked as ${status}!`,'success');
+  }
+</script>
+
+<!-- Google Translate Script -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pokepluse — Premium International Pokémon & One Piece Cards</title>
+  <meta name="description" content="Shop rare Japanese, Korean, and Chinese Pokémon and One Piece TCG booster boxes and packs. Premium international cards at Pokepluse."/>
+  <link rel="preload" as="image" href="image%202.webp"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+
+    .new-arrivals-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
+    }
+
+    .trust-bar {
+      background: #ffffff;
+      border-top: 1px solid var(--border-glass);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 1.25rem 2rem;
+    }
+    .trust-items {
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      max-width: 1280px; margin: 0 auto;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: #4b5563; font-weight: 500;
+    }
+    .trust-item i { color: #dc2626; font-size: 1.1rem; }
+
+    .featured-banner {
+      background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(245,158,11,0.08));
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+      margin: 2rem 0;
+      overflow: hidden; position: relative;
+    }
+    .featured-banner::before {
+      content: ''; position: absolute;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.1), transparent);
+      top: -100px; right: -100px;
+    }
+    .featured-banner h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .featured-banner p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .featured-banner-img { display: flex; justify-content: center; }
+    .featured-banner-img img {
+      max-height: 260px; object-fit: contain;
+      filter: drop-shadow(0 10px 30px rgba(59,130,246,0.3));
+      animation: float 4s ease-in-out infinite;
+    }
+    @media (max-width: 768px) {
+      .featured-banner { grid-template-columns: 1fr; text-align: center; }
+      .featured-banner-img { order: -1; }
+      .featured-banner-img img { max-height: 180px; }
+      .new-arrivals-header { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">⚡ Pokepluse</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Pokémon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=japanese-pokemon">🇯🇵 Japanese</a>
+        <a href="catalog.html?cat=korean-pokemon">🇰🇷 Korean</a>
+        <a href="catalog.html?cat=chinese-pokemon">🇨🇳 Chinese</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=one-piece">🃏 All One Piece</a>
+      </div>
+    </li>
+    <li><a href="catalog.html">All Products</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li id="nav-auth-area"></li>
+  </ul>
+  <div class="nav-actions">
+    <div id="google_translate_element"></div>
+    <a href="cart.html" class="cart-icon" id="cart-nav-icon">
+      <i class="fa fa-shopping-bag"></i>
+      <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+    </a>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa fa-star"></i> Premium TCG International Store</div>
+    <h1>The Ultimate<br/><span>TCG Destination</span></h1>
+    <p>Discover rare Japanese, Korean & Chinese Pokémon and One Piece booster boxes. Authentic. Premium. Delivered worldwide.</p>
+    <div class="hero-actions">
+      <a href="catalog.html" class="btn btn-primary btn-lg pulse-btn"><i class="fa fa-store"></i> Shop Now</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- CATEGORIES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">Collections</div>
+      <h2>Shop By Category</h2>
+      <p>Explore our curated selection of international TCG products</p>
+    </div>
+    <div class="categories-grid reveal">
+      <a href="catalog.html?cat=japanese-pokemon" class="category-card jp">
+        <div class="category-img-wrap">
+          <img src="pokemon-151-booster-box-japanese-sv2a.webp" alt="Japanese Pokemon" />
+        </div>
+        <h3>Japanese Pokémon</h3>
+        <p>Authentic sealed products direct from Japan</p>
+        <div class="shop-link">Shop Now →</div>
+      </a>
+      <a href="catalog.html?cat=korean-pokemon" class="category-card kr">
+        <div class="category-img-wrap">
+          <img src="A Korean Eevee Heroes box.jpg" alt="Korean Pokemon" />
+        </div>
+        <h3>Korean Pokémon</h3>
+        <p>Exclusive Korean edition booster boxes & packs</p>
+        <div class="shop-link">Shop Now →</div>
+      </a>
+      <a href="catalog.html?cat=chinese-pokemon" class="category-card cn">
+        <div class="category-img-wrap">
+          <img src="A Chinese 25th Anniversary collection box.webp" alt="Chinese Pokemon" />
+        </div>
+        <h3>Chinese Pokémon</h3>
+        <p>Rare Simplified Chinese Pokémon collections</p>
+        <div class="shop-link">Shop Now →</div>
+      </a>
+      <a href="catalog.html?cat=one-piece" class="category-card op">
+        <div class="category-img-wrap">
+          <img src="A Romance Dawn Booster Box.jpg" alt="One Piece TCG" />
+        </div>
+        <h3>One Piece TCG</h3>
+        <p>Korean & Japanese One Piece card game sets</p>
+        <div class="shop-link">Shop Now →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED BANNER -->
+<section class="section-sm" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="featured-banner reveal">
+      <div>
+        <div class="hero-badge" style="margin-bottom:1rem;"><i class="fa fa-fire"></i> Hot Right Now</div>
+        <h2>Battle Partners <span style="background:linear-gradient(135deg,var(--blue-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">sv9</span></h2>
+        <p>The latest Japanese & Korean Booster Box sets are now available. Grab yours before they sell out!</p>
+        <a href="catalog.html" class="btn btn-gold"><i class="fa fa-bolt"></i> Shop New Arrivals</a>
+      </div>
+      <div class="featured-banner-img">
+        <img src="Japanese%20Pokemon/Pokemon%20Battle%20Partners%20sv9%20Japanese%20Booster%20Box.webp" alt="Battle Partners sv9" onerror="this.style.display='none'"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+<section class="section">
+  <div class="container">
+    <div class="new-arrivals-header reveal">
+      <div>
+        <div class="tag">Fresh Stock</div>
+        <h2 style="font-size:2rem;font-weight:800;">New Arrivals</h2>
+      </div>
+      <a href="catalog.html" class="btn btn-outline">View All <i class="fa fa-arrow-right"></i></a>
+    </div>
+    <div class="products-grid" id="new-arrivals-grid">
+      <!-- Loaded via JS -->
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+      <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PREMIUM PARALLAX BANNER -->
+<section style="position:relative; padding:8rem 2rem; overflow:hidden; display:flex; align-items:center; justify-content:center; text-align:center;">
+  <!-- Background Image with Blend -->
+  <div style="position:absolute; inset:0; background:url('image%201.jpg') center/cover no-repeat; opacity:0.6;"></div>
+  <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(17,24,39,0.95) 0%, rgba(212,175,55,0.15) 100%); border-top:1px solid var(--border-glass); border-bottom:1px solid var(--border-glass);"></div>
+  
+  <div style="position:relative; z-index:1; max-width:800px; color:#fff;" class="reveal">
+    <i class="fa fa-crown" style="font-size:3rem; color:var(--gold); margin-bottom:1.5rem; filter:drop-shadow(0 0 15px rgba(212,175,55,0.4));"></i>
+    <h2 style="font-size:3rem; font-weight:800; margin-bottom:1.25rem; letter-spacing:-1px; text-transform:uppercase;">Elevate Your Collection</h2>
+    <p style="font-size:1.15rem; color:#d1d5db; margin-bottom:2.5rem; line-height:1.8; font-weight:300;">Discover the finest selection of premium trading cards. Impeccably sourced, carefully curated, and securely delivered to your doorstep. Experience the gold standard.</p>
+    <a href="catalog.html" class="btn btn-gold btn-lg" style="box-shadow:0 10px 25px rgba(212,175,55,0.3);"><i class="fa fa-gem"></i> Explore The Vault</a>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section-sm" style="background:var(--bg-secondary);border-top:1px solid var(--border-glass);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">Why Pokepluse</div>
+      <h2>The Premier TCG Store</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;" class="reveal">
+      <div class="glass-card" style="padding:1.75rem;text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🌏</div>
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;">International Selection</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Products sourced directly from Japan, Korea, and China — guaranteed authentic.</p>
+      </div>
+      <div class="glass-card" style="padding:1.75rem;text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🔒</div>
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;">Secure Inquiries</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Your orders are logged safely and we'll respond to every inquiry personally.</p>
+      </div>
+      <div class="glass-card" style="padding:1.75rem;text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">⚡</div>
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;">Fast Communication</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">We respond to all inquiries within 24 hours and confirm availability fast.</p>
+      </div>
+      <div class="glass-card" style="padding:1.75rem;text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">💎</div>
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;">Premium Quality</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Only the rarest and most sought-after sets make it into our catalog.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container" style="max-width:600px;">
+    <div class="section-header reveal">
+      <div class="tag">Get In Touch</div>
+      <h2>Have Questions?</h2>
+      <p>Send us a message and we'll get back to you within 24 hours.</p>
+    </div>
+    <div class="glass-card" style="padding:2rem;" class="reveal">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
+        <div class="glass-card" style="padding:1.25rem;text-align:center;">
+          <i class="fa fa-envelope" style="font-size:1.5rem;color:var(--blue);margin-bottom:0.5rem;"></i>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Email Us</div>
+          <div style="font-size:0.9rem;font-weight:600;">pokemonwebsite@gmail.com</div>
+        </div>
+        <div class="glass-card" style="padding:1.25rem;text-align:center;">
+          <i class="fa fa-clock" style="font-size:1.5rem;color:var(--gold);margin-bottom:0.5rem;"></i>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Response Time</div>
+          <div style="font-size:0.9rem;font-weight:600;">Within 24 hours</div>
+        </div>
+      </div>
+      <a href="cart.html" class="btn btn-primary" style="width:100%;justify-content:center;">
+        <i class="fa fa-shopping-bag"></i> Start Your Inquiry
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">⚡ Pokepluse</div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pokémon and One Piece Trading Card Game products.</p>
+    </div>
+    <div>
+      <h4>Pokémon</h4>
+      <ul>
+        <li><a href="catalog.html?cat=japanese-pokemon">Japanese</a></li>
+        <li><a href="catalog.html?cat=korean-pokemon">Korean</a></li>
+        <li><a href="catalog.html?cat=chinese-pokemon">Chinese</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>One Piece</h4>
+      <ul>
+        <li><a href="catalog.html?cat=one-piece">All Sets</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <ul>
+        <li><a href="auth.html">Login / Register</a></li>
+        <li><a href="my-inquiries.html">My Inquiries</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.1});
+  revealEls.forEach(el=>observer.observe(el));
+
+  // Load new arrivals
+  async function loadNewArrivals() {
+    const grid = document.getElementById('new-arrivals-grid');
+    const cached = sessionStorage.getItem('pokevault_new_arrivals');
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        grid.innerHTML = data.map(p => buildProductCard(p)).join('');
+      } catch (e) {}
+    }
+    
+    const { data, error } = await supabase.from('products').select('*').order('created_at', {ascending:false}).limit(8);
+    if(error || !data?.length) { 
+      if (!cached) grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem;">Products coming soon!</p>'; 
+      return; 
+    }
+    
+    sessionStorage.setItem('pokevault_new_arrivals', JSON.stringify(data));
+    grid.innerHTML = data.map(p => buildProductCard(p)).join('');
+  }
+
+  loadNewArrivals();
+</script>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

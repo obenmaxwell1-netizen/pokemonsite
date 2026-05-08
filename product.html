@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page-title">Product — Pokepluse</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; max-width: 1100px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+    .product-gallery .main-img { width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); background: transparent; aspect-ratio: 1; object-fit: contain; cursor: zoom-in; }
+    .thumb-strip { display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .thumb { width: 70px; height: 70px; border-radius: var(--radius-sm); object-fit: contain; border: 2px solid var(--border-glass); cursor: pointer; transition: var(--transition); background: transparent; }
+    .thumb.active, .thumb:hover { border-color: var(--blue); }
+    .product-details h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.3; margin-bottom: 0.75rem; }
+    .product-price-big { font-size: 2.25rem; font-weight: 900; color: var(--gold); margin: 1rem 0; }
+    .product-desc { color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .product-meta { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+    .product-meta-row { display: flex; gap: 0.75rem; font-size: 0.875rem; }
+    .product-meta-row span:first-child { color: var(--text-muted); min-width: 100px; }
+    .product-meta-row span:last-child { color: var(--text-primary); font-weight: 600; }
+    @media (max-width: 768px) { .product-layout { grid-template-columns: 1fr; padding: 6rem 1rem 3rem; } }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">⚡ Pokepluse</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="catalog.html">All Products</a></li>
+    <li id="nav-auth-area"></li>
+  </ul>
+  <div class="nav-actions">
+    <div id="google_translate_element"></div>
+    <a href="cart.html" class="cart-icon">
+      <i class="fa fa-shopping-bag"></i>
+      <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+    </a>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div id="product-content">
+  <div class="product-layout">
+    <div>
+      <div class="skeleton" style="aspect-ratio:1;border-radius:var(--radius-lg);"></div>
+      <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+        <div class="skeleton" style="width:70px;height:70px;border-radius:var(--radius-sm);"></div>
+        <div class="skeleton" style="width:70px;height:70px;border-radius:var(--radius-sm);"></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="skeleton" style="height:2rem;border-radius:4px;"></div>
+      <div class="skeleton" style="height:1rem;border-radius:4px;width:60%;"></div>
+      <div class="skeleton" style="height:3rem;border-radius:4px;width:40%;"></div>
+      <div class="skeleton" style="height:5rem;border-radius:4px;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  const productId = new URLSearchParams(window.location.search).get('id');
+  let currentImages = [];
+  let currentImgIdx = 0;
+
+  async function loadProduct() {
+    if (!productId) { window.location.href = 'catalog.html'; return; }
+    const { data: p, error } = await supabase.from('products').select('*').eq('id', productId).single();
+    if (error || !p) { document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:8rem 2rem;"><h2>Product not found</h2><a href="catalog.html" class="btn btn-primary" style="margin-top:1rem;">Back to Catalog</a></div>'; return; }
+
+    document.title = `${p.name} — Pokepluse`;
+    currentImages = p.images || [];
+    if (!currentImages.length) currentImages = [''];
+
+    const stockClass = p.stock_status === 'in_stock' ? 'stock-in' : 'stock-out';
+    const stockLabel = p.stock_status === 'in_stock' ? '✅ In Stock' : '❌ Sold Out';
+
+    document.getElementById('product-content').innerHTML = `
+      <div class="product-layout">
+        <div class="product-gallery">
+          <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-glass);">
+            <img src="${encodeURI(currentImages[0]||'')}" alt="${p.name}" class="main-img" id="main-img" onerror="this.src='';this.style.display='flex';this.innerHTML='🃏'" style="border:none;"/>
+            ${currentImages.length > 1 ? `
+            <button onclick="prevImg()" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-left"></i></button>
+            <button onclick="nextImg()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-right"></i></button>
+            ` : ''}
+          </div>
+          <div class="thumb-strip">
+            ${currentImages.map((img,i)=>`<img src="${encodeURI(img)}" class="thumb${i===0?' active':''}" onclick="setImg(${i})" onerror="this.style.display='none'"/>`).join('')}
+          </div>
+        </div>
+        <div class="product-details">
+          <div style="margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <a href="catalog.html?cat=${p.category}" style="font-size:0.8rem;color:var(--blue-light);text-transform:uppercase;letter-spacing:1px;font-weight:600;text-decoration:none;">${getCategoryLabel(p.category)}</a>
+            <span class="stock-badge ${stockClass}">${stockLabel}</span>
+          </div>
+          <h1>${p.name}</h1>
+          <div class="product-price-big">$${Number(p.price).toFixed(2)}</div>
+          <p class="product-desc">${p.description || 'Authentic sealed product imported directly from ' + getCategoryLabel(p.category) + '. All products are 100% genuine and factory sealed.'}</p>
+          <div class="product-meta">
+            <div class="product-meta-row"><span>Category</span><span>${getCategoryLabel(p.category)}</span></div>
+            <div class="product-meta-row"><span>Type</span><span>${p.product_type || 'Booster Box'}</span></div>
+            <div class="product-meta-row"><span>Availability</span><span>${p.stock_status === 'in_stock' ? 'In Stock' : 'Sold Out'}</span></div>
+          </div>
+          ${p.stock_status === 'in_stock' ? `
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button class="btn btn-gold btn-lg" onclick="addToCart({id:'${p.id}',name:${JSON.stringify(p.name)},price:${p.price},image:'${currentImages[0]||''}',category:'${p.category}'})">
+              <i class="fa fa-cart-plus"></i> Add to Cart
+            </button>
+            <a href="cart.html" class="btn btn-outline btn-lg"><i class="fa fa-shopping-bag"></i> View Cart</a>
+          </div>` : `<div class="btn btn-outline btn-lg" style="opacity:0.5;cursor:not-allowed;">Out of Stock</div>`}
+          <div style="margin-top:1.5rem;padding:1rem;border-radius:var(--radius-md);background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);font-size:0.85rem;color:var(--text-secondary);">
+            <i class="fa fa-shield-halved" style="color:var(--blue);margin-right:0.5rem;"></i>
+            Add to your cart, then submit an inquiry. We'll confirm availability and get back to you within 24 hours.
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function setImg(idx) {
+    currentImgIdx = idx;
+    document.getElementById('main-img').src = encodeURI(currentImages[idx]);
+    document.querySelectorAll('.thumb').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  }
+
+  function prevImg() {
+    if (currentImages.length <= 1) return;
+    let idx = currentImgIdx - 1;
+    if (idx < 0) idx = currentImages.length - 1;
+    setImg(idx);
+  }
+
+  function nextImg() {
+    if (currentImages.length <= 1) return;
+    let idx = currentImgIdx + 1;
+    if (idx >= currentImages.length) idx = 0;
+    setImg(idx);
+  }
+
+  loadProduct();
+</script>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

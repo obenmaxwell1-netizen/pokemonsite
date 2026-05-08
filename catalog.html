@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop All Products — Pokepluse</title>
+  <meta name="description" content="Browse our full catalog of Japanese, Korean, and Chinese Pokémon and One Piece TCG products."/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .catalog-layout { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
+    .sidebar { position: sticky; top: 90px; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .sidebar h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem; }
+    .sidebar-filters { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .sidebar-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border-radius: var(--radius-sm); border: none; background: none; color: var(--text-secondary); font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); text-align: left; width: 100%; }
+    .sidebar-btn:hover { background: var(--bg-card); color: var(--text-primary); }
+    .sidebar-btn.active { background: rgba(59,130,246,0.15); color: var(--blue-light); }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .search-input { padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 50px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.875rem; outline: none; width: 240px; transition: var(--transition); }
+    .search-input:focus { border-color: var(--blue); }
+    @media (max-width: 900px) { .catalog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">⚡ Pokepluse</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Pokémon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=japanese-pokemon">🇯🇵 Japanese</a>
+        <a href="catalog.html?cat=korean-pokemon">🇰🇷 Korean</a>
+        <a href="catalog.html?cat=chinese-pokemon">🇨🇳 Chinese</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=one-piece">🃏 All One Piece</a>
+      </div>
+    </li>
+    <li><a href="catalog.html" style="color:var(--blue-light);">All Products</a></li>
+    <li id="nav-auth-area"></li>
+  </ul>
+  <div class="nav-actions">
+    <div id="google_translate_element"></div>
+    <a href="cart.html" class="cart-icon">
+      <i class="fa fa-shopping-bag"></i>
+      <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+    </a>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Our Collection</h1>
+  <p>Browse authentic international Pokémon & One Piece TCG products</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="catalog-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h3>Game</h3>
+        <div class="sidebar-filters">
+          <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)">🃏 All Products</button>
+          <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)">🇯🇵 Japanese Pokémon</button>
+          <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)">🇰🇷 Korean Pokémon</button>
+          <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)">🇨🇳 Chinese Pokémon</button>
+          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">🏴‍☠️ One Piece TCG</button>
+        </div>
+        <h3>Stock</h3>
+        <div class="sidebar-filters">
+          <button class="sidebar-btn active" data-stock="all" onclick="setStock('all',this)">All Items</button>
+          <button class="sidebar-btn" data-stock="in_stock" onclick="setStock('in_stock',this)">✅ In Stock Only</button>
+        </div>
+        <h3>Sort By</h3>
+        <div class="sidebar-filters">
+          <button class="sidebar-btn active" data-sort="newest" onclick="setSort('newest',this)">Newest First</button>
+          <button class="sidebar-btn" data-sort="price-asc" onclick="setSort('price-asc',this)">Price: Low to High</button>
+          <button class="sidebar-btn" data-sort="price-desc" onclick="setSort('price-desc',this)">Price: High to Low</button>
+        </div>
+      </aside>
+
+      <!-- PRODUCTS -->
+      <div>
+        <div class="results-header">
+          <span id="result-count" style="color:var(--text-muted);font-size:0.9rem;"></span>
+          <input type="text" class="search-input" placeholder="🔍 Search products..." id="search-input" oninput="renderProducts()"/>
+        </div>
+        <div class="products-grid" id="catalog-grid">
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+          <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  let allProducts = [];
+  let currentFilter = 'all';
+  let currentStock = 'all';
+  let currentSort = 'newest';
+
+  // Check URL param
+  const urlParams = new URLSearchParams(window.location.search);
+  const catParam = urlParams.get('cat');
+  if (catParam) {
+    currentFilter = catParam;
+    document.querySelectorAll('[data-filter]').forEach(b => {
+      b.classList.toggle('active', b.dataset.filter === catParam);
+    });
+  }
+
+  async function loadProducts() {
+    const cached = sessionStorage.getItem('pokevault_all_products');
+    if (cached) {
+      try {
+        allProducts = JSON.parse(cached);
+        renderProducts();
+      } catch (e) {}
+    }
+    
+    const { data, error } = await supabase.from('products').select('*').order('created_at', {ascending:false});
+    if (error || !data) { 
+      if (!cached) document.getElementById('catalog-grid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem;">No products found.</p>'; 
+      return; 
+    }
+    allProducts = data;
+    sessionStorage.setItem('pokevault_all_products', JSON.stringify(data));
+    renderProducts();
+  }
+
+  function setFilter(val, btn) {
+    currentFilter = val;
+    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function setStock(val, btn) {
+    currentStock = val;
+    document.querySelectorAll('[data-stock]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function setSort(val, btn) {
+    currentSort = val;
+    document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function renderProducts() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    let filtered = allProducts.filter(p => {
+      const matchCat = currentFilter === 'all' || p.category === currentFilter;
+      const matchStock = currentStock === 'all' || p.stock_status === currentStock;
+      const matchSearch = !search || p.name.toLowerCase().includes(search) || (p.description||'').toLowerCase().includes(search);
+      return matchCat && matchStock && matchSearch;
+    });
+
+    if (currentSort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+    else if (currentSort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+
+    const grid = document.getElementById('catalog-grid');
+    document.getElementById('result-count').textContent = `${filtered.length} product${filtered.length!==1?'s':''} found`;
+
+    if (!filtered.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);"><div style="font-size:3rem;margin-bottom:1rem;">🔍</div><p>No products match your filters.</p></div>';
+      return;
+    }
+    grid.innerHTML = filtered.map(p => buildProductCard(p)).join('');
+  }
+
+  loadProducts();
+</script>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
