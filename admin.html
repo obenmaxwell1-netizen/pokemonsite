@@ -45,17 +45,21 @@
 <div class="lock-screen" id="lock-screen">
   <div class="lock-card">
     <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
-    <h2>Admin Dashboard</h2>
-    <p>Enter your admin password to continue</p>
+    <h2>Admin Access</h2>
+    <p>Sign in to your secure admin account</p>
+    <div class="form-group" style="text-align:left;">
+      <label>Admin Email</label>
+      <input type="email" id="admin-email" placeholder="admin@pokepluse.com" />
+    </div>
     <div class="form-group" style="text-align:left;">
       <label>Password</label>
-      <input type="password" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')checkPassword()"/>
+      <input type="password" id="admin-pass" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()"/>
     </div>
-    <div id="pass-error" style="color:var(--red);font-size:0.85rem;margin-bottom:1rem;display:none;">Incorrect password.</div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="checkPassword()">
-      <i class="fa fa-unlock"></i> Access Dashboard
+    <div id="pass-error" style="color:var(--red);font-size:0.85rem;margin-bottom:1rem;display:none;">Authentication failed.</div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="adminLogin()" id="admin-login-btn">
+      <i class="fa fa-unlock"></i> Secure Login
     </button>
-    <div style="margin-top:1rem;"><a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">← Back to Store</a></div>
+    <div style="margin-top:1.5rem;"><a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">← Back to Store</a></div>
   </div>
 </div>
 
@@ -70,6 +74,7 @@
         <li><button class="admin-nav-btn active" onclick="showTab('overview',this)"><i class="fa fa-chart-pie" style="width:18px;"></i> Overview</button></li>
         <li><button class="admin-nav-btn" onclick="showTab('products',this)"><i class="fa fa-boxes-stacked" style="width:18px;"></i> Products</button></li>
         <li><button class="admin-nav-btn" onclick="showTab('orders',this)"><i class="fa fa-clipboard-list" style="width:18px;"></i> Orders</button></li>
+        <li style="margin-top: 1rem;"><button class="admin-nav-btn" onclick="adminLogout()" style="color:var(--red);"><i class="fa fa-sign-out-alt" style="width:18px;"></i> Secure Logout</button></li>
       </ul>
       <div style="position:absolute;bottom:2rem;left:1rem;right:1rem;">
         <a href="index.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">← Visit Store</a>
@@ -203,19 +208,54 @@
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
 <script>
-  const ADMIN_PASSWORD = 'admin2024';
   let allAdminProducts = [];
   let allOrders = [];
 
-  function checkPassword() {
-    const pass = document.getElementById('admin-pass').value;
-    if (pass === ADMIN_PASSWORD) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Check if already logged in securely via Supabase
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
       document.getElementById('lock-screen').style.display = 'none';
       document.getElementById('admin-wrap').style.display = 'block';
       initAdmin();
-    } else {
-      document.getElementById('pass-error').style.display = 'block';
     }
+  });
+
+  async function adminLogin() {
+    const email = document.getElementById('admin-email').value.trim();
+    const password = document.getElementById('admin-pass').value;
+    const btn = document.getElementById('admin-login-btn');
+    const err = document.getElementById('pass-error');
+    
+    if (!email || !password) {
+      err.style.display = 'block';
+      err.textContent = 'Please enter both email and password.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Authenticating...';
+    err.style.display = 'none';
+
+    // Secure authentication with Supabase
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa fa-unlock"></i> Secure Login';
+
+    if (error) {
+      err.style.display = 'block';
+      err.textContent = error.message;
+    } else {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('admin-wrap').style.display = 'block';
+      initAdmin();
+    }
+  }
+
+  async function adminLogout() {
+    await supabase.auth.signOut();
+    window.location.reload();
   }
 
   function showTab(tab, btn) {
