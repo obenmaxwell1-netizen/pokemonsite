@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Order — Pokepluse</title>
+  <title>Track Order â€” Pokepluse</title>
   <meta name="description" content="Track your Pokepluse order status securely."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -17,24 +17,24 @@
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Pokémon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">PokÃ©mon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=english-pokemon">🇬🇧 English</a>
-        <a href="catalog.html?cat=japanese-pokemon">🇯🇵 Japanese</a>
-        <a href="catalog.html?cat=korean-pokemon">🇰🇷 Korean</a>
-        <a href="catalog.html?cat=chinese-pokemon">🇨🇳 Chinese</a>
+        <a href="catalog.html?cat=english-pokemon">ðŸ‡¬ðŸ‡§ English</a>
+        <a href="catalog.html?cat=japanese-pokemon">ðŸ‡¯ðŸ‡µ Japanese</a>
+        <a href="catalog.html?cat=korean-pokemon">ðŸ‡°ðŸ‡· Korean</a>
+        <a href="catalog.html?cat=chinese-pokemon">ðŸ‡¨ðŸ‡³ Chinese</a>
       </div>
     </li>
     <li class="nav-dropdown">
       <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=one-piece">🃏 All One Piece</a>
+        <a href="catalog.html?cat=one-piece">ðŸƒ All One Piece</a>
       </div>
     </li>
     <li class="nav-dropdown">
       <button class="nav-dropdown-btn">Accessories <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=accessories">🎒 All Accessories</a>
+        <a href="catalog.html?cat=accessories">ðŸŽ’ All Accessories</a>
       </div>
     </li>
     <li><a href="catalog.html">All Products</a></li>
@@ -49,9 +49,9 @@
       </button>
       <div class="lang-dropdown" id="lang-dropdown">
         <button class="lang-option" data-lang="en"><img src="https://flagcdn.com/w20/us.png" alt="English"> English</button>
-        <button class="lang-option" data-lang="ja"><img src="https://flagcdn.com/w20/jp.png" alt="Japanese"> 日本語</button>
-        <button class="lang-option" data-lang="zh-CN"><img src="https://flagcdn.com/w20/cn.png" alt="Chinese"> 中文</button>
-        <button class="lang-option" data-lang="ko"><img src="https://flagcdn.com/w20/kr.png" alt="Korean"> 한국어</button>
+        <button class="lang-option" data-lang="ja"><img src="https://flagcdn.com/w20/jp.png" alt="Japanese"> æ—¥æœ¬èªž</button>
+        <button class="lang-option" data-lang="zh-CN"><img src="https://flagcdn.com/w20/cn.png" alt="Chinese"> ä¸­æ–‡</button>
+        <button class="lang-option" data-lang="ko"><img src="https://flagcdn.com/w20/kr.png" alt="Korean"> í•œêµ­ì–´</button>
       </div>
     </div>
     <a href="cart.html" class="nav-btn" style="position:relative;">
@@ -108,13 +108,13 @@
     const resultDiv = document.getElementById('track-result');
 
     if (!orderId || !email) {
-      showToast('❌ Please enter both Tracking ID and Email.', 'error');
+      showToast('âŒ Please enter both Tracking ID and Email.', 'error');
       return;
     }
 
     // Basic UUID format check (optional but good for UX)
     if (orderId.length < 10) {
-      showToast('❌ Invalid Tracking ID format.', 'error');
+      showToast('âŒ Invalid Tracking ID format.', 'error');
       return;
     }
 
@@ -131,7 +131,7 @@
         .single();
 
       if (error || !data) {
-        showToast('❌ Order not found. Check your ID and Email.', 'error');
+        showToast('âŒ Order not found. Check your ID and Email.', 'error');
         btn.disabled = false;
         btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
         return;
@@ -187,7 +187,7 @@
       resultDiv.style.display = 'block';
 
     } catch (e) {
-      showToast('❌ System error. Please try again later.', 'error');
+      showToast('âŒ System error. Please try again later.', 'error');
     }
 
     btn.disabled = false;
@@ -196,5 +196,18 @@
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '90500c1090a33e8fa1ccc578ade4792746477193';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
+

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard — Pokepluse</title>
+  <title>Admin Dashboard â€” Pokepluse</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -45,13 +45,13 @@
       <i class="fa fa-globe"></i> <span id="current-lang-label">EN</span> <i class="fa fa-chevron-down arrow"></i>
     </button>
     <div class="lang-dropdown">
-      <a href="#" data-lang="en">🇬🇧 English</a>
-      <a href="#" data-lang="fr">🇫🇷 Français</a>
-      <a href="#" data-lang="es">🇪🇸 Español</a>
-      <a href="#" data-lang="de">🇩🇪 Deutsch</a>
-      <a href="#" data-lang="ja">🇯🇵 日本語</a>
-      <a href="#" data-lang="zh-CN">🇨🇳 中文</a>
-      <a href="#" data-lang="ko">🇰🇷 한국어</a>
+      <a href="#" data-lang="en">ðŸ‡¬ðŸ‡§ English</a>
+      <a href="#" data-lang="fr">ðŸ‡«ðŸ‡· FranÃ§ais</a>
+      <a href="#" data-lang="es">ðŸ‡ªðŸ‡¸ EspaÃ±ol</a>
+      <a href="#" data-lang="de">ðŸ‡©ðŸ‡ª Deutsch</a>
+      <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ—¥æœ¬èªž</a>
+      <a href="#" data-lang="zh-CN">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a>
+      <a href="#" data-lang="ko">ðŸ‡°ðŸ‡· í•œêµ­ì–´</a>
     </div>
   </div>
 </div>
@@ -59,7 +59,7 @@
 <!-- LOCK SCREEN -->
 <div class="lock-screen" id="lock-screen">
   <div class="lock-card">
-    <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+    <div style="font-size:3rem;margin-bottom:1rem;">ðŸ”</div>
     <h2>Admin Access</h2>
     <p>Sign in to your secure admin account</p>
     <div class="form-group" style="text-align:left;">
@@ -74,7 +74,7 @@
     <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="adminLogin()" id="admin-login-btn">
       <i class="fa fa-unlock"></i> Secure Login
     </button>
-    <div style="margin-top:1.5rem;"><a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">← Back to Store</a></div>
+    <div style="margin-top:1.5rem;"><a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">â† Back to Store</a></div>
   </div>
 </div>
 
@@ -92,7 +92,7 @@
         <li style="margin-top: 1rem;"><button class="admin-nav-btn" onclick="adminLogout()" style="color:var(--red);"><i class="fa fa-sign-out-alt" style="width:18px;"></i> Secure Logout</button></li>
       </ul>
       <div style="position:absolute;bottom:2rem;left:1rem;right:1rem;">
-        <a href="index.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">← Visit Store</a>
+        <a href="index.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">â† Visit Store</a>
       </div>
     </aside>
 
@@ -104,19 +104,19 @@
         <div class="stats-grid">
           <div class="stat-card">
             <div class="label">Total Products</div>
-            <div class="value" id="stat-products" style="color:var(--blue);">—</div>
+            <div class="value" id="stat-products" style="color:var(--blue);">â€”</div>
           </div>
           <div class="stat-card">
             <div class="label">Total Orders</div>
-            <div class="value" id="stat-orders" style="color:var(--gold);">—</div>
+            <div class="value" id="stat-orders" style="color:var(--gold);">â€”</div>
           </div>
           <div class="stat-card">
             <div class="label">Pending Orders</div>
-            <div class="value" id="stat-pending" style="color:var(--red);">—</div>
+            <div class="value" id="stat-pending" style="color:var(--red);">â€”</div>
           </div>
           <div class="stat-card">
             <div class="label">In Stock Items</div>
-            <div class="value" id="stat-instock" style="color:var(--green);">—</div>
+            <div class="value" id="stat-instock" style="color:var(--green);">â€”</div>
           </div>
         </div>
         <h3 style="margin-bottom:1rem;">Recent Orders</h3>
@@ -129,7 +129,7 @@
 
         <!-- ADD/EDIT FORM -->
         <div class="product-form" id="product-form-wrap">
-          <h3 id="form-title">➕ Add New Product</h3>
+          <h3 id="form-title">âž• Add New Product</h3>
           <input type="hidden" id="edit-product-id"/>
           <div class="form-grid">
             <div class="form-group">
@@ -143,10 +143,10 @@
             <div class="form-group">
               <label>Category *</label>
               <select id="prod-category">
-                <option value="english-pokemon">English Pokémon</option>
-                <option value="japanese-pokemon">Japanese Pokémon</option>
-                <option value="korean-pokemon">Korean Pokémon</option>
-                <option value="chinese-pokemon">Chinese Pokémon</option>
+                <option value="english-pokemon">English PokÃ©mon</option>
+                <option value="japanese-pokemon">Japanese PokÃ©mon</option>
+                <option value="korean-pokemon">Korean PokÃ©mon</option>
+                <option value="chinese-pokemon">Chinese PokÃ©mon</option>
                 <option value="one-piece">One Piece TCG</option>
                 <option value="accessories">Accessories</option>
               </select>
@@ -377,7 +377,7 @@
     }
 
     if (error) { msgEl.style.cssText='display:block;color:var(--red);'; msgEl.textContent='Error: '+error.message; return; }
-    msgEl.style.cssText='display:block;color:var(--green);'; msgEl.textContent = id ? '✅ Product updated!' : '✅ Product added!';
+    msgEl.style.cssText='display:block;color:var(--green);'; msgEl.textContent = id ? 'âœ… Product updated!' : 'âœ… Product added!';
     resetForm();
     loadProductList();
     setTimeout(()=>msgEl.style.display='none',3000);
@@ -395,7 +395,7 @@
     document.getElementById('prod-desc').value = p.description || '';
     document.getElementById('prod-featured').value = String(p.featured);
     document.getElementById('prod-images').value = (p.images||[]).join('\n');
-    document.getElementById('form-title').textContent = '✏️ Edit Product';
+    document.getElementById('form-title').textContent = 'âœï¸ Edit Product';
     renderImagePreviews();
     document.getElementById('product-form-wrap').scrollIntoView({behavior:'smooth'});
   }
@@ -411,7 +411,7 @@
     document.getElementById('prod-featured').value = 'false';
     document.getElementById('prod-images').value = '';
     document.getElementById('prod-image-upload').value = '';
-    document.getElementById('form-title').textContent = '➕ Add New Product';
+    document.getElementById('form-title').textContent = 'âž• Add New Product';
     renderImagePreviews();
   }
 
@@ -529,13 +529,13 @@
           <span style="font-weight:700;color:var(--gold);">$${Number(o.total_price).toFixed(2)}</span>
         </div>
       </div>
-      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} · ${o.payment_method||'N/A'} · ${(o.items||[]).length} item(s)</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} Â· ${o.payment_method||'N/A'} Â· ${(o.items||[]).length} item(s)</div>
       ${itemsHtml}
       ${showActions?`<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')">✅ Confirm</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','payment done')">💳 Payment Done</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','shipping now')">🚚 Shipping Now</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')">❌ Cancel</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')">âœ… Confirm</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','payment done')">ðŸ’³ Payment Done</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','shipping now')">ðŸšš Shipping Now</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')">âŒ Cancel</button>
       </div>`:''}
     </div>`;
   }
@@ -550,5 +550,18 @@
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '90500c1090a33e8fa1ccc578ade4792746477193';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
+
