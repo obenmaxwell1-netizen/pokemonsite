@@ -202,34 +202,9 @@
 
     const orderId = data[0].id;
 
-    // Build email content and send via FormSubmit API automatically
-    const itemList = cart.map(i=>`- ${i.name} x${i.qty||1} = $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
-    
-    try {
-      await fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `New TCG Order from ${name} (Order ${orderId.substring(0,8)})`,
-          Name: name,
-          Email: email,
-          "Payment Method": payment,
-          "Order ID": orderId,
-          "Total": "$" + total.toFixed(2),
-          "Notes": notes || 'None',
-          "Items Ordered": itemList
-        })
-      });
-    } catch (e) {
-      console.error("Email notification failed", e);
-    }
-
     clearCart();
     
-    // Show success screen with Order ID
+    // Show success screen with Order ID immediately
     const container = document.querySelector('.cart-container');
     if (container) {
       container.innerHTML = `
@@ -254,6 +229,27 @@
         </div>
       `;
     }
+
+    // Build email content and send via FormSubmit API asynchronously in the background
+    const itemList = cart.map(i=>`- ${i.name} x${i.qty||1} = $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
+    
+    fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        _subject: `New TCG Order from ${name} (Order ${orderId.substring(0,8)})`,
+        Name: name,
+        Email: email,
+        "Payment Method": payment,
+        "Order ID": orderId,
+        "Total": "$" + total.toFixed(2),
+        "Notes": notes || 'None',
+        "Items Ordered": itemList
+      })
+    }).catch(e => console.error("Email notification failed", e));
   }
 
   // Pre-fill from auth
