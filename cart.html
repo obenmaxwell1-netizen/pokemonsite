@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -21,6 +21,52 @@
     .summary-row.total span:last-child { color: var(--gold); }
     .empty-cart { text-align: center; padding: 4rem 2rem; }
     @media (max-width: 768px) { .cart-page { grid-template-columns: 1fr; padding: 6rem 1rem 3rem; } .order-summary { position: static; } }
+
+    /* === Payment Logo Card Picker === */
+    .pay-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 480px) { .pay-grid { grid-template-columns: repeat(2, 1fr); } }
+    .pay-card {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
+      background: #fff;
+      user-select: none;
+    }
+    .pay-card:hover {
+      border-color: #D4AF37;
+      background: #fffbf0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(212,175,55,0.15);
+    }
+    .pay-card.selected {
+      border-color: #D4AF37;
+      background: #fffbf0;
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.25);
+    }
+    .pay-card.selected .pay-name { color: #92670a; font-weight: 700; }
+    .pay-logo {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pay-name {
+      font-size: 0.82rem; font-weight: 600;
+      color: #374151; line-height: 1.2;
+    }
+    .pay-card.selected::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      font-size: 0.7rem; color: #D4AF37;
+      margin-left: auto;
+    }
   </style>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
 </head>
@@ -94,16 +140,93 @@
               <i class="fa fa-envelope" style="margin-right:4px;"></i>All payment details will be sent via email
             </span>
           </label>
-          <select id="inq-payment">
-            <option value="">Select a method...</option>
-            <option>Bank Transfer</option>
-            <option>Zelle</option>
-            <option>Wise</option>
-            <option>Google Pay</option>
-            <option>Apple Pay</option>
-            <option>Crypto (Bitcoin/USDT)</option>
-            <option>Credit Card</option>
-          </select>
+          <!-- Hidden input used by JS -->
+          <input type="hidden" id="inq-payment" value=""/>
+          <!-- Custom payment logo picker -->
+          <div class="pay-grid" id="pay-grid">
+
+            <div class="pay-card" data-value="Bank Transfer" onclick="selectPay(this)">
+              <div class="pay-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="24" height="24" rx="5" fill="#1a56db"/>
+                  <path d="M4 10h16M4 14h16M12 4l8 6H4l8-6z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="5" y="14" width="2" height="4" fill="#fff"/>
+                  <rect x="11" y="14" width="2" height="4" fill="#fff"/>
+                  <rect x="17" y="14" width="2" height="4" fill="#fff"/>
+                  <rect x="4" y="18" width="16" height="1.5" rx="0.5" fill="#fff"/>
+                </svg>
+              </div>
+              <span class="pay-name">Bank Transfer</span>
+            </div>
+
+            <div class="pay-card" data-value="Zelle" onclick="selectPay(this)">
+              <div class="pay-logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="10" fill="#6D1ED4"/>
+                  <text x="24" y="33" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="24" fill="#fff">Z</text>
+                </svg>
+              </div>
+              <span class="pay-name">Zelle</span>
+            </div>
+
+            <div class="pay-card" data-value="Wise" onclick="selectPay(this)">
+              <div class="pay-logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="10" fill="#9FE870"/>
+                  <polygon points="10,14 22,14 28,34 36,14 44,14 32,38 24,38 18,26 12,38 4,38" fill="#163300"/>
+                </svg>
+              </div>
+              <span class="pay-name">Wise</span>
+            </div>
+
+            <div class="pay-card" data-value="Google Pay" onclick="selectPay(this)">
+              <div class="pay-logo" style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:3px;">
+                <svg width="32" height="20" viewBox="0 0 80 32" xmlns="http://www.w3.org/2000/svg">
+                  <text y="24" font-family="Arial" font-size="22" font-weight="bold">
+                    <tspan fill="#4285F4">G</tspan><tspan fill="#34A853">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#EA4335">g</tspan><tspan fill="#4285F4">le</tspan>
+                  </text>
+                  <text x="47" y="24" font-family="Arial" font-size="22" font-weight="bold" fill="#5f6368">Pay</text>
+                </svg>
+              </div>
+              <span class="pay-name">Google Pay</span>
+            </div>
+
+            <div class="pay-card" data-value="Apple Pay" onclick="selectPay(this)">
+              <div class="pay-logo" style="background:#000; border-radius:8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
+                <svg width="36" height="22" viewBox="0 0 80 32" xmlns="http://www.w3.org/2000/svg">
+                  <text y="24" font-family="Arial" font-size="18" font-weight="600" fill="#fff">&#xf8ff; Pay</text>
+                </svg>
+              </div>
+              <span class="pay-name">Apple Pay</span>
+            </div>
+
+            <div class="pay-card" data-value="Crypto (Bitcoin/USDT)" onclick="selectPay(this)">
+              <div class="pay-logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="10" fill="#F7931A"/>
+                  <text x="24" y="34" text-anchor="middle" font-family="Arial Black" font-size="26" font-weight="900" fill="#fff">&#x20BF;</text>
+                </svg>
+              </div>
+              <span class="pay-name">Crypto</span>
+            </div>
+
+            <div class="pay-card" data-value="Credit Card" onclick="selectPay(this)">
+              <div class="pay-logo">
+                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="48" height="48" rx="10" fill="#1f2937"/>
+                  <rect x="5" y="13" width="38" height="22" rx="3" fill="none" stroke="#fff" stroke-width="2"/>
+                  <rect x="5" y="19" width="38" height="6" fill="#D4AF37"/>
+                  <rect x="8" y="29" width="10" height="3" rx="1" fill="#fff"/>
+                  <rect x="21" y="29" width="6" height="3" rx="1" fill="rgba(255,255,255,0.5)"/>
+                </svg>
+              </div>
+              <span class="pay-name">Credit Card</span>
+            </div>
+
+          </div>
+          <div id="pay-error" style="display:none; color:#ef4444; font-size:0.8rem; margin-top:0.4rem;"><i class="fa fa-exclamation-circle"></i> Please select a payment method.</div>
+        </div>
+
         <div class="form-group">
           <label>Additional Notes</label>
           <textarea id="inq-notes" rows="3" placeholder="Any special requests..."></textarea>
@@ -181,7 +304,14 @@
     const email = document.getElementById('inq-email').value.trim();
     const payment = document.getElementById('inq-payment').value;
     const notes = document.getElementById('inq-notes').value.trim();
-    if (!name||!email||!payment) { showToast('âŒ Please fill in all required fields.','error'); return; }
+    if (!name||!email||!payment) {
+      if (!payment) {
+        document.getElementById('pay-error').style.display = 'block';
+        document.getElementById('pay-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      showToast('\u274C Please fill in all required fields.', 'error');
+      return;
+    }
 
     const btn = document.getElementById('place-order-btn');
     btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
@@ -277,6 +407,14 @@
   }
 
   renderCart();
+
+  // Payment logo card picker
+  function selectPay(card) {
+    document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById('inq-payment').value = card.getAttribute('data-value');
+    document.getElementById('pay-error').style.display = 'none';
+  }
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
