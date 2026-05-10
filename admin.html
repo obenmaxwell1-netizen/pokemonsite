@@ -45,13 +45,13 @@
       <i class="fa fa-globe"></i> <span id="current-lang-label">EN</span> <i class="fa fa-chevron-down arrow"></i>
     </button>
     <div class="lang-dropdown">
-      <a href="#" data-lang="en">ðŸ‡¬ðŸ‡§ English</a>
-      <a href="#" data-lang="fr">ðŸ‡«ðŸ‡&middot; Fran&ccedil;ais</a>
-      <a href="#" data-lang="es">ðŸ‡ªðŸ‡¸ Espa&ntilde;ol</a>
-      <a href="#" data-lang="de">ðŸ‡©ðŸ‡ª Deutsch</a>
-      <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ&mdash;¥æœ¬èªž</a>
-      <a href="#" data-lang="zh-CN">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a>
-      <a href="#" data-lang="ko">ðŸ‡°ðŸ‡&middot; í•œêµ­ì–´</a>
+      <a href="#" data-lang="en">&#x1F1EC;&#x1F1E7; English</a>
+      <a href="#" data-lang="fr">&#x1F1EB;&#x1F1F7; Fran&ccedil;ais</a>
+      <a href="#" data-lang="es">&#x1F1EA;&#x1F1F8; Espa&ntilde;ol</a>
+      <a href="#" data-lang="de">&#x1F1E9;&#x1F1EA; Deutsch</a>
+      <a href="#" data-lang="ja">&#x1F1EF;&#x1F1F5; &#x65E5;&#x672C;&#x8A9E;</a>
+      <a href="#" data-lang="zh-CN">&#x1F1E8;&#x1F1F3; &#x4E2D;&#x6587;</a>
+      <a href="#" data-lang="ko">&#x1F1F0;&#x1F1F7; &#xD55C;&#xAD6D;&#xC5B4;</a>
     </div>
   </div>
 </div>
@@ -532,10 +532,10 @@
       <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} &middot; ${o.payment_method||'N/A'} &middot; ${(o.items||[]).length} item(s)</div>
       ${itemsHtml}
       ${showActions?`<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')">âœ… Confirm</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','payment done')">ðŸ’³ Payment Done</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','shipping now')">ðŸšš Shipping Now</button>
-        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')">âŒ Cancel</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')"><i class='fa fa-check'></i> Confirm</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','payment done')"><i class='fa fa-credit-card'></i> Payment Done</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','shipping now')"><i class='fa fa-truck'></i> Shipping Now</button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')"><i class='fa fa-times-circle'></i> Cancel</button>
       </div>`:''}
     </div>`;
   }

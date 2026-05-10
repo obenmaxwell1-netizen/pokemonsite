@@ -40,12 +40,12 @@
       </button>
       <div class="lang-dropdown">
         <a href="#" data-lang="en">ðŸ‡¬ðŸ‡§ English</a>
-        <a href="#" data-lang="fr">ðŸ‡«ðŸ‡· FranÃ§ais</a>
+        <a href="#" data-lang="fr">ðŸ‡«ðŸ‡&middot; FranÃ§ais</a>
         <a href="#" data-lang="es">ðŸ‡ªðŸ‡¸ EspaÃ±ol</a>
         <a href="#" data-lang="de">ðŸ‡©ðŸ‡ª Deutsch</a>
-        <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ—¥æœ¬èªž</a>
-        <a href="#" data-lang="zh-CN">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a>
-        <a href="#" data-lang="ko">ðŸ‡°ðŸ‡· í•œêµ­ì–´</a>
+        <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ&mdash;¥æœ¬èªž</a>
+        <a href="#" data-lang="zh-CN">ðŸ‡¨ðŸ‡³ ä¸­æ-‡</a>
+        <a href="#" data-lang="ko">ðŸ‡°ðŸ‡&middot; í•œêµ­ì-´</a>
       </div>
     </div>
     <a href="cart.html" class="cart-icon" style="color:var(--blue);">
@@ -152,7 +152,7 @@
 
     summaryEl.innerHTML = cart.map(i=>`
       <div class="summary-row">
-        <span style="font-size:0.85rem;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} Ã—${i.qty||1}</span>
+        <span style="font-size:0.85rem;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} Ã&mdash;${i.qty||1}</span>
         <span>$${((i.qty||1)*i.price).toFixed(2)}</span>
       </div>`).join('');
     totalEl.textContent = `$${total.toFixed(2)}`;

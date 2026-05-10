@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="page-title">Product — Pokepluse</title>
+  <title id="page-title">Product &mdash; Pokepluse</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -38,13 +38,13 @@
         <i class="fa fa-globe"></i> <span id="current-lang-label">EN</span> <i class="fa fa-chevron-down arrow"></i>
       </button>
       <div class="lang-dropdown">
-        <a href="#" data-lang="en">🇬🇧 English</a>
-        <a href="#" data-lang="fr">🇫🇷 Français</a>
-        <a href="#" data-lang="es">🇪🇸 Español</a>
-        <a href="#" data-lang="de">🇩🇪 Deutsch</a>
-        <a href="#" data-lang="ja">🇯🇵 日本語</a>
-        <a href="#" data-lang="zh-CN">🇨🇳 中文</a>
-        <a href="#" data-lang="ko">🇰🇷 한국어</a>
+        <a href="#" data-lang="en">&#x1F1EC;&#x1F1E7; English</a>
+        <a href="#" data-lang="fr">&#x1F1EB;&#x1F1F7; Fran&ccedil;ais</a>
+        <a href="#" data-lang="es">&#x1F1EA;&#x1F1F8; Espa&ntilde;ol</a>
+        <a href="#" data-lang="de">&#x1F1E9;&#x1F1EA; Deutsch</a>
+        <a href="#" data-lang="ja">&#x1F1EF;&#x1F1F5; 日本語</a>
+        <a href="#" data-lang="zh-CN">&#x1F1E8;&#x1F1F3; 中文</a>
+        <a href="#" data-lang="ko">&#x1F1F0;&#x1F1F7; 한국어</a>
       </div>
     </div>
     <a href="cart.html" class="cart-icon">
@@ -98,12 +98,12 @@
     const { data: p, error } = await supabase.from('products').select('*').eq('id', productId).single();
     if (error || !p) { document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:8rem 2rem;"><h2>Product not found</h2><a href="catalog.html" class="btn btn-primary" style="margin-top:1rem;">Back to Catalog</a></div>'; return; }
 
-    document.title = `${p.name} — Pokepluse`;
+    document.title = `${p.name} &mdash; Pokepluse`;
     currentImages = p.images || [];
     if (!currentImages.length) currentImages = [''];
 
     const stockClass = p.stock_status === 'in_stock' ? 'stock-in' : 'stock-out';
-    const stockLabel = p.stock_status === 'in_stock' ? '✅ In Stock' : '❌ Sold Out';
+    const stockLabel = p.stock_status === 'in_stock' ? '<i class="fa fa-check"></i> In Stock' : '<i class="fa fa-times"></i> Sold Out';
 
     document.getElementById('product-content').innerHTML = `
       <div class="product-layout">

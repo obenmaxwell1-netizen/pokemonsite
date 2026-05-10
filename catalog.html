@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop All Products — Pokepluse</title>
-  <meta name="description" content="Browse our full catalog of Japanese, Korean, and Chinese Pokémon and One Piece TCG products."/>
+  <title>Shop All Products &mdash; Pokepluse</title>
+  <meta name="description" content="Browse our full catalog of Japanese, Korean, and Chinese Pok&eacute;mon and One Piece TCG products."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -28,12 +28,12 @@
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Pokémon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Pok&eacute;mon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=english-pokemon">🇬🇧 English</a>
-        <a href="catalog.html?cat=japanese-pokemon">🇯🇵 Japanese</a>
-        <a href="catalog.html?cat=korean-pokemon">🇰🇷 Korean</a>
-        <a href="catalog.html?cat=chinese-pokemon">🇨🇳 Chinese</a>
+        <a href="catalog.html?cat=english-pokemon">&#x1F1EC;&#x1F1E7; English</a>
+        <a href="catalog.html?cat=japanese-pokemon">&#x1F1EF;&#x1F1F5; Japanese</a>
+        <a href="catalog.html?cat=korean-pokemon">&#x1F1F0;&#x1F1F7; Korean</a>
+        <a href="catalog.html?cat=chinese-pokemon">&#x1F1E8;&#x1F1F3; Chinese</a>
       </div>
     </li>
     <li class="nav-dropdown">
@@ -58,13 +58,13 @@
         <i class="fa fa-globe"></i> <span id="current-lang-label">EN</span> <i class="fa fa-chevron-down arrow"></i>
       </button>
       <div class="lang-dropdown">
-        <a href="#" data-lang="en">🇬🇧 English</a>
-        <a href="#" data-lang="fr">🇫🇷 Français</a>
-        <a href="#" data-lang="es">🇪🇸 Español</a>
-        <a href="#" data-lang="de">🇩🇪 Deutsch</a>
-        <a href="#" data-lang="ja">🇯🇵 日本語</a>
-        <a href="#" data-lang="zh-CN">🇨🇳 中文</a>
-        <a href="#" data-lang="ko">🇰🇷 한국어</a>
+        <a href="#" data-lang="en">&#x1F1EC;&#x1F1E7; English</a>
+        <a href="#" data-lang="fr">&#x1F1EB;&#x1F1F7; Fran&ccedil;ais</a>
+        <a href="#" data-lang="es">&#x1F1EA;&#x1F1F8; Espa&ntilde;ol</a>
+        <a href="#" data-lang="de">&#x1F1E9;&#x1F1EA; Deutsch</a>
+        <a href="#" data-lang="ja">&#x1F1EF;&#x1F1F5; 日本語</a>
+        <a href="#" data-lang="zh-CN">&#x1F1E8;&#x1F1F3; 中文</a>
+        <a href="#" data-lang="ko">&#x1F1F0;&#x1F1F7; 한국어</a>
       </div>
     </div>
     <a href="cart.html" class="cart-icon">
@@ -79,7 +79,7 @@
 
 <div class="page-header">
   <h1>Our Collection</h1>
-  <p>Browse authentic international Pokémon & One Piece TCG products</p>
+  <p>Browse authentic international Pok&eacute;mon & One Piece TCG products</p>
 </div>
 
 <section class="section">
@@ -90,17 +90,17 @@
         <h3>Game</h3>
         <div class="sidebar-filters">
           <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)">🃏 All Products</button>
-          <button class="sidebar-btn" data-filter="english-pokemon" onclick="setFilter('english-pokemon',this)">🇬🇧 English Pokémon</button>
-          <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)">🇯🇵 Japanese Pokémon</button>
-          <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)">🇰🇷 Korean Pokémon</button>
-          <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)">🇨🇳 Chinese Pokémon</button>
-          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">🏴‍☠️ One Piece TCG</button>
+          <button class="sidebar-btn" data-filter="english-pokemon" onclick="setFilter('english-pokemon',this)">&#x1F1EC;&#x1F1E7; English Pok&eacute;mon</button>
+          <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)">&#x1F1EF;&#x1F1F5; Japanese Pok&eacute;mon</button>
+          <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)">&#x1F1F0;&#x1F1F7; Korean Pok&eacute;mon</button>
+          <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)">&#x1F1E8;&#x1F1F3; Chinese Pok&eacute;mon</button>
+          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">🏴‍☠ One Piece TCG</button>
           <button class="sidebar-btn" data-filter="accessories" onclick="setFilter('accessories',this)">🎒 Accessories</button>
         </div>
         <h3>Stock</h3>
         <div class="sidebar-filters">
           <button class="sidebar-btn active" data-stock="all" onclick="setStock('all',this)">All Items</button>
-          <button class="sidebar-btn" data-stock="in_stock" onclick="setStock('in_stock',this)">✅ In Stock Only</button>
+          <button class="sidebar-btn" data-stock="in_stock" onclick="setStock('in_stock',this)"><i class="fa fa-check"></i> In Stock Only</button>
         </div>
         <h3>Sort By</h3>
         <div class="sidebar-filters">
@@ -114,7 +114,7 @@
       <div>
         <div class="results-header">
           <span id="result-count" style="color:var(--text-muted);font-size:0.9rem;"></span>
-          <input type="text" class="search-input" placeholder="🔍 Search products..." id="search-input" oninput="renderProducts()"/>
+          <input type="text" class="search-input" placeholder="<i class="fa fa-search"></i> Search products..." id="search-input" oninput="renderProducts()"/>
         </div>
         <div class="products-grid" id="catalog-grid">
           <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
@@ -214,7 +214,7 @@
     document.getElementById('result-count').textContent = `${filtered.length} product${filtered.length!==1?'s':''} found`;
 
     if (!filtered.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);"><div style="font-size:3rem;margin-bottom:1rem;">🔍</div><p>No products match your filters.</p></div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);"><div style="font-size:3rem;margin-bottom:1rem;"><i class="fa fa-search"></i></div><p>No products match your filters.</p></div>';
       return;
     }
     grid.innerHTML = filtered.map(p => buildProductCard(p)).join('');
