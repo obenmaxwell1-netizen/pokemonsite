@@ -20,15 +20,17 @@
     .search-input:focus { border-color: var(--blue); }
     @media (max-width: 900px) { .catalog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
   </style>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
 </head>
 <body>
 <nav class="navbar">
-  <a href="index.html" class="nav-logo">⚡ Pokepluse</a>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
       <button class="nav-dropdown-btn">Pokémon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=english-pokemon">🇬🇧 English</a>
         <a href="catalog.html?cat=japanese-pokemon">🇯🇵 Japanese</a>
         <a href="catalog.html?cat=korean-pokemon">🇰🇷 Korean</a>
         <a href="catalog.html?cat=chinese-pokemon">🇨🇳 Chinese</a>
@@ -40,11 +42,31 @@
         <a href="catalog.html?cat=one-piece">🃏 All One Piece</a>
       </div>
     </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Accessories <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html?cat=accessories">🎒 All Accessories</a>
+      </div>
+    </li>
     <li><a href="catalog.html" style="color:var(--blue-light);">All Products</a></li>
-    <li id="nav-auth-area"></li>
+    <li><a href="track.html">Track Order</a></li>
   </ul>
   <div class="nav-actions">
-    <div id="google_translate_element"></div>
+    <div class="custom-lang-selector">
+      <div id="google_translate_element" style="display:none;"></div>
+      <button class="lang-selector-btn" id="lang-selector-btn">
+        <i class="fa fa-globe"></i> <span id="current-lang-label">EN</span> <i class="fa fa-chevron-down arrow"></i>
+      </button>
+      <div class="lang-dropdown">
+        <a href="#" data-lang="en">🇬🇧 English</a>
+        <a href="#" data-lang="fr">🇫🇷 Français</a>
+        <a href="#" data-lang="es">🇪🇸 Español</a>
+        <a href="#" data-lang="de">🇩🇪 Deutsch</a>
+        <a href="#" data-lang="ja">🇯🇵 日本語</a>
+        <a href="#" data-lang="zh-CN">🇨🇳 中文</a>
+        <a href="#" data-lang="ko">🇰🇷 한국어</a>
+      </div>
+    </div>
     <a href="cart.html" class="cart-icon">
       <i class="fa fa-shopping-bag"></i>
       <span class="cart-badge" id="cart-count" style="display:none;">0</span>
@@ -68,10 +90,12 @@
         <h3>Game</h3>
         <div class="sidebar-filters">
           <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)">🃏 All Products</button>
+          <button class="sidebar-btn" data-filter="english-pokemon" onclick="setFilter('english-pokemon',this)">🇬🇧 English Pokémon</button>
           <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)">🇯🇵 Japanese Pokémon</button>
           <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)">🇰🇷 Korean Pokémon</button>
           <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)">🇨🇳 Chinese Pokémon</button>
           <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">🏴‍☠️ One Piece TCG</button>
+          <button class="sidebar-btn" data-filter="accessories" onclick="setFilter('accessories',this)">🎒 Accessories</button>
         </div>
         <h3>Stock</h3>
         <div class="sidebar-filters">
@@ -109,7 +133,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
-<script src="js/auth.js"></script>
 <script>
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -199,11 +222,7 @@
 
   loadProducts();
 </script>
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-}
-</script>
+<script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

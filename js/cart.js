@@ -53,7 +53,7 @@ function showToast(msg, type = 'success') {
 }
 
 function getCategoryLabel(cat) {
-  const map = { 'japanese-pokemon':'Japanese Pokémon','korean-pokemon':'Korean Pokémon','chinese-pokemon':'Chinese Pokémon','one-piece':'One Piece TCG' };
+  const map = { 'english-pokemon':'English Pokémon','japanese-pokemon':'Japanese Pokémon','korean-pokemon':'Korean Pokémon','chinese-pokemon':'Chinese Pokémon','one-piece':'One Piece TCG','accessories':'Accessories' };
   return map[cat] || cat;
 }
 
