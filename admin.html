@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -46,12 +46,12 @@
     </button>
     <div class="lang-dropdown">
       <a href="#" data-lang="en">ðŸ‡¬ðŸ‡§ English</a>
-      <a href="#" data-lang="fr">ðŸ‡«ðŸ‡· FranÃ§ais</a>
-      <a href="#" data-lang="es">ðŸ‡ªðŸ‡¸ EspaÃ±ol</a>
+      <a href="#" data-lang="fr">ðŸ‡«ðŸ‡&middot; Fran&ccedil;ais</a>
+      <a href="#" data-lang="es">ðŸ‡ªðŸ‡¸ Espa&ntilde;ol</a>
       <a href="#" data-lang="de">ðŸ‡©ðŸ‡ª Deutsch</a>
-      <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ—¥æœ¬èªž</a>
+      <a href="#" data-lang="ja">ðŸ‡¯ðŸ‡µ æ&mdash;¥æœ¬èªž</a>
       <a href="#" data-lang="zh-CN">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a>
-      <a href="#" data-lang="ko">ðŸ‡°ðŸ‡· í•œêµ­ì–´</a>
+      <a href="#" data-lang="ko">ðŸ‡°ðŸ‡&middot; í•œêµ­ì–´</a>
     </div>
   </div>
 </div>
@@ -129,7 +129,7 @@
 
         <!-- ADD/EDIT FORM -->
         <div class="product-form" id="product-form-wrap">
-          <h3 id="form-title">âž• Add New Product</h3>
+          <h3 id="form-title"><i class="fa fa-plus-circle" style="color:var(--gold);"></i> Add New Product</h3>
           <input type="hidden" id="edit-product-id"/>
           <div class="form-grid">
             <div class="form-group">
@@ -143,10 +143,10 @@
             <div class="form-group">
               <label>Category *</label>
               <select id="prod-category">
-                <option value="english-pokemon">English PokÃ©mon</option>
-                <option value="japanese-pokemon">Japanese PokÃ©mon</option>
-                <option value="korean-pokemon">Korean PokÃ©mon</option>
-                <option value="chinese-pokemon">Chinese PokÃ©mon</option>
+                <option value="english-pokemon">English Pok&eacute;mon</option>
+                <option value="japanese-pokemon">Japanese Pok&eacute;mon</option>
+                <option value="korean-pokemon">Korean Pok&eacute;mon</option>
+                <option value="chinese-pokemon">Chinese Pok&eacute;mon</option>
                 <option value="one-piece">One Piece TCG</option>
                 <option value="accessories">Accessories</option>
               </select>
@@ -377,7 +377,7 @@
     }
 
     if (error) { msgEl.style.cssText='display:block;color:var(--red);'; msgEl.textContent='Error: '+error.message; return; }
-    msgEl.style.cssText='display:block;color:var(--green);'; msgEl.textContent = id ? 'âœ… Product updated!' : 'âœ… Product added!';
+    msgEl.style.cssText='display:block;color:var(--green);'; msgEl.textContent = id ? 'Product updated!' : 'Product added!';
     resetForm();
     loadProductList();
     setTimeout(()=>msgEl.style.display='none',3000);
@@ -411,7 +411,7 @@
     document.getElementById('prod-featured').value = 'false';
     document.getElementById('prod-images').value = '';
     document.getElementById('prod-image-upload').value = '';
-    document.getElementById('form-title').textContent = 'âž• Add New Product';
+    document.getElementById('form-title').innerHTML = '<i class="fa fa-plus-circle" style="color:var(--gold);"></i> Add New Product';
     renderImagePreviews();
   }
 
@@ -529,7 +529,7 @@
           <span style="font-weight:700;color:var(--gold);">$${Number(o.total_price).toFixed(2)}</span>
         </div>
       </div>
-      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} Â· ${o.payment_method||'N/A'} Â· ${(o.items||[]).length} item(s)</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} &middot; ${o.payment_method||'N/A'} &middot; ${(o.items||[]).length} item(s)</div>
       ${itemsHtml}
       ${showActions?`<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
         <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')">âœ… Confirm</button>
