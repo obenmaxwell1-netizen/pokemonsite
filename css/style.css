@@ -333,6 +333,103 @@ body {
   gap: 2.5rem;
 }
 
+/* --- Entrance animation keyframes --- */
+@keyframes cardRiseIn {
+  0%   { opacity: 0; transform: translateY(60px) scale(0.9); }
+  60%  { opacity: 1; transform: translateY(-8px) scale(1.02); }
+  80%  { transform: translateY(3px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmerSweep {
+  0%   { left: -100%; }
+  50%  { left: 100%; }
+  100% { left: 100%; }
+}
+
+@keyframes imgFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes headerReveal {
+  0%   { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tagPop {
+  0%   { opacity: 0; transform: scale(0.7) translateY(10px); }
+  70%  { transform: scale(1.08) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes shopLinkDraw {
+  0%   { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+/* Section header entrance */
+.categories-section-header.cat-header-animated .tag {
+  animation: tagPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+.categories-section-header.cat-header-animated h2 {
+  animation: headerReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+.categories-section-header.cat-header-animated p {
+  animation: headerReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.35s both;
+}
+
+/* Card entrance states */
+.category-card {
+  opacity: 0;
+  transform: translateY(60px) scale(0.9);
+}
+.category-card.cat-animated {
+  animation: cardRiseIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger each card */
+.category-card.cat-animated:nth-child(1) { animation-delay: 0.05s; }
+.category-card.cat-animated:nth-child(2) { animation-delay: 0.15s; }
+.category-card.cat-animated:nth-child(3) { animation-delay: 0.25s; }
+.category-card.cat-animated:nth-child(4) { animation-delay: 0.35s; }
+.category-card.cat-animated:nth-child(5) { animation-delay: 0.45s; }
+.category-card.cat-animated:nth-child(6) { animation-delay: 0.55s; }
+
+/* Gold shimmer sweep on entry */
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.18), transparent);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+}
+.category-card.cat-animated::after {
+  opacity: 1;
+  animation: shimmerSweep 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+}
+
+/* Image float — continuous once animated */
+.category-card.cat-animated .category-img-wrap img {
+  animation: imgFloat 3.5s ease-in-out infinite;
+}
+.category-card.cat-animated:nth-child(2) .category-img-wrap img { animation-delay: 0.4s; }
+.category-card.cat-animated:nth-child(3) .category-img-wrap img { animation-delay: 0.8s; }
+.category-card.cat-animated:nth-child(4) .category-img-wrap img { animation-delay: 0.2s; }
+.category-card.cat-animated:nth-child(5) .category-img-wrap img { animation-delay: 0.6s; }
+.category-card.cat-animated:nth-child(6) .category-img-wrap img { animation-delay: 1s; }
+
+/* Shop Now underline draws in after card rises */
+.category-card.cat-animated .shop-link::after {
+  transform-origin: left;
+  animation: shopLinkDraw 0.5s ease 0.9s both;
+}
+
 @media (max-width: 768px) {
   .categories-grid {
     display: flex;
@@ -354,6 +451,13 @@ body {
     flex: 0 0 85%;
     scroll-snap-align: center;
   }
+  /* On mobile, run cards in tighter succession */
+  .category-card.cat-animated:nth-child(1) { animation-delay: 0.1s; }
+  .category-card.cat-animated:nth-child(2) { animation-delay: 0.2s; }
+  .category-card.cat-animated:nth-child(3) { animation-delay: 0.3s; }
+  .category-card.cat-animated:nth-child(4) { animation-delay: 0.4s; }
+  .category-card.cat-animated:nth-child(5) { animation-delay: 0.5s; }
+  .category-card.cat-animated:nth-child(6) { animation-delay: 0.6s; }
 }
 
 .category-card {
