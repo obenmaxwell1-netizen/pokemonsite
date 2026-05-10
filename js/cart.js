@@ -80,3 +80,37 @@ function buildProductCard(p) {
 
 // Init badge on load
 document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+// Mobile Scroll Animations (Triggering hover effects on scroll)
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-25% 0px -25% 0px', // Trigger when element is in the middle 50% of the viewport
+      threshold: 0
+    };
+
+    const mobileObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('mobile-hover-active');
+        } else {
+          entry.target.classList.remove('mobile-hover-active');
+        }
+      });
+    }, observerOptions);
+
+    const observeCards = () => {
+      // Find all cards that haven't been observed yet
+      const cards = document.querySelectorAll('.category-card:not(.mobile-observed), .product-card:not(.mobile-observed), .feature-card:not(.mobile-observed)');
+      cards.forEach(card => {
+        card.classList.add('mobile-observed');
+        mobileObserver.observe(card);
+      });
+    };
+    
+    observeCards();
+    // Re-check periodically for dynamically loaded products (e.g. catalog page)
+    setInterval(observeCards, 1000);
+  }
+});
