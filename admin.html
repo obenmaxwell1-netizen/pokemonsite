@@ -540,6 +540,7 @@
         <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','payment done')"><i class='fa fa-credit-card'></i> Payment Done</button>
         <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','shipping now')"><i class='fa fa-truck'></i> Shipping Now</button>
         <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','cancelled')"><i class='fa fa-times-circle'></i> Cancel</button>
+        <button class="btn btn-sm btn-outline" onclick="deleteOrder('${o.id}')" style="color:var(--red);border-color:var(--red);"><i class='fa fa-trash'></i> Delete</button>
       </div>`:''}
     </div>`;
   }
@@ -548,6 +549,13 @@
     await supabase.from('orders').update({status}).eq('id',id);
     loadOrders();
     showToast(`Order marked as ${status}!`,'success');
+  }
+
+  async function deleteOrder(id) {
+    if (!confirm('Delete this order? This cannot be undone.')) return;
+    await supabase.from('orders').delete().eq('id',id);
+    loadOrders();
+    showToast('Order deleted successfully!', 'success');
   }
 </script>
 

@@ -136,6 +136,12 @@
         <span><i class="fa fa-shopping-bag" style="color:var(--blue);margin-right:0.5rem;"></i>Your Cart</span>
         <button onclick="clearCart();renderCart();" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.8rem;">Clear All</button>
       </div>
+      <div style="padding: 1rem 1.5rem; background: rgba(212, 175, 55, 0.05); border-bottom: 1px solid var(--border-glass); text-align: center;">
+        <p style="font-size: 0.95rem; color: #555; margin: 0; font-weight: 500;">
+          <i class="fa fa-truck" style="color: var(--gold); margin-right: 0.5rem;"></i>
+          Experience seamless delivery. Free shipping is applied to all orders above <strong style="color: var(--gold);">$2,000</strong>.
+        </p>
+      </div>
       <div class="cart-items-list" id="cart-items-list"></div>
     </div>
   </div>
@@ -162,7 +168,7 @@
           <label style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
             Payment Method *
             <span style="font-size:0.72rem; font-weight:500; color:#fff; background:linear-gradient(135deg,#D4AF37,#b8860b); padding:0.25rem 0.65rem; border-radius:20px; letter-spacing:0.3px; white-space:nowrap;">
-              <i class="fa fa-envelope" style="margin-right:4px;"></i>All payment details will be sent via email
+              <i class="fa fa-envelope" style="margin-right:4px;"></i>All payment details and your invoice will be sent via email
             </span>
           </label>
           <!-- Hidden input used by JS -->

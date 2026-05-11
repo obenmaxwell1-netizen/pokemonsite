@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -136,7 +136,7 @@
           </div>
           ${p.stock_status === 'in_stock' ? `
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <button class="btn btn-gold btn-lg" onclick="addToCart({id:'${p.id}',name:${JSON.stringify(p.name)},price:${p.price},image:'${currentImages[0]||''}',category:'${p.category}'})">
+            <button class="btn btn-gold btn-lg" onclick="addToCart({id:'${p.id}',name:'${p.name.replace(/'/g,"\\'").replace(/"/g,"&quot;")}',price:${p.price},image:'${currentImages[0]||''}',category:'${p.category}'})">
               <i class="fa fa-cart-plus"></i> Add to Cart
             </button>
             <a href="cart.html" class="btn btn-outline btn-lg"><i class="fa fa-shopping-bag"></i> View Cart</a>

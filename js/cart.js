@@ -72,7 +72,7 @@ function buildProductCard(p) {
         <h3>${p.name}</h3>
         <div class="product-footer">
           <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-          ${p.stock_status === 'in_stock' ? `<button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart({id:'${p.id}',name:'${p.name.replace(/'/g,"\\'")}',price:${p.price},image:'${img}',category:'${p.category}'})"><i class="fa fa-plus"></i></button>` : ''}
+          ${p.stock_status === 'in_stock' ? `<button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart({id:'${p.id}',name:'${p.name.replace(/'/g,"\\'").replace(/"/g,"&quot;")}',price:${p.price},image:'${img}',category:'${p.category}'})"><i class="fa fa-plus"></i></button>` : ''}
         </div>
       </div>
     </div>`;
