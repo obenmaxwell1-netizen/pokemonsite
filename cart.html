@@ -244,7 +244,7 @@
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
 <script>
-  const ORDER_EMAIL = 'pokemoncards328@gmail.com';
+  const ORDER_EMAIL = 'contact@pokepluse.com';
 
   function renderCart() {
     const cart = getCart();
@@ -389,13 +389,7 @@
     }).catch(e => console.error("Email notification failed", e));
   }
 
-  // Pre-fill from auth
-  supabase.auth.getUser().then(({data:{user}})=>{
-    if (user) {
-      document.getElementById('inq-email').value = user.email || '';
-      supabase.from('profiles').select('full_name').eq('id',user.id).single().then(({data})=>{ if(data?.full_name) document.getElementById('inq-name').value = data.full_name; });
-    }
-  });
+  // Fields left empty for customer to fill in
 
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
