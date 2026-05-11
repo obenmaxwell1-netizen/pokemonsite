@@ -435,41 +435,73 @@
       `;
     }
 
-    // Build email content and send via FormSubmit API asynchronously in the background
-    const itemList = cart.map(i=>`- ${i.name} x${i.qty||1} = $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
+    // Build email content
+    const orderDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const itemList  = cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
+    // 1. Store notification
     fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        _subject: `ðŸ›’ New Order from ${name} â€“ Order #${orderId.substring(0,8)}`,
-        Name: name,
-        Email: email,
+        _subject: `New Order from ${name} - #${orderId.substring(0,8)}`,
+        "Customer": name,
+        "Email": email,
         "Payment Method": payment,
         "Order ID": orderId,
-        "Total": "$" + total.toFixed(2),
+        "Order Date": orderDate,
         "Ship To": shippingLine,
-        "Notes": notes || 'None',
-        "Items Ordered": itemList
+        "Total": "$" + total.toFixed(2),
+        "Items": itemList,
+        "Notes": notes || 'None'
       })
     })
-    .then(res => res.json())
+    .then(r => r.json())
     .then(result => {
       if (result.success === 'true' || result.success === true) {
-        console.log('âœ… Order notification email sent to', ORDER_EMAIL);
+        console.log('Store notification sent.');
       } else {
-        console.warn('âš ï¸ FormSubmit response:', result);
-        // Fallback: if FormSubmit not yet verified, log details
-        console.info('ðŸ“§ Order details (for manual follow-up):', { name, email, payment, orderId, total: total.toFixed(2) });
+        console.warn('Store email warn:', result);
       }
     })
-    .catch(e => {
-      console.error("âŒ Email notification failed:", e);
-    });
+    .catch(e => console.error('Store notification failed:', e));
+
+    // 2. Customer invoice email (CC'd back to customer via _cc)
+    fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `Your Pokepluse Invoice - Order #${orderId.substring(0,8)}`,
+        _cc: email,
+        _replyto: ORDER_EMAIL,
+        "Dear": `${name}, thank you for your order! Below is your invoice and order confirmation.`,
+        "---ORDER DETAILS---": "---",
+        "Invoice / Tracking ID": orderId,
+        "Order Date": orderDate,
+        "---ITEMS ORDERED---": "---",
+        "Items": itemList,
+        "Order Total": "$" + total.toFixed(2),
+        "---DELIVERY INFO---": "---",
+        "Payment Method": payment,
+        "Shipping To": shippingLine,
+        "Notes": notes || 'None',
+        "---TRACK YOUR ORDER---": "---",
+        "How to track your order": `Go to our website, click Track Order, and enter your Tracking ID.`,
+        "Your Tracking ID": orderId,
+        "---CONTACT SUPPORT---": "---",
+        "Need help?": `Reply to this email or contact us. Please always include your Tracking ID.`
+      })
+    })
+    .then(r => r.json())
+    .then(result => {
+      if (result.success === 'true' || result.success === true) {
+        console.log('Customer invoice sent to', email);
+      } else {
+        console.warn('Customer invoice warn:', result);
+      }
+    })
+    .catch(e => console.error('Customer invoice failed:', e));
   }
 
   // Fields left empty for customer to fill in
@@ -509,5 +541,4 @@ window.smartsupp||(function(d) {
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
-
 
