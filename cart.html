@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart & Checkout â€” Pokepluse</title>
+  <title>Cart &amp; Checkout &ndash; Pokepluse</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -272,9 +272,9 @@
           <h4>${item.name}</h4>
           <div class="price">$${Number(item.price).toFixed(2)}</div>
           <div class="qty-control" style="margin-top:0.5rem;">
-            <button class="qty-btn" onclick="changeQty('${item.id}',-1)">âˆ’</button>
+            <button class="qty-btn" onclick="changeQty('${item.id}',-1)"><i class="fa fa-minus" style="font-size:0.6rem;"></i></button>
             <span class="qty-num">${item.qty||1}</span>
-            <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+            <button class="qty-btn" onclick="changeQty('${item.id}',1)"><i class="fa fa-plus" style="font-size:0.6rem;"></i></button>
           </div>
         </div>
         <button class="cart-remove" onclick="removeFromCart('${item.id}');renderCart();" title="Remove"><i class="fa fa-trash"></i></button>
