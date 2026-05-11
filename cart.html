@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -260,7 +260,7 @@
             <i class="fa fa-map-marker-alt" style="color:var(--gold);"></i> Shipping Address *
           </label>
           <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <select id="inq-country" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;">
+            <select id="inq-country" onchange="toggleOtherCountry(this)" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;">
               <option value="">Country / Region *</option>
               <option>United States</option><option>United Kingdom</option><option>Canada</option>
               <option>Australia</option><option>Malaysia</option><option>Singapore</option>
@@ -274,12 +274,11 @@
               <option>New Zealand</option><option>Ireland</option><option>Sweden</option>
               <option>Norway</option><option>Denmark</option><option>Other</option>
             </select>
+            <input type="text" id="inq-country-other" placeholder="Please specify your country *" style="display:none;padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
             <input type="text" id="inq-street" placeholder="Street address *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
             <input type="text" id="inq-apt" placeholder="Apartment, suite, or unit (optional)" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
-              <input type="text" id="inq-city" placeholder="Town / City *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;"/>
-              <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;"/>
-            </div>
+            <input type="text" id="inq-city" placeholder="Town / City *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
+            <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
           </div>
         </div>
         <button class="btn btn-gold" style="width:100%;justify-content:center;font-size:1rem;" id="place-order-btn" onclick="submitOrder()">
@@ -356,7 +355,12 @@
     const notes = document.getElementById('inq-notes').value.trim();
 
     // Shipping address fields
-    const country = document.getElementById('inq-country').value;
+    let country = document.getElementById('inq-country').value;
+    if (country === 'Other') {
+      const otherVal = document.getElementById('inq-country-other').value.trim();
+      if (!otherVal) { showToast('Please specify your country.', 'error'); return; }
+      country = otherVal;
+    }
     const street  = document.getElementById('inq-street').value.trim();
     const apt     = document.getElementById('inq-apt').value.trim();
     const city    = document.getElementById('inq-city').value.trim();
@@ -446,6 +450,7 @@
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         _subject: `New Order from ${name} - #${orderId.substring(0,8)}`,
+        "_from": "Pokepluse",
         "Customer": name,
         "Email": email,
         "Payment Method": payment,
@@ -473,6 +478,7 @@
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         _subject: `Your Pokepluse Invoice - Order #${orderId.substring(0,8)}`,
+        "_from": "Pokepluse",
         _cc: email,
         _replyto: ORDER_EMAIL,
         "Dear": `${name}, thank you for your order! Below is your invoice and order confirmation.`,
@@ -489,6 +495,8 @@
         "---TRACK YOUR ORDER---": "---",
         "How to track your order": `Go to our website, click Track Order, and enter your Tracking ID.`,
         "Your Tracking ID": orderId,
+        "---DOWNLOAD INVOICE---": "---",
+        "View / Download PDF": window.location.origin + window.location.pathname.replace('cart.html', '') + 'invoice.html?id=' + orderId,
         "---CONTACT SUPPORT---": "---",
         "Need help?": `Reply to this email or contact us. Please always include your Tracking ID.`
       })
@@ -523,6 +531,18 @@
     card.classList.add('selected');
     document.getElementById('inq-payment').value = card.getAttribute('data-value');
     document.getElementById('pay-error').style.display = 'none';
+  }
+
+  // Handle 'Other' country selection
+  function toggleOtherCountry(selectEl) {
+    const otherInput = document.getElementById('inq-country-other');
+    if (selectEl.value === 'Other') {
+      otherInput.style.display = 'block';
+      otherInput.required = true;
+    } else {
+      otherInput.style.display = 'none';
+      otherInput.required = false;
+    }
   }
 </script>
 <script src="js/translate.js"></script>

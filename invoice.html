@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invoice - Pokepluse</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --blue: #1A56DB;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --bg: #f9fafb;
+      --border: #e5e7eb;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+    .invoice-container {
+      background: #fff;
+      width: 100%;
+      max-width: 800px;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .brand-name {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue);
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    .invoice-title {
+      text-align: right;
+    }
+    .invoice-title h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .invoice-title p {
+      margin: 0.25rem 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .details-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+    .details-box {
+      flex: 1;
+    }
+    .details-box h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    .details-box p {
+      margin: 0.2rem 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    .items-table th {
+      background: var(--bg);
+      text-align: left;
+      padding: 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+    .items-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 1rem;
+    }
+    .items-table .text-right {
+      text-align: right;
+    }
+    .totals-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 2rem;
+    }
+    .totals-table {
+      width: 300px;
+    }
+    .totals-table td {
+      padding: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+    .totals-table .total-row td {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--blue);
+      border-top: 2px solid var(--border);
+      padding-top: 1rem;
+    }
+    .footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #1545b3;
+    }
+    .loading-state {
+      text-align: center;
+      padding: 5rem 0;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+    
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .invoice-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+      .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="invoice-container" id="invoice-content">
+  <div class="loading-state" id="loading">
+    <i class="fa fa-spinner fa-spin" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;"></i>
+    <div>Loading Invoice Details...</div>
+  </div>
+  
+  <div id="invoice-body" style="display: none;">
+    <div class="invoice-header">
+      <div class="brand-section">
+        <img src="logo.jpeg" alt="Pokepluse" class="brand-logo" onerror="this.src='https://via.placeholder.com/60?text=Logo'">
+        <h2 class="brand-name">Pokepluse</h2>
+      </div>
+      <div class="invoice-title">
+        <h1>INVOICE</h1>
+        <p>Order ID: <strong id="inv-id">---</strong></p>
+        <p>Date: <strong id="inv-date">---</strong></p>
+      </div>
+    </div>
+    
+    <div class="details-row">
+      <div class="details-box">
+        <h3>Billed To</h3>
+        <p><strong id="cust-name">---</strong></p>
+        <p id="cust-email">---</p>
+        <br>
+        <h3>Shipping Address</h3>
+        <p id="cust-address">---</p>
+      </div>
+      <div class="details-box" style="text-align: right;">
+        <h3>Payment Info</h3>
+        <p>Method: <strong id="pay-method">---</strong></p>
+        <p>Status: <strong style="color: #10b981;">Paid / Pending</strong></p>
+      </div>
+    </div>
+    
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="text-right">Qty</th>
+          <th class="text-right">Price</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="inv-items">
+        <!-- Items injected by JS -->
+      </tbody>
+    </table>
+    
+    <div class="totals-section">
+      <table class="totals-table">
+        <tr>
+          <td>Subtotal</td>
+          <td class="text-right" id="inv-subtotal">$0.00</td>
+        </tr>
+        <tr>
+          <td>Shipping</td>
+          <td class="text-right">Free</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total</td>
+          <td class="text-right" id="inv-total">$0.00</td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="footer">
+      <p>Thank you for shopping with Pokepluse!</p>
+      <p style="font-size: 0.8rem; margin-top: 0.5rem;">If you have any questions about this invoice, please contact contact@pokepluse.com</p>
+    </div>
+    
+    <div class="actions">
+      <button class="btn" onclick="window.print()">
+        <i class="fa fa-file-pdf"></i> Download as PDF
+      </button>
+      <a href="index.html" class="btn" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); margin-left: 1rem;">
+        Return to Store
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script>
+  async function loadInvoice() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('id');
+    
+    if (!orderId) {
+      document.getElementById('loading').innerHTML = '<i class="fa fa-exclamation-triangle" style="color:#ef4444; font-size:2rem; margin-bottom:1rem;"></i><div>Invalid Order ID</div>';
+      return;
+    }
+    
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('id', orderId)
+        .single();
+        
+      if (error || !data) {
+        throw new Error('Order not found');
+      }
+      
+      // Populate fields
+      document.getElementById('inv-id').textContent = data.id.substring(0, 8).toUpperCase();
+      document.getElementById('inv-date').textContent = new Date(data.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      
+      document.getElementById('cust-name').textContent = data.user_name || 'N/A';
+      document.getElementById('cust-email').textContent = data.user_email || 'N/A';
+      
+      let addrHtml = 'N/A';
+      if (data.shipping_address) {
+        const a = data.shipping_address;
+        addrHtml = `${a.street || ''}<br>${a.apt ? a.apt + '<br>' : ''}${a.city || ''}, ${a.zip || ''}<br>${a.country || ''}`;
+      }
+      document.getElementById('cust-address').innerHTML = addrHtml;
+      
+      document.getElementById('pay-method').textContent = data.payment_method || 'N/A';
+      
+      // Populate items
+      const itemsList = data.items || [];
+      const tbody = document.getElementById('inv-items');
+      let subtotal = 0;
+      
+      if (itemsList.length > 0) {
+        tbody.innerHTML = itemsList.map(item => {
+          const qty = item.qty || 1;
+          const price = parseFloat(item.price) || 0;
+          const amount = qty * price;
+          subtotal += amount;
+          return `
+            <tr>
+              <td>
+                <div style="font-weight: 500;">${item.name}</div>
+              </td>
+              <td class="text-right">${qty}</td>
+              <td class="text-right">$${price.toFixed(2)}</td>
+              <td class="text-right font-weight: 600;">$${amount.toFixed(2)}</td>
+            </tr>
+          `;
+        }).join('');
+      } else {
+        tbody.innerHTML = '<tr><td colspan="4">No items found</td></tr>';
+      }
+      
+      // Totals (use stored total or calculated)
+      const finalTotal = data.total_price || subtotal;
+      document.getElementById('inv-subtotal').textContent = '$' + subtotal.toFixed(2);
+      document.getElementById('inv-total').textContent = '$' + parseFloat(finalTotal).toFixed(2);
+      
+      // Show invoice
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('invoice-body').style.display = 'block';
+      
+    } catch (e) {
+      console.error(e);
+      document.getElementById('loading').innerHTML = '<i class="fa fa-exclamation-triangle" style="color:#ef4444; font-size:2rem; margin-bottom:1rem;"></i><div>Could not load invoice details.<br><a href="index.html" style="color:var(--blue); font-size:0.9rem; margin-top:1rem; display:inline-block;">Return to Store</a></div>';
+    }
+  }
+  
+  window.addEventListener('DOMContentLoaded', loadInvoice);
+</script>
+</body>
+</html>
