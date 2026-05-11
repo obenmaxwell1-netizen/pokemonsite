@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -530,6 +530,10 @@
         </div>
       </div>
       <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">${date} &middot; ${o.payment_method||'N/A'} &middot; ${(o.items||[]).length} item(s)</div>
+      ${o.shipping_address ? `<div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.25rem;display:flex;align-items:flex-start;gap:0.4rem;">
+        <i class="fa fa-map-marker-alt" style="color:var(--gold);margin-top:2px;flex-shrink:0;"></i>
+        <span>${[o.shipping_address.street, o.shipping_address.apt, o.shipping_address.city, o.shipping_address.zip, o.shipping_address.country].filter(Boolean).join(', ')}</span>
+      </div>` : ''}
       ${itemsHtml}
       ${showActions?`<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
         <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','confirmed')"><i class='fa fa-check'></i> Confirm</button>

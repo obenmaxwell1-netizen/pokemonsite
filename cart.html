@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -115,6 +115,8 @@
         <a href="#" data-lang="ja"><span class="lang-flag">JP</span> &#26085;&#26412;&#35486;</a>
         <a href="#" data-lang="zh-CN"><span class="lang-flag">CN</span> &#20013;&#25991;</a>
         <a href="#" data-lang="ko"><span class="lang-flag">KR</span> &#54620;&#44397;&#50612;</a>
+        <a href="#" data-lang="ms"><span class="lang-flag">MY</span> Bahasa Melayu</a>
+        <a href="#" data-lang="vi"><span class="lang-flag">VN</span> Ti&#7871;ng Vi&#7879;t</a>
       </div>
     </div>
     <a href="cart.html" class="cart-icon" style="color:var(--blue);">
@@ -212,10 +214,10 @@
 
             <div class="pay-card" data-value="Apple Pay" onclick="selectPay(this)">
               <div class="pay-logo" style="background:#000;">
-                <svg viewBox="0 0 60 24" xmlns="http://www.w3.org/2000/svg">
-                  <text x="4" y="18" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="15" font-weight="600" fill="#fff"> Pay</text>
-                  <text x="4" y="18" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="15" font-weight="300" fill="#fff">&#xf8ff;</text>
-                </svg>
+                <span style="display:flex;align-items:center;gap:2px;color:#fff;padding:0 2px;">
+                  <i class="fab fa-apple" style="font-size:16px;line-height:1;"></i>
+                  <span style="font-size:9px;font-weight:700;letter-spacing:-0.3px;font-family:-apple-system,Arial,sans-serif;">Pay</span>
+                </span>
               </div>
               <span class="pay-name">Apple Pay</span>
             </div>
@@ -250,6 +252,35 @@
         <div class="form-group">
           <label>Additional Notes</label>
           <textarea id="inq-notes" rows="3" placeholder="Any special requests..."></textarea>
+        </div>
+
+        <!-- SHIPPING ADDRESS -->
+        <div style="margin-top:1.25rem;">
+          <label style="font-weight:700;font-size:0.92rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
+            <i class="fa fa-map-marker-alt" style="color:var(--gold);"></i> Shipping Address *
+          </label>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <select id="inq-country" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;">
+              <option value="">Country / Region *</option>
+              <option>United States</option><option>United Kingdom</option><option>Canada</option>
+              <option>Australia</option><option>Malaysia</option><option>Singapore</option>
+              <option>Nigeria</option><option>South Africa</option><option>Ghana</option>
+              <option>Kenya</option><option>India</option><option>Japan</option>
+              <option>China</option><option>South Korea</option><option>Vietnam</option>
+              <option>Philippines</option><option>Indonesia</option><option>Thailand</option>
+              <option>Germany</option><option>France</option><option>Spain</option>
+              <option>Italy</option><option>Netherlands</option><option>Brazil</option>
+              <option>Mexico</option><option>United Arab Emirates</option><option>Saudi Arabia</option>
+              <option>New Zealand</option><option>Ireland</option><option>Sweden</option>
+              <option>Norway</option><option>Denmark</option><option>Other</option>
+            </select>
+            <input type="text" id="inq-street" placeholder="Street address *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
+            <input type="text" id="inq-apt" placeholder="Apartment, suite, or unit (optional)" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+              <input type="text" id="inq-city" placeholder="Town / City *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;"/>
+              <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;"/>
+            </div>
+          </div>
         </div>
         <button class="btn btn-gold" style="width:100%;justify-content:center;font-size:1rem;" id="place-order-btn" onclick="submitOrder()">
           <i class="fa fa-paper-plane"></i> Place Order
@@ -302,7 +333,7 @@
 
     summaryEl.innerHTML = cart.map(i=>`
       <div class="summary-row">
-        <span style="font-size:0.85rem;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} Ã&mdash;${i.qty||1}</span>
+        <span style="font-size:0.85rem;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} Ãƒ&mdash;${i.qty||1}</span>
         <span>$${((i.qty||1)*i.price).toFixed(2)}</span>
       </div>`).join('');
     totalEl.textContent = `$${total.toFixed(2)}`;
@@ -316,7 +347,6 @@
     saveCart(cart);
     renderCart();
   }
-
   async function submitOrder() {
     const cart = getCart();
     if (!cart.length) { showToast('âŒ Your cart is empty!','error'); return; }
@@ -324,14 +354,31 @@
     const email = document.getElementById('inq-email').value.trim();
     const payment = document.getElementById('inq-payment').value;
     const notes = document.getElementById('inq-notes').value.trim();
-    if (!name||!email||!payment) {
+
+    // Shipping address fields
+    const country = document.getElementById('inq-country').value;
+    const street  = document.getElementById('inq-street').value.trim();
+    const apt     = document.getElementById('inq-apt').value.trim();
+    const city    = document.getElementById('inq-city').value.trim();
+    const zip     = document.getElementById('inq-zip').value.trim();
+
+    // Validate required fields
+    if (!name || !email || !payment || !country || !street || !city || !zip) {
       if (!payment) {
         document.getElementById('pay-error').style.display = 'block';
         document.getElementById('pay-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      showToast('\u274C Please fill in all required fields.', 'error');
+      showToast('\u274C Please fill in all required fields including shipping address.', 'error');
       return;
     }
+
+    const shippingAddress = {
+      country,
+      street,
+      apt: apt || null,
+      city,
+      zip
+    };
 
     const btn = document.getElementById('place-order-btn');
     btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
@@ -347,11 +394,12 @@
       total_price: total,
       payment_method: payment,
       notes: notes,
+      shipping_address: shippingAddress,
       status: 'pending'
     }).select();
 
     if (error || !data || !data.length) { 
-      showToast('âŒ Failed to save order. Please try again.','error'); 
+      showToast('Ã¢ÂÅ’ Failed to save order. Please try again.','error'); 
       btn.disabled=false; 
       btn.innerHTML='<i class="fa fa-paper-plane"></i> Place Order'; 
       return; 
@@ -389,7 +437,8 @@
 
     // Build email content and send via FormSubmit API asynchronously in the background
     const itemList = cart.map(i=>`- ${i.name} x${i.qty||1} = $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
-    
+    const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
+
     fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
       method: "POST",
       headers: {
@@ -397,12 +446,13 @@
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        _subject: `🛒 New Order from ${name} – Order #${orderId.substring(0,8)}`,
+        _subject: `ðŸ›’ New Order from ${name} â€“ Order #${orderId.substring(0,8)}`,
         Name: name,
         Email: email,
         "Payment Method": payment,
         "Order ID": orderId,
         "Total": "$" + total.toFixed(2),
+        "Ship To": shippingLine,
         "Notes": notes || 'None',
         "Items Ordered": itemList
       })
@@ -410,15 +460,15 @@
     .then(res => res.json())
     .then(result => {
       if (result.success === 'true' || result.success === true) {
-        console.log('✅ Order notification email sent to', ORDER_EMAIL);
+        console.log('âœ… Order notification email sent to', ORDER_EMAIL);
       } else {
-        console.warn('⚠️ FormSubmit response:', result);
+        console.warn('âš ï¸ FormSubmit response:', result);
         // Fallback: if FormSubmit not yet verified, log details
-        console.info('📧 Order details (for manual follow-up):', { name, email, payment, orderId, total: total.toFixed(2) });
+        console.info('ðŸ“§ Order details (for manual follow-up):', { name, email, payment, orderId, total: total.toFixed(2) });
       }
     })
     .catch(e => {
-      console.error("❌ Email notification failed:", e);
+      console.error("âŒ Email notification failed:", e);
     });
   }
 
@@ -459,4 +509,5 @@ window.smartsupp||(function(d) {
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
+
 
