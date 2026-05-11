@@ -63,36 +63,47 @@ body {
 }
 
 .nav-logo, .auth-logo, .sidebar-logo {
-  font-size: 1.6rem; font-weight: 900;
+  font-size: 1.55rem; font-weight: 900;
   color: var(--text-primary);
   text-decoration: none;
   letter-spacing: -0.5px;
-  display: flex; align-items: center; gap: 0.75rem;
+  display: flex; align-items: center; gap: 0.8rem;
   transition: transform 0.3s ease;
 }
 
 .premium-logo-img {
-  height: 40px;
-  width: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1), 0 0 15px rgba(212,175,55,0.25);
-  object-fit: contain;
+  height: 46px;
+  width: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(212,175,55,0.55);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.2),
+    0 4px 18px rgba(0,0,0,0.25),
+    0 0 20px rgba(212,175,55,0.3);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .nav-logo:hover .premium-logo-img,
 .auth-logo:hover .premium-logo-img,
 .sidebar-logo:hover .premium-logo-img {
-  transform: scale(1.05) rotate(-2deg);
-  box-shadow: 0 8px 20px rgba(212,175,55,0.3), 0 0 0 1px rgba(212,175,55,0.3);
+  transform: scale(1.07) rotate(-3deg);
+  border-color: rgba(212,175,55,0.9);
+  box-shadow:
+    0 0 0 3px rgba(212,175,55,0.3),
+    0 8px 24px rgba(0,0,0,0.3),
+    0 0 30px rgba(212,175,55,0.45);
 }
 
 .premium-logo-text {
-  background: linear-gradient(135deg, var(--text-primary) 30%, var(--gold));
+  background: linear-gradient(135deg, #ffffff 0%, #f5e6b0 45%, #D4AF37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 900;
-  letter-spacing: 0px;
+  letter-spacing: 0.5px;
+  font-size: 1.45rem;
+  filter: drop-shadow(0 1px 4px rgba(212,175,55,0.2));
 }
 
 .nav-links {
