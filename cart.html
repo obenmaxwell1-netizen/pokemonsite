@@ -31,14 +31,15 @@
     }
     @media (max-width: 480px) { .pay-grid { grid-template-columns: repeat(2, 1fr); } }
     .pay-card {
-      display: flex; align-items: center; gap: 0.65rem;
-      padding: 0.7rem 0.9rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
       border: 2px solid #e5e7eb;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
       background: #fff;
       user-select: none;
+      min-height: 58px;
     }
     .pay-card:hover {
       border-color: #D4AF37;
@@ -52,17 +53,36 @@
       box-shadow: 0 0 0 3px rgba(212,175,55,0.25);
     }
     .pay-card.selected .pay-name { color: #92670a; font-weight: 700; }
+    /* Logo box: clean white container, like Stripe payment forms */
     .pay-logo {
-      width: 42px; height: 42px;
-      display: flex; align-items: center; justify-content: center;
+      width: 48px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-      border-radius: 8px;
-      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #e8e8e8;
+      border-radius: 7px;
+      padding: 4px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
     }
     .pay-logo img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      border-radius: 6px;
+      display: block;
+    }
+    .pay-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+    .pay-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      line-height: 1.2;
+      white-space: nowrap;
     }
     .pay-card.selected::after {
       content: '\f00c';
@@ -191,9 +211,10 @@
             </div>
 
             <div class="pay-card" data-value="Apple Pay" onclick="selectPay(this)">
-              <div class="pay-logo" style="background:#000; border-radius:8px; display:flex; align-items:center; justify-content:center; width:54px; height:34px;">
-                <svg width="36" height="22" viewBox="0 0 80 32" xmlns="http://www.w3.org/2000/svg">
-                  <text y="24" font-family="Arial" font-size="18" font-weight="600" fill="#fff">&#xf8ff; Pay</text>
+              <div class="pay-logo" style="background:#000;">
+                <svg viewBox="0 0 60 24" xmlns="http://www.w3.org/2000/svg">
+                  <text x="4" y="18" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="15" font-weight="600" fill="#fff"> Pay</text>
+                  <text x="4" y="18" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="15" font-weight="300" fill="#fff">&#xf8ff;</text>
                 </svg>
               </div>
               <span class="pay-name">Apple Pay</span>

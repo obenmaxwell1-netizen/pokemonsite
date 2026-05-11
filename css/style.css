@@ -96,14 +96,15 @@ body {
 }
 
 .premium-logo-text {
-  background: linear-gradient(135deg, #ffffff 0%, #f5e6b0 45%, #D4AF37 100%);
+  /* Gold gradient readable on both light & dark navbars */
+  background: linear-gradient(135deg, #D4AF37 0%, #f0c040 50%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 900;
   letter-spacing: 0.5px;
   font-size: 1.45rem;
-  filter: drop-shadow(0 1px 4px rgba(212,175,55,0.2));
+  filter: drop-shadow(0 1px 6px rgba(212,175,55,0.35));
 }
 
 .nav-links {
