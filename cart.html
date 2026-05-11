@@ -479,6 +479,7 @@
       body: JSON.stringify({
         _subject: `Your Pokepluse Invoice - Order #${orderId.substring(0,8)}`,
         "_from": "Pokepluse",
+        "_template": "box",
         _cc: email,
         _replyto: ORDER_EMAIL,
         "Dear": `${name}, thank you for your order! Below is your invoice and order confirmation.`,
