@@ -1075,6 +1075,20 @@ html { top: 0px !important; }
   transform: translateX(3px);
 }
 
+.lang-flag {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--gold);
+  color: #1a1a2e;
+  font-size: 0.58rem; font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  min-width: 22px;
+  text-align: center;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
 /* Hide Google Translate Top Bar & Popups */
 html {
   top: 0 !important;
@@ -1101,7 +1115,8 @@ iframe.goog-te-banner-frame,
   border: none !important;
   box-shadow: none !important;
 }
- 
+
+ 
  
 /* Feature Cards */
 .features-grid {
