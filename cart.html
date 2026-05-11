@@ -377,7 +377,7 @@
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        _subject: `New TCG Order from ${name} (Order ${orderId.substring(0,8)})`,
+        _subject: `🛒 New Order from ${name} – Order #${orderId.substring(0,8)}`,
         Name: name,
         Email: email,
         "Payment Method": payment,
@@ -386,7 +386,20 @@
         "Notes": notes || 'None',
         "Items Ordered": itemList
       })
-    }).catch(e => console.error("Email notification failed", e));
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success === 'true' || result.success === true) {
+        console.log('✅ Order notification email sent to', ORDER_EMAIL);
+      } else {
+        console.warn('⚠️ FormSubmit response:', result);
+        // Fallback: if FormSubmit not yet verified, log details
+        console.info('📧 Order details (for manual follow-up):', { name, email, payment, orderId, total: total.toFixed(2) });
+      }
+    })
+    .catch(e => {
+      console.error("❌ Email notification failed:", e);
+    });
   }
 
   // Fields left empty for customer to fill in
