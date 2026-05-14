@@ -84,78 +84,8 @@
       <p style="color: var(--text-secondary); font-size: 1.1rem;">Last Updated: May 2026</p>
     </div>
 
-    <div class="glass-card policy-content" style="padding: 3rem; line-height: 1.8;">
-      <p>Welcome to Pokepluse ("we", "our", "us"). Your privacy is important to us, and this Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website at pokepluse.com (the "Site").</p>
-      <p>By using our Site, you agree to the terms of this Privacy Policy.</p>
-
-      <h2>Information We Collect</h2>
-      <p>We collect personal information in the following ways:</p>
-      <p><strong>Information You Provide Directly</strong></p>
-      <ul>
-        <li>Name</li>
-        <li>Email address</li>
-        <li>Shipping & billing address</li>
-        <li>Payment information (processed securely via third-party services)</li>
-      </ul>
-      <p><strong>Automatically Collected Information</strong></p>
-      <p>When you browse our site, we may collect:</p>
-      <ul>
-        <li>Browser type and version</li>
-        <li>Device type</li>
-        <li>Pages visited and time spent on site</li>
-      </ul>
-      <p>This data helps us improve user experience and website performance.</p>
-
-      <h2>How We Use Your Information</h2>
-      <p>We use your information to:</p>
-      <ul>
-        <li>Process and fulfill your orders</li>
-        <li>Provide customer service and support</li>
-        <li>Improve our website and offerings</li>
-        <li>Send order updates and marketing communications (only with your consent)</li>
-      </ul>
-
-      <h2>Cookies & Tracking Technologies</h2>
-      <p>We use cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and offer targeted advertising.</p>
-      <p>You can control cookie preferences through your browser settings.</p>
-
-      <h2>Sharing Your Information</h2>
-      <p>We do not sell your personal data. We may share your information with trusted third parties for the following reasons:</p>
-      <ul>
-        <li>Payment processing</li>
-        <li>Shipping and fulfillment</li>
-        <li>Analytics providers (e.g., Google Analytics)</li>
-      </ul>
-      <p>All third parties are required to handle your data securely and in accordance with this Privacy Policy.</p>
-
-      <h2>Your Rights</h2>
-      <p>Depending on your location (e.g., under CCPA or GDPR), you may have the right to:</p>
-      <ul>
-        <li>Access, correct, or delete your personal data</li>
-        <li>Opt out of marketing emails at any time</li>
-        <li>Request that we do not sell or share your personal data (we don't)</li>
-        <li>Withdraw consent</li>
-      </ul>
-      <p>To exercise these rights, please contact us at contact@pokepluse.com</p>
-
-      <h2>Data Security</h2>
-      <p>We use industry-standard security measures (SSL encryption, secure payment gateways, etc.) to protect your data. However, no method of transmission is 100% secure.</p>
-
-      <h2>Age Restriction</h2>
-      <p>Our website is intended for adults 21 years and older. We do not knowingly collect data from individuals under the age of 21.</p>
-
-      <h2>Third-Party Links</h2>
-      <p>Our site may contain links to third-party websites. We are not responsible for their privacy practices or content.</p>
-
-      <h2>Updates to This Policy</h2>
-      <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised "Effective Date." Continued use of the site constitutes your acceptance of the updated policy.</p>
-
-      <h2>Contact Us</h2>
-      <p>If you have any questions about this Privacy Policy or your personal data, please contact us at:</p>
-      <ul>
-        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@pokepluse.com" style="color: var(--blue);">contact@pokepluse.com</a></li>
-        <li><i class="fa fa-globe"></i> Website: <a href="https://pokepluse.com" style="color: var(--blue);">https://pokepluse.com</a></li>
-      </ul>
+    <div class="glass-card policy-content" id="policy-content-container" style="padding: 3rem; line-height: 1.8;">
+      <p style="text-align:center;"><i class="fa fa-spinner fa-spin"></i> Loading policy...</p>
     </div>
   </div>
 </div>
@@ -209,6 +139,17 @@
       navLinks.classList.toggle('active');
     });
   }
+
+  // Fetch Privacy Policy
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('policy-content-container');
+    const { data, error } = await supabase.from('site_content').select('content').eq('id', 'privacy-policy').single();
+    if (error || !data) {
+      container.innerHTML = '<p style="color:var(--red);text-align:center;">Failed to load policy. Please check back later.</p>';
+      return;
+    }
+    container.innerHTML = data.content;
+  });
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

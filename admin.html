@@ -89,6 +89,7 @@
         <li><button class="admin-nav-btn active" onclick="showTab('overview',this)"><i class="fa fa-chart-pie" style="width:18px;"></i> Overview</button></li>
         <li><button class="admin-nav-btn" onclick="showTab('products',this)"><i class="fa fa-boxes-stacked" style="width:18px;"></i> Products</button></li>
         <li><button class="admin-nav-btn" onclick="showTab('orders',this)"><i class="fa fa-clipboard-list" style="width:18px;"></i> Orders</button></li>
+        <li><button class="admin-nav-btn" onclick="showTab('policies',this)"><i class="fa fa-file-contract" style="width:18px;"></i> Site Policies</button></li>
         <li style="margin-top: 1rem;"><button class="admin-nav-btn" onclick="adminLogout()" style="color:var(--red);"><i class="fa fa-sign-out-alt" style="width:18px;"></i> Secure Logout</button></li>
       </ul>
       <div style="position:absolute;bottom:2rem;left:1rem;right:1rem;">
@@ -215,6 +216,28 @@
       <div class="tab-content" id="tab-orders">
         <h2 style="margin-bottom:1.75rem;">Order Management</h2>
         <div class="glass-card" style="overflow:hidden;" id="orders-table"></div>
+      </div>
+
+      <!-- POLICIES -->
+      <div class="tab-content" id="tab-policies">
+        <h2 style="margin-bottom:1.75rem;">Site Policies</h2>
+        <div class="glass-card product-form" style="max-width:900px;">
+          <div class="form-group">
+            <label>Select Policy to Edit</label>
+            <select id="policy-selector" onchange="loadPolicyContent()">
+              <option value="shipping-policy">Shipping Policy</option>
+              <option value="privacy-policy">Privacy Policy</option>
+            </select>
+          </div>
+          <div class="form-group form-full">
+            <label style="display:flex; justify-content:space-between;">
+              <span>Policy Content (HTML)</span>
+              <span id="policy-save-msg" style="color:var(--green); font-size:0.85rem; display:none;"><i class="fa fa-check"></i> Saved successfully</span>
+            </label>
+            <textarea id="policy-content" rows="18" placeholder="Loading content..." style="font-family:monospace; line-height:1.5; font-size: 0.9rem;"></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="savePolicyContent()"><i class="fa fa-save"></i> Save Policy</button>
+        </div>
       </div>
     </main>
   </div>
@@ -596,6 +619,47 @@
     loadOrders();
     showToast('Order deleted successfully!', 'success');
   }
+  }
+
+  async function loadPolicyContent() {
+    const id = document.getElementById('policy-selector').value;
+    const textarea = document.getElementById('policy-content');
+    textarea.value = "Loading...";
+    textarea.disabled = true;
+
+    const { data, error } = await supabase.from('site_content').select('content').eq('id', id).single();
+    
+    textarea.disabled = false;
+    if (error || !data) {
+      textarea.value = "Error loading content: " + (error?.message || 'Not found');
+      return;
+    }
+    textarea.value = data.content;
+  }
+
+  async function savePolicyContent() {
+    const id = document.getElementById('policy-selector').value;
+    const content = document.getElementById('policy-content').value;
+    const msg = document.getElementById('policy-save-msg');
+
+    const { error } = await supabase.from('site_content').update({ content }).eq('id', id);
+    if (error) {
+      showToast('Error saving policy: ' + error.message, 'error');
+    } else {
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
+      showToast('Policy updated successfully!', 'success');
+    }
+  }
+
+  // Load initial policy when admin loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Only load if we are in admin session
+    const session = sessionStorage.getItem('pokevault_admin');
+    if (session) {
+      loadPolicyContent();
+    }
+  });
 </script>
 
 <script src="js/translate.js"></script>
