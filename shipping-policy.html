@@ -1,13 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Order â€” Pokepluse</title>
-  <meta name="description" content="Track your Pokepluse order status securely."/>
+  <title>Shipping Policy &mdash; Pokepluse</title>
+  <meta name="description" content="Shipping Policy for Pokepluse."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
+  <style>
+    .policy-content h2 { color: var(--blue); margin-top: 2.5rem; margin-bottom: 1rem; font-size: 1.5rem; }
+    .policy-content p { margin-bottom: 1rem; color: var(--text-secondary); }
+    .policy-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-secondary); }
+    .policy-content li { margin-bottom: 0.5rem; }
+    .policy-content blockquote { padding: 1rem; background: var(--bg); border-left: 4px solid var(--gold); margin: 1.5rem 0; font-style: italic; color: var(--text-muted); }
+  </style>
 </head>
 <body>
 
@@ -38,7 +45,7 @@
       </div>
     </li>
     <li><a href="catalog.html">All Products</a></li>
-    <li><a href="track.html" class="active">Track Order</a></li>
+    <li><a href="track.html">Track Order</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
@@ -70,31 +77,82 @@
 </nav>
 
 <div class="container" style="padding-top: 120px; padding-bottom: 80px; min-height: 80vh;">
-  <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Track Your Order</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem;">Enter your Order ID and Email Address to see the current status of your order.</p>
-
-    <div class="glass-card" style="padding: 2.5rem; text-align: left; margin-bottom: 2rem;">
-      <div class="form-group">
-        <label for="track-id">Tracking ID (Order ID)</label>
-        <input type="text" id="track-id" placeholder="e.g. 550e8400-e29b-..." style="padding: 14px; font-family: monospace;">
-      </div>
-      <div class="form-group" style="margin-top: 1.5rem;">
-        <label for="track-email">Email Address</label>
-        <input type="email" id="track-email" placeholder="your@email.com" style="padding: 14px;">
-      </div>
-      <button class="btn btn-gold" style="width: 100%; justify-content: center; font-size: 1rem; margin-top: 1.5rem; padding: 16px;" id="track-btn" onclick="trackOrder()">
-        <i class="fa fa-search"></i> Track Order
-      </button>
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <img src="logo.jpeg" alt="Pokepluse Logo" style="height: 80px; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+      <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Shipping Policy</h1>
+      <p style="color: var(--text-secondary); font-size: 1.1rem;">Last Updated: May 2026</p>
     </div>
 
-    <div id="track-result" style="text-align: left; display: none;"></div>
+    <div class="glass-card policy-content" style="padding: 3rem; line-height: 1.8;">
+      <p>Thank you for shopping with Pokepluse. We are committed to delivering your orders quickly, securely, and efficiently across the USA, the EU, and other European countries.</p>
+      <p>Please review our shipping policy below to understand how and when you will receive your order.</p>
+
+      <h2>Shipping Locations</h2>
+      <p>We currently ship worldwide like the following regions:</p>
+      <ul>
+        <li><strong>United States (USA)</strong> &ndash; All 50 states</li>
+        <li><strong>European Union (EU)</strong> &ndash; All member countries</li>
+        <li><strong>Other European Countries</strong> &ndash; Including but not limited to the UK, Norway, Switzerland, and Iceland</li>
+      </ul>
+      <p>If your country is not listed at checkout, please contact us at <a href="mailto:contact@pokepluse.com" style="color: var(--blue);">contact@pokepluse.com</a> for assistance.</p>
+
+      <h2>Processing Time</h2>
+      <ul>
+        <li>Orders are typically processed within 1&ndash;2 business days.</li>
+        <li>Orders placed on weekends or holidays will be processed the next business day.</li>
+        <li>You will receive a confirmation email with tracking information once your order is shipped.</li>
+      </ul>
+
+      <h2>Shipping Methods & Delivery Timeframes</h2>
+      <p><strong>📦 United States</strong></p>
+      <ul>
+        <li>Standard Shipping: 3&ndash;5 business days</li>
+        <li>Express Shipping: 1&ndash;3 business days</li>
+        <li><small><em>(Carrier: USPS, UPS, FedEx, etc. depending on your location)</em></small></li>
+      </ul>
+
+      <p><strong>🇪🇺 European Union & Other European Countries</strong></p>
+      <ul>
+        <li>Standard International Shipping: 4&ndash;8 business days</li>
+        <li>Express International Shipping: 2&ndash;5 business days</li>
+        <li><small><em>(Carrier: DHL, UPS, or local postal partners)</em></small></li>
+      </ul>
+      <blockquote><strong>Note:</strong> Delivery times are estimates and may vary due to customs clearance, local delivery conditions, or unforeseen delays.</blockquote>
+
+      <h2>Shipping Rates</h2>
+      <ul>
+        <li>Shipping costs are calculated at checkout based on your location, order weight, and shipping method selected.</li>
+        <li>Free Shipping may be available on qualifying orders (e.g., over $2000 USD) &mdash; check our current promotions or banner notices on the homepage.</li>
+      </ul>
+
+      <h2>Tracking Your Order</h2>
+      <p>Once your order ships, you will receive an email with a tracking number and link. You can track your order status anytime.</p>
+
+      <h2>Shipping Restrictions</h2>
+      <ul>
+        <li>All shipments require age verification to ensure compliance with local laws.</li>
+        <li>Some products may be restricted from international shipping due to carrier or customs regulations.</li>
+        <li>If an item cannot be shipped to your destination, we will contact you and provide a full refund.</li>
+      </ul>
+
+      <h2>Lost, Delayed, or Damaged Packages</h2>
+      <p>If your package is:</p>
+      <ul>
+        <li><strong>Delayed:</strong> Please allow up to 7 extra business days during peak seasons.</li>
+        <li><strong>Lost:</strong> Contact us at <a href="mailto:contact@pokepluse.com" style="color: var(--blue);">contact@pokepluse.com</a> if your tracking hasn't updated in 7+ days.</li>
+        <li><strong>Damaged:</strong> Send photos of the damaged item and packaging within 48 hours of delivery. We'll work with you to resolve the issue quickly.</li>
+      </ul>
+
+      <h2>Contact Us</h2>
+      <p>For any shipping-related questions, please contact our support team:</p>
+      <ul>
+        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@pokepluse.com" style="color: var(--blue);">contact@pokepluse.com</a></li>
+        <li><i class="fa fa-globe"></i> Website: <a href="https://pokepluse.com" style="color: var(--blue);">https://pokepluse.com</a></li>
+      </ul>
+    </div>
   </div>
 </div>
-
-<div id="toast"></div>
-
-<!-- Supabase & Scripts -->
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -138,106 +196,12 @@
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
 <script>
-  // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
   if (mobileMenuBtn && navLinks) {
     mobileMenuBtn.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
-  }
-
-  async function trackOrder() {
-    const orderId = document.getElementById('track-id').value.trim();
-    const email = document.getElementById('track-email').value.trim();
-    const btn = document.getElementById('track-btn');
-    const resultDiv = document.getElementById('track-result');
-
-    if (!orderId || !email) {
-      showToast('âŒ Please enter both Tracking ID and Email.', 'error');
-      return;
-    }
-
-    // Basic UUID format check (optional but good for UX)
-    if (orderId.length < 10) {
-      showToast('âŒ Invalid Tracking ID format.', 'error');
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Searching...';
-    resultDiv.style.display = 'none';
-
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .eq('user_email', email)
-        .single();
-
-      if (error || !data) {
-        showToast('âŒ Order not found. Check your ID and Email.', 'error');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
-        return;
-      }
-
-      // Render Order Details
-      const date = new Date(data.created_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-      const statusClassMap = {
-        'pending': 'status-pending',
-        'confirmed': 'status-confirmed',
-        'payment done': 'status-payment-done',
-        'shipping now': 'status-shipping-now',
-        'cancelled': 'status-cancelled'
-      };
-      const statusClass = statusClassMap[data.status?.toLowerCase()] || 'status-pending';
-
-      let itemsHtml = '';
-      if (data.items && data.items.length) {
-        itemsHtml = '<ul style="margin: 1rem 0; padding-left: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;">';
-        data.items.forEach(item => {
-          itemsHtml += `<li><strong>${item.qty}x</strong> ${item.name} - $${Number(item.price).toFixed(2)}</li>`;
-        });
-        itemsHtml += '</ul>';
-      }
-
-      resultDiv.innerHTML = `
-        <div class="glass-card" style="padding: 2rem;">
-          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">Order Details</h2>
-          
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-            <div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Status</div>
-              <div class="status-badge ${statusClass}" style="margin-top: 0.5rem; font-size: 1rem; padding: 6px 16px;">${data.status.toUpperCase()}</div>
-            </div>
-            <div style="text-align: right;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Date</div>
-              <div style="margin-top: 0.5rem; font-weight: 600;">${date}</div>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 1.5rem;">
-            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Items</div>
-            ${itemsHtml}
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid var(--border-glass);">
-            <span style="font-size: 1.1rem; font-weight: 600;">Total</span>
-            <span style="font-size: 1.5rem; font-weight: 800; color: var(--gold);">$${Number(data.total_price).toFixed(2)}</span>
-          </div>
-        </div>
-      `;
-      
-      resultDiv.style.display = 'block';
-
-    } catch (e) {
-      showToast('âŒ System error. Please try again later.', 'error');
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
   }
 </script>
 <script src="js/translate.js"></script>
@@ -256,4 +220,3 @@ window.smartsupp||(function(d) {
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
-
