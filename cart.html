@@ -287,6 +287,7 @@
             <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
           </div>
         </div>
+        <p id="min-order-notice" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 0.75rem; display: none; text-align: center; font-weight: 500;"><i class="fa fa-exclamation-circle"></i> Minimum order amount is $120.</p>
         <button class="btn btn-gold" style="width:100%;justify-content:center;font-size:1rem;" id="place-order-btn" onclick="submitOrder()">
           <i class="fa fa-paper-plane"></i> Place Order
         </button>
@@ -381,6 +382,20 @@
         <span>$${((i.qty||1)*i.price).toFixed(2)}</span>
       </div>`).join('');
     totalEl.textContent = `$${total.toFixed(2)}`;
+
+    const minOrderNotice = document.getElementById('min-order-notice');
+    const placeOrderBtn = document.getElementById('place-order-btn');
+    if (minOrderNotice && placeOrderBtn) {
+      if (total > 0 && total < 120) {
+        minOrderNotice.style.display = 'block';
+        placeOrderBtn.style.opacity = '0.5';
+        placeOrderBtn.style.pointerEvents = 'none';
+      } else {
+        minOrderNotice.style.display = 'none';
+        placeOrderBtn.style.opacity = '1';
+        placeOrderBtn.style.pointerEvents = 'auto';
+      }
+    }
   }
 
   function changeQty(id, delta) {
@@ -393,7 +408,14 @@
   }
   async function submitOrder() {
     const cart = getCart();
-    if (!cart.length) { showToast('âŒ Your cart is empty!','error'); return; }
+    if (!cart.length) { showToast('â Œ Your cart is empty!','error'); return; }
+    
+    const total = cart.reduce((s,i)=>s+((i.qty||1)*i.price),0);
+    if (total < 120) {
+      showToast('\u274C Minimum order amount is $120. Please add more items.', 'error');
+      return;
+    }
+
     const name = document.getElementById('inq-name').value.trim();
     const email = document.getElementById('inq-email').value.trim();
     const payment = document.getElementById('inq-payment').value;
@@ -431,8 +453,6 @@
 
     const btn = document.getElementById('place-order-btn');
     btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
-
-    const total = cart.reduce((s,i)=>s+((i.qty||1)*i.price),0);
 
     // Save to Supabase
     const { data, error } = await supabase.from('orders').insert({
