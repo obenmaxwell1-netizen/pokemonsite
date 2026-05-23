@@ -652,7 +652,7 @@
           </div>
           <div class="cp-sum-row">
             <span>Shipping</span>
-            <span style="color:#10b981;font-weight:700;">Free</span>
+            <span id="summary-shipping" style="color:#6b7280;font-weight:600;">—</span>
           </div>
           <div class="cp-sum-divider"></div>
           <div class="cp-sum-total">
@@ -918,6 +918,20 @@
 
     if (subtotEl) subtotEl.textContent = `$${total.toFixed(2)}`;
     totalEl.textContent = `$${total.toFixed(2)}`;
+
+    // Shipping: free only for orders $2,000+
+    const shipEl = document.getElementById('summary-shipping');
+    if (shipEl) {
+      if (total >= 2000) {
+        shipEl.textContent = 'Free';
+        shipEl.style.color = '#10b981';
+        shipEl.style.fontWeight = '700';
+      } else {
+        shipEl.textContent = 'Calculated at checkout';
+        shipEl.style.color = '#6b7280';
+        shipEl.style.fontWeight = '600';
+      }
+    }
 
     const notice = document.getElementById('min-order-notice');
     const btn    = document.getElementById('place-order-btn');
