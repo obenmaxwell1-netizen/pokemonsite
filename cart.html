@@ -3,229 +3,565 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart &amp; Checkout &ndash; Pokepluse</title>
+  <title>Cart &amp; Checkout – Pokepluse</title>
+  <meta name="description" content="Review your cart and place your order at Pokepluse — premier international Pokémon TCG cards."/>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* ── Cart Page Layout ── */
-    .cart-page {
-      display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 2rem;
-      align-items: start;
-      padding: 7rem 2.5rem 5rem;
-      max-width: 1160px;
+    /* ─── Base reset for cart page ─── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* ─── Page background ─── */
+    body { background: #f4f6f9; }
+
+    /* ─── Page wrapper ─── */
+    .cp-wrap {
+      max-width: 1180px;
       margin: 0 auto;
+      padding: 100px 24px 60px;
     }
 
-    /* ── Cart Panel ── */
-    .cart-panel {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-    }
-    .cart-panel-header {
-      padding: 1.25rem 1.75rem;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 1rem;
-      font-weight: 700;
+    /* ─── Breadcrumb ─── */
+    .cp-breadcrumb {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: #fafafa;
+      gap: 8px;
+      margin-bottom: 6px;
     }
-    .cart-items-list { padding: 0.25rem 0; }
+    .cp-breadcrumb span {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9ca3af;
+    }
+    .cp-breadcrumb span.active { color: #D4AF37; }
+    .cp-breadcrumb i { color: #d1d5db; font-size: 10px; }
+    .cp-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin: 0 0 28px;
+    }
 
-    /* ── Qty Controls ── */
-    .qty-control { display: flex; align-items: center; gap: 0.5rem; }
-    .qty-btn {
-      width: 30px; height: 30px;
+    /* ─── Two-column grid ─── */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ─── Card base ─── */
+    .cp-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #e8ecf0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    /* ─── Card header ─── */
+    .cp-card-head {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafbfc;
+    }
+    .cp-card-head-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-card-head-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #D4AF37, #b8860b);
       border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: 14px;
+    }
+    .cp-card-head-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .cp-card-head-sub {
+      font-size: 12px;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+    .cp-clear-btn {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .cp-clear-btn:hover { color: #ef4444; background: #fef2f2; }
+
+    /* ─── Shipping banner ─── */
+    .cp-shipping-bar {
+      padding: 11px 24px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.07), rgba(212,175,55,0.03));
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    .cp-shipping-bar i { color: #D4AF37; }
+    .cp-shipping-bar strong { color: #D4AF37; }
+
+    /* ─── Cart items list ─── */
+    #cart-items-list { padding: 8px 0; }
+
+    /* Cart item — injected by JS but styled here */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f8fafc;
+      transition: background 0.15s;
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item:hover { background: #fafbfc; }
+    .cart-item img {
+      width: 68px; height: 68px;
+      object-fit: cover;
+      border-radius: 10px;
       border: 1px solid #e5e7eb;
+      flex-shrink: 0;
+      background: #f8fafc;
+    }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-info .price {
+      font-size: 15px;
+      font-weight: 800;
+      color: #D4AF37;
+      margin-bottom: 8px;
+    }
+
+    /* Qty controls */
+    .qty-control { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      border: 1.5px solid #e5e7eb;
       background: #f9fafb;
       color: #374151;
       cursor: pointer;
-      font-size: 0.75rem;
+      font-size: 11px;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+      transition: all 0.18s;
+      flex-shrink: 0;
     }
     .qty-btn:hover { background: #D4AF37; border-color: #D4AF37; color: #fff; }
-    .qty-num { font-weight: 700; min-width: 22px; text-align: center; font-size: 0.95rem; }
-
-    /* ── Order Summary ── */
-    .order-summary {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 0;
-      position: sticky;
-      top: 90px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-    .summary-header {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      padding: 1.25rem 1.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .summary-header h3 {
-      color: #fff;
-      font-size: 1rem;
+    .qty-num {
+      font-size: 14px;
       font-weight: 700;
-      margin: 0;
+      color: #0f172a;
+      min-width: 24px;
+      text-align: center;
     }
-    .summary-header i { color: #D4AF37; }
-    .summary-body { padding: 1.5rem 1.75rem; }
-    .summary-row {
+    .cart-remove {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1.5px solid #fee2e2;
+      background: #fff5f5;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s;
+      flex-shrink: 0;
+    }
+    .cart-remove:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+    /* Empty state */
+    .empty-cart {
+      text-align: center;
+      padding: 56px 32px;
+    }
+    .empty-cart-icon {
+      width: 80px; height: 80px;
+      background: #f1f5f9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .empty-cart-icon i { font-size: 28px; color: #cbd5e1; }
+    .empty-cart h3 { font-size: 18px; font-weight: 800; color: #0f172a; margin: 0 0 8px; }
+    .empty-cart p { font-size: 14px; color: #9ca3af; margin: 0 0 24px; }
+    .empty-cart a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+      transition: all 0.2s;
+    }
+    .empty-cart a:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+
+    /* ─── ORDER SUMMARY COLUMN ─── */
+    .cp-summary-col { position: sticky; top: 90px; }
+
+    /* Summary totals */
+    .cp-summary-head {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .cp-summary-head i { color: #D4AF37; font-size: 16px; }
+    .cp-summary-head h3 { color: #fff; font-size: 15px; font-weight: 700; margin: 0; }
+
+    .cp-summary-body { padding: 20px 24px; }
+
+    .cp-sum-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.45rem 0;
-      font-size: 0.88rem;
+      padding: 5px 0;
+      font-size: 13px;
       color: #6b7280;
     }
-    .summary-row.total {
-      border-top: 2px solid #f1f5f9;
-      padding-top: 1rem;
-      margin-top: 0.75rem;
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: #0f172a;
+    .cp-sum-row span:last-child { font-weight: 600; color: #374151; }
+    .cp-sum-divider { height: 1px; background: #f1f5f9; margin: 12px 0; }
+    .cp-sum-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .summary-row.total span:last-child { color: #D4AF37; font-size: 1.3rem; }
+    .cp-sum-total .label { font-size: 15px; font-weight: 700; color: #0f172a; }
+    .cp-sum-total .amount { font-size: 26px; font-weight: 900; color: #D4AF37; }
 
-    /* ── Empty Cart ── */
-    .empty-cart { text-align: center; padding: 4rem 2rem; }
+    /* ─── CHECKOUT FORM ─── */
+    .cp-form-wrap { padding: 0 24px 8px; }
 
-    /* ── Payment Card Grid ── */
-    .pay-grid {
+    .cp-section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 20px 0 12px;
+    }
+    .cp-section-label i { color: #D4AF37; font-size: 12px; }
+    .cp-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #f1f5f9;
+    }
+
+    /* Form fields */
+    .cp-field { margin-bottom: 10px; }
+    .cp-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+    .cp-field input,
+    .cp-field select,
+    .cp-field textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: #f9fafb;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 9px;
+      color: #111827;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      transition: all 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .cp-field input:focus,
+    .cp-field select:focus,
+    .cp-field textarea:focus {
+      border-color: #D4AF37;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+    }
+    .cp-field input::placeholder,
+    .cp-field textarea::placeholder { color: #c4c9d4; }
+    .cp-field textarea { resize: vertical; min-height: 72px; }
+    .cp-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    /* Email info banner */
+    .cp-email-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.04));
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 9px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .cp-email-banner i { color: #D4AF37; flex-shrink: 0; }
+
+    /* Payment grid */
+    .cp-pay-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.55rem;
-      margin-top: 0.6rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
     .pay-card {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 0.7rem 0.9rem;
+      gap: 10px;
+      padding: 10px 12px;
       border: 1.5px solid #e5e7eb;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+      transition: all 0.2s;
       background: #fff;
       user-select: none;
-      min-height: 56px;
+      min-height: 54px;
     }
     .pay-card:hover {
       border-color: #D4AF37;
       background: #fffbf0;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(212,175,55,0.18);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(212,175,55,0.15);
     }
     .pay-card.selected {
       border-color: #D4AF37;
-      background: linear-gradient(135deg, #fffbf0, #fff9e6);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.2), 0 4px 14px rgba(212,175,55,0.12);
+      background: linear-gradient(135deg, #fffbf0, #fff8e1);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
     }
     .pay-card.selected .pay-name { color: #92670a; font-weight: 700; }
+    .pay-card.selected::after {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: #D4AF37;
+      font-size: 14px;
+      margin-left: auto;
+    }
     .pay-logo {
-      width: 44px; height: 32px;
+      width: 40px; height: 30px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       background: #fff;
       border: 1px solid #e8e8e8;
       border-radius: 6px;
       padding: 3px;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
     }
-    .pay-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .pay-logo svg { width: 100%; height: 100%; }
-    .pay-name {
-      font-size: 0.8rem;
+    .pay-logo img, .pay-logo svg { width: 100%; height: 100%; object-fit: contain; }
+    .pay-name { font-size: 12px; font-weight: 600; color: #374151; }
+
+    .cp-pay-error {
+      display: none;
+      color: #ef4444;
+      font-size: 12px;
       font-weight: 600;
-      color: #374151;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-    .pay-card.selected::after {
-      content: '\f058';
-      font-family: 'Font Awesome 6 Free'; font-weight: 900;
-      font-size: 0.85rem; color: #D4AF37;
-      margin-left: auto;
+      margin-top: 6px;
     }
 
-    /* ── Form Fields ── */
-    .checkout-form .form-group { margin-bottom: 1.1rem; }
-    .checkout-form .form-group label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #374151;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.45rem;
-      display: block;
-    }
-    .checkout-form input,
-    .checkout-form select,
-    .checkout-form textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: #f9fafb;
-      border: 1.5px solid #e5e7eb;
+    /* Address fields */
+    .cp-addr-fields { display: flex; flex-direction: column; gap: 8px; }
+
+    /* Min order notice */
+    .cp-min-notice {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
       border-radius: 8px;
-      color: #111827;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.92rem;
-      transition: all 0.2s;
-      outline: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ef4444;
+      margin: 10px 0;
     }
-    .checkout-form input:focus,
-    .checkout-form select:focus,
-    .checkout-form textarea:focus {
-      border-color: #D4AF37;
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
-    }
-    .checkout-form textarea { resize: vertical; min-height: 80px; }
 
-    /* ── Section divider inside form ── */
-    .form-section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin: 1.5rem 0 0.75rem;
+    /* Place order button area */
+    .cp-place-order-wrap {
+      padding: 16px 24px 20px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .cp-place-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #D4AF37 0%, #c9a227 50%, #b8860b 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 18px rgba(212,175,55,0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cp-place-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(212,175,55,0.45);
+    }
+    .cp-place-btn:active { transform: translateY(0); }
+    .cp-trust-note {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 10px;
     }
-    .form-section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #e5e7eb;
-    }
+    .cp-trust-note i { color: #D4AF37; }
 
-    /* ── Place Order Button ── */
-    .place-order-btn-wrap { padding: 1.25rem 1.75rem; border-top: 1px solid #f1f5f9; background: #fafafa; }
-
-    @media (max-width: 768px) {
-      .cart-page { grid-template-columns: 1fr; padding: 5.5rem 1rem 3rem; }
-      .order-summary { position: static; }
+    /* ─── Success screen ─── */
+    .cp-success {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 24px;
+      max-width: 560px;
+      margin: 0 auto;
     }
-    @media (max-width: 480px) { .pay-grid { grid-template-columns: repeat(2, 1fr); } }
+    .cp-success-icon {
+      width: 88px; height: 88px;
+      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 30px rgba(212,175,55,0.4);
+    }
+    .cp-success-icon i { font-size: 36px; color: #fff; }
+    .cp-success h2 { font-size: 28px; font-weight: 900; color: #0f172a; margin: 0 0 12px; }
+    .cp-success p { font-size: 15px; color: #6b7280; margin: 0 0 28px; line-height: 1.6; }
+    .cp-tracking-box {
+      background: #fffbeb;
+      border: 1.5px dashed #fbbf24;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .cp-tracking-box .label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #d97706;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+    .cp-tracking-box .id {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #92400e;
+      word-break: break-all;
+      margin-bottom: 12px;
+    }
+    .cp-copy-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px;
+      background: #fff;
+      border: 1.5px solid #fbbf24;
+      border-radius: 7px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #d97706;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-copy-btn:hover { background: #fbbf24; color: #fff; }
+    .cp-success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cp-btn-gold {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      color: #fff; text-decoration: none;
+      border-radius: 10px; font-weight: 700; font-size: 14px;
+      box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+      transition: all 0.2s;
+    }
+    .cp-btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+    .cp-btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: #fff; color: #374151;
+      text-decoration: none; border-radius: 10px;
+      border: 1.5px solid #e5e7eb; font-weight: 600; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .cp-btn-outline:hover { border-color: #D4AF37; color: #92670a; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 860px) {
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-summary-col { position: static; }
+    }
+    @media (max-width: 540px) {
+      .cp-wrap { padding: 90px 14px 40px; }
+      .cp-title { font-size: 22px; }
+      .cp-pay-grid { grid-template-columns: 1fr 1fr; }
+      .cart-item { padding: 14px 16px; gap: 12px; }
+      .cart-item img { width: 56px; height: 56px; }
+      .cp-card-head, .cp-summary-body, .cp-form-wrap, .cp-place-order-wrap { padding-left: 16px; padding-right: 16px; }
+      .cp-shipping-bar { padding-left: 16px; }
+    }
   </style>
-  <link rel="icon" type="image/jpeg" href="logo.jpeg">
 </head>
 <body>
+
+<!-- ── NAVBAR ── -->
 <nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img">
+    <span class="premium-logo-text">Pokepluse</span>
+  </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="catalog.html">Shop</a></li>
@@ -239,14 +575,14 @@
       </button>
       <div class="lang-dropdown">
         <a href="#" data-lang="en"><span class="lang-flag">GB</span> English</a>
-        <a href="#" data-lang="fr"><span class="lang-flag">FR</span> Fran&ccedil;ais</a>
-        <a href="#" data-lang="es"><span class="lang-flag">ES</span> Espa&ntilde;ol</a>
+        <a href="#" data-lang="fr"><span class="lang-flag">FR</span> Français</a>
+        <a href="#" data-lang="es"><span class="lang-flag">ES</span> Español</a>
         <a href="#" data-lang="de"><span class="lang-flag">DE</span> Deutsch</a>
-        <a href="#" data-lang="ja"><span class="lang-flag">JP</span> &#26085;&#26412;&#35486;</a>
-        <a href="#" data-lang="zh-CN"><span class="lang-flag">CN</span> &#20013;&#25991;</a>
-        <a href="#" data-lang="ko"><span class="lang-flag">KR</span> &#54620;&#44397;&#50612;</a>
+        <a href="#" data-lang="ja"><span class="lang-flag">JP</span> 日本語</a>
+        <a href="#" data-lang="zh-CN"><span class="lang-flag">CN</span> 中文</a>
+        <a href="#" data-lang="ko"><span class="lang-flag">KR</span> 한국어</a>
         <a href="#" data-lang="ms"><span class="lang-flag">MY</span> Bahasa Melayu</a>
-        <a href="#" data-lang="vi"><span class="lang-flag">VN</span> Ti&#7871;ng Vi&#7879;t</a>
+        <a href="#" data-lang="vi"><span class="lang-flag">VN</span> Tiếng Việt</a>
       </div>
     </div>
     <a href="cart.html" class="cart-icon" style="color:var(--blue);">
@@ -259,76 +595,98 @@
   </div>
 </nav>
 
-  <!-- Page title strip -->
-  <div style="padding: 5.5rem 2.5rem 0; max-width: 1160px; margin: 0 auto;">
-    <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.25rem;">
-      <span style="font-size:0.75rem;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Shopping</span>
-      <span style="color:#d1d5db;font-size:0.75rem;">›</span>
-      <span style="font-size:0.75rem;color:#D4AF37;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;">Cart &amp; Checkout</span>
-    </div>
-    <h1 style="font-size:1.75rem;font-weight:800;color:#0f172a;letter-spacing:-0.5px;margin:0;">Your Cart</h1>
+<!-- ── MAIN CONTENT ── -->
+<div class="cp-wrap">
+
+  <!-- Breadcrumb + title -->
+  <div class="cp-breadcrumb">
+    <span>Shopping</span>
+    <i class="fa fa-chevron-right"></i>
+    <span class="active">Cart &amp; Checkout</span>
   </div>
+  <h1 class="cp-title">Your Cart</h1>
 
-  <div class="cart-page">
-  <div>
-    <div class="cart-panel">
-      <div class="cart-panel-header">
-        <span style="display:flex;align-items:center;gap:0.6rem;">
-          <i class="fa fa-shopping-bag" style="color:#D4AF37;"></i>
-          <span>Cart Items</span>
-          <span id="cart-count-badge" style="background:#f1f5f9;color:#6b7280;font-size:0.72rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:20px;"></span>
-        </span>
-        <button onclick="clearCart();renderCart();" style="background:none;border:none;color:#9ca3af;cursor:pointer;font-size:0.8rem;font-weight:600;font-family:'Outfit',sans-serif;transition:color 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#9ca3af'">
-          <i class="fa fa-trash" style="margin-right:0.3rem;font-size:0.7rem;"></i>Clear All
-        </button>
-      </div>
-      <div style="padding: 0.85rem 1.75rem; background: linear-gradient(135deg,rgba(212,175,55,0.06),rgba(212,175,55,0.02)); border-bottom: 1px solid #f1f5f9; display:flex; align-items:center; gap:0.6rem;">
-        <i class="fa fa-truck" style="color:#D4AF37;font-size:0.85rem;"></i>
-        <p style="font-size: 0.85rem; color: #6b7280; margin: 0; font-weight: 500;">
-          Free shipping on all orders above <strong style="color: #D4AF37;">$2,000</strong>.
-        </p>
-      </div>
-      <div class="cart-items-list" id="cart-items-list"></div>
-    </div>
-  </div>
+  <!-- Main grid -->
+  <div class="cp-grid" id="cp-grid">
 
-  <div>
-    <div class="order-summary">
-      <div class="summary-header">
-        <i class="fa fa-receipt"></i>
-        <h3>Order Summary</h3>
-      </div>
-      <div class="summary-body">
-      <div id="summary-items"></div>
-      <div class="summary-row total">
-        <span>Total</span>
-        <span id="summary-total">$0.00</span>
-      </div>
-
-      <div style="margin-top:1.25rem;" class="checkout-form">
-        <div class="form-section-label"><i class="fa fa-user" style="color:#D4AF37;"></i> Contact Info</div>
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="inq-name" placeholder="e.g. John Smith"/>
-        </div>
-        <div class="form-group">
-          <label>Email Address *</label>
-          <input type="email" id="inq-email" placeholder="your@email.com"/>
-        </div>
-        <div class="form-section-label"><i class="fa fa-credit-card" style="color:#D4AF37;"></i> Payment Method *</div>
-        <div class="form-group" style="margin-bottom:0.5rem;">
-          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.65rem;padding:0.6rem 0.9rem;background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05));border:1px solid rgba(212,175,55,0.25);border-radius:8px;">
-            <i class="fa fa-envelope" style="color:#D4AF37;font-size:0.85rem;"></i>
-            <span style="font-size:0.8rem;color:#6b7280;font-weight:500;">Invoice &amp; payment details will be sent to your email</span>
+    <!-- ── LEFT: Cart items ── -->
+    <div>
+      <div class="cp-card">
+        <div class="cp-card-head">
+          <div class="cp-card-head-left">
+            <div class="cp-card-head-icon"><i class="fa fa-shopping-bag"></i></div>
+            <div>
+              <div class="cp-card-head-title">Cart Items</div>
+              <div class="cp-card-head-sub" id="cart-count-badge">—</div>
+            </div>
           </div>
-          <!-- Hidden input used by JS -->
+          <button class="cp-clear-btn" onclick="clearCart();renderCart();">
+            <i class="fa fa-trash"></i> Clear All
+          </button>
+        </div>
+        <div class="cp-shipping-bar">
+          <i class="fa fa-truck"></i>
+          Free shipping on all orders above <strong>&nbsp;$2,000</strong>
+        </div>
+        <div id="cart-items-list"></div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT: Order summary + checkout form ── -->
+    <div class="cp-summary-col">
+      <div class="cp-card">
+
+        <!-- Dark header -->
+        <div class="cp-summary-head">
+          <i class="fa fa-receipt"></i>
+          <h3>Order Summary</h3>
+        </div>
+
+        <!-- Items summary -->
+        <div class="cp-summary-body">
+          <div id="summary-items"></div>
+          <div class="cp-sum-divider"></div>
+          <div class="cp-sum-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+          <div class="cp-sum-row">
+            <span>Shipping</span>
+            <span style="color:#10b981;font-weight:700;">Free</span>
+          </div>
+          <div class="cp-sum-divider"></div>
+          <div class="cp-sum-total">
+            <span class="label">Total</span>
+            <span class="amount" id="summary-total">$0.00</span>
+          </div>
+        </div>
+
+        <!-- Checkout form -->
+        <div class="cp-form-wrap">
+
+          <!-- Contact info -->
+          <div class="cp-section-label"><i class="fa fa-user"></i> Contact Info</div>
+          <div class="cp-field">
+            <label>Full Name *</label>
+            <input type="text" id="inq-name" placeholder="e.g. John Smith" autocomplete="name"/>
+          </div>
+          <div class="cp-field">
+            <label>Email Address *</label>
+            <input type="email" id="inq-email" placeholder="your@email.com" autocomplete="email"/>
+          </div>
+
+          <!-- Payment method -->
+          <div class="cp-section-label"><i class="fa fa-wallet"></i> Payment Method *</div>
+          <div class="cp-email-banner">
+            <i class="fa fa-envelope"></i>
+            Invoice &amp; payment instructions will be sent to your email after placing the order.
+          </div>
           <input type="hidden" id="inq-payment" value=""/>
-          <!-- Custom payment logo picker -->
-          <div class="pay-grid" id="pay-grid">
+          <div class="cp-pay-grid" id="pay-grid">
 
             <div class="pay-card" data-value="Bank Transfer" onclick="selectPay(this)">
               <div class="pay-logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="24" height="24" rx="5" fill="#1a56db"/>
                   <path d="M4 10h16M4 14h16M12 4l8 6H4l8-6z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   <rect x="5" y="14" width="2" height="4" fill="#fff"/>
@@ -342,37 +700,37 @@
 
             <div class="pay-card" data-value="Zelle" onclick="selectPay(this)">
               <div class="pay-logo">
-                <img src="Zelle Logo.jpeg" alt="Zelle" onerror="this.parentElement.innerHTML='<svg width=\'36\' height=\'36\' viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%236D1ED4\'/><text x=\'24\' y=\'33\' text-anchor=\'middle\' font-family=\'Arial Black,Arial\' font-weight=\'900\' font-size=\'24\' fill=\'%23fff\'>Z</text></svg>'">
+                <img src="Zelle Logo.jpeg" alt="Zelle" onerror="this.parentElement.innerHTML='<svg viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%236D1ED4\'/><text x=\'24\' y=\'33\' text-anchor=\'middle\' font-family=\'Arial Black\' font-weight=\'900\' font-size=\'24\' fill=\'%23fff\'>Z</text></svg>'">
               </div>
               <span class="pay-name">Zelle</span>
             </div>
 
             <div class="pay-card" data-value="Wise" onclick="selectPay(this)">
               <div class="pay-logo">
-                <img src="Wise Logo.jpeg" alt="Wise" onerror="this.parentElement.innerHTML='<svg width=\'36\' height=\'36\' viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%239FE870\'/><polygon points=\'10,14 22,14 28,34 36,14 44,14 32,38 24,38 18,26 12,38 4,38\' fill=\'%23163300\'/></svg>'">
+                <img src="Wise Logo.jpeg" alt="Wise" onerror="this.parentElement.innerHTML='<svg viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%239FE870\'/><polygon points=\'10,14 22,14 28,34 36,14 44,14 32,38 24,38 18,26 12,38 4,38\' fill=\'%23163300\'/></svg>'">
               </div>
               <span class="pay-name">Wise</span>
             </div>
 
             <div class="pay-card" data-value="Google Pay" onclick="selectPay(this)">
               <div class="pay-logo">
-                <img src="Google pay logo.jpeg" alt="Google Pay" onerror="this.parentElement.innerHTML='<svg width=\'36\' height=\'36\' viewBox=\'0 0 80 32\' xmlns=\'http://www.w3.org/2000/svg\'><text y=\'24\' font-family=\'Arial\' font-size=\'22\' font-weight=\'bold\'><tspan fill=\'%234285F4\'>G</tspan><tspan fill=\'%2334A853\'>o</tspan><tspan fill=\'%23FBBC05\'>o</tspan><tspan fill=\'%23EA4335\'>g</tspan><tspan fill=\'%234285F4\'>le</tspan></text></svg>'">
+                <img src="Google pay logo.jpeg" alt="Google Pay" onerror="this.parentElement.innerHTML='<svg viewBox=\'0 0 80 32\' xmlns=\'http://www.w3.org/2000/svg\'><text y=\'24\' font-family=\'Arial\' font-size=\'22\' font-weight=\'bold\'><tspan fill=\'%234285F4\'>G</tspan><tspan fill=\'%2334A853\'>o</tspan><tspan fill=\'%23FBBC05\'>o</tspan><tspan fill=\'%23EA4335\'>g</tspan><tspan fill=\'%234285F4\'>le</tspan></text></svg>'">
               </div>
               <span class="pay-name">Google Pay</span>
             </div>
 
             <div class="pay-card" data-value="Chime" onclick="selectPay(this)">
               <div class="pay-logo">
-                <img src="Chime Logo.jpeg" alt="Chime" onerror="this.parentElement.innerHTML='<svg width=\'36\' height=\'36\' viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%2300D4A0\'/><text x=\'24\' y=\'32\' text-anchor=\'middle\' font-family=\'Arial Black\' font-size=\'14\' font-weight=\'900\' fill=\'%23fff\'>CHIME</text></svg>'">
+                <img src="Chime Logo.jpeg" alt="Chime" onerror="this.parentElement.innerHTML='<svg viewBox=\'0 0 48 48\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'48\' height=\'48\' rx=\'10\' fill=\'%2300D4A0\'/><text x=\'24\' y=\'32\' text-anchor=\'middle\' font-family=\'Arial Black\' font-size=\'13\' font-weight=\'900\' fill=\'%23fff\'>CHIME</text></svg>'">
               </div>
               <span class="pay-name">Chime</span>
             </div>
 
             <div class="pay-card" data-value="Apple Pay" onclick="selectPay(this)">
-              <div class="pay-logo" style="background:#000;">
+              <div class="pay-logo" style="background:#000; border-color:#000;">
                 <span style="display:flex;align-items:center;gap:2px;color:#fff;padding:0 2px;">
-                  <i class="fab fa-apple" style="font-size:16px;line-height:1;"></i>
-                  <span style="font-size:9px;font-weight:700;letter-spacing:-0.3px;font-family:-apple-system,Arial,sans-serif;">Pay</span>
+                  <i class="fab fa-apple" style="font-size:15px;"></i>
+                  <span style="font-size:9px;font-weight:700;letter-spacing:-0.3px;">Pay</span>
                 </span>
               </div>
               <span class="pay-name">Apple Pay</span>
@@ -380,7 +738,7 @@
 
             <div class="pay-card" data-value="Crypto (Bitcoin/USDT)" onclick="selectPay(this)">
               <div class="pay-logo">
-                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                   <rect width="48" height="48" rx="10" fill="#F7931A"/>
                   <text x="24" y="34" text-anchor="middle" font-family="Arial Black" font-size="26" font-weight="900" fill="#fff">&#x20BF;</text>
                 </svg>
@@ -389,51 +747,73 @@
             </div>
 
           </div>
-          <div id="pay-error" style="display:none; color:#ef4444; font-size:0.8rem; margin-top:0.4rem;"><i class="fa fa-exclamation-circle"></i> Please select a payment method.</div>
-        </div>
+          <div class="cp-pay-error" id="pay-error"><i class="fa fa-exclamation-circle"></i> Please select a payment method.</div>
 
-        <div class="form-section-label" style="margin-top:1rem;"><i class="fa fa-sticky-note" style="color:#D4AF37;"></i> Additional Notes</div>
-        <div class="form-group">
-          <textarea id="inq-notes" rows="3" placeholder="Any special requests or instructions..."></textarea>
-        </div>
+          <!-- Notes -->
+          <div class="cp-section-label" style="margin-top:18px;"><i class="fa fa-comment-dots"></i> Notes (optional)</div>
+          <div class="cp-field">
+            <textarea id="inq-notes" placeholder="Any special requests or instructions..."></textarea>
+          </div>
 
-        <div class="form-section-label" style="margin-top:0.5rem;"><i class="fa fa-map-marker-alt" style="color:#D4AF37;"></i> Shipping Address</div>
-        <div>
-          <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <select id="inq-country" onchange="toggleOtherCountry(this)" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;">
-              <option value="">Country / Region *</option>
-              <option>United States</option><option>United Kingdom</option><option>Canada</option>
-              <option>Australia</option><option>Malaysia</option><option>Singapore</option>
-              <option>Nigeria</option><option>South Africa</option><option>Ghana</option>
-              <option>Kenya</option><option>India</option><option>Japan</option>
-              <option>China</option><option>South Korea</option><option>Vietnam</option>
-              <option>Philippines</option><option>Indonesia</option><option>Thailand</option>
-              <option>Germany</option><option>France</option><option>Spain</option>
-              <option>Italy</option><option>Netherlands</option><option>Brazil</option>
-              <option>Mexico</option><option>United Arab Emirates</option><option>Saudi Arabia</option>
-              <option>New Zealand</option><option>Ireland</option><option>Sweden</option>
-              <option>Norway</option><option>Denmark</option><option>Other</option>
-            </select>
-            <input type="text" id="inq-country-other" placeholder="Please specify your country *" style="display:none;padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
-            <input type="text" id="inq-street" placeholder="Street address *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
-            <input type="text" id="inq-apt" placeholder="Apartment, suite, or unit (optional)" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
-            <input type="text" id="inq-city" placeholder="Town / City *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
-            <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" style="padding:0.65rem 0.9rem;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:8px;color:var(--text-primary);font-family:'Outfit',sans-serif;font-size:0.875rem;outline:none;width:100%;box-sizing:border-box;"/>
+          <!-- Shipping address -->
+          <div class="cp-section-label"><i class="fa fa-map-marker-alt"></i> Shipping Address *</div>
+          <div class="cp-addr-fields">
+            <div class="cp-field" style="margin:0;">
+              <select id="inq-country" onchange="toggleOtherCountry(this)">
+                <option value="">Country / Region *</option>
+                <option>United States</option><option>United Kingdom</option><option>Canada</option>
+                <option>Australia</option><option>Malaysia</option><option>Singapore</option>
+                <option>Nigeria</option><option>South Africa</option><option>Ghana</option>
+                <option>Kenya</option><option>India</option><option>Japan</option>
+                <option>China</option><option>South Korea</option><option>Vietnam</option>
+                <option>Philippines</option><option>Indonesia</option><option>Thailand</option>
+                <option>Germany</option><option>France</option><option>Spain</option>
+                <option>Italy</option><option>Netherlands</option><option>Brazil</option>
+                <option>Mexico</option><option>United Arab Emirates</option><option>Saudi Arabia</option>
+                <option>New Zealand</option><option>Ireland</option><option>Sweden</option>
+                <option>Norway</option><option>Denmark</option><option>Other</option>
+              </select>
+            </div>
+            <div class="cp-field" id="country-other-wrap" style="margin:0;display:none;">
+              <input type="text" id="inq-country-other" placeholder="Please specify your country *"/>
+            </div>
+            <div class="cp-field" style="margin:0;">
+              <input type="text" id="inq-street" placeholder="Street address *" autocomplete="street-address"/>
+            </div>
+            <div class="cp-field" style="margin:0;">
+              <input type="text" id="inq-apt" placeholder="Apartment, suite, or unit (optional)"/>
+            </div>
+            <div class="cp-field" style="margin:0;">
+              <input type="text" id="inq-city" placeholder="City / Town *" autocomplete="address-level2"/>
+            </div>
+            <div class="cp-field" style="margin:0 0 4px;">
+              <input type="text" id="inq-zip" placeholder="ZIP / Postal code *" autocomplete="postal-code"/>
+            </div>
+          </div>
+
+          <!-- Min order notice -->
+          <div class="cp-min-notice" id="min-order-notice">
+            <i class="fa fa-exclamation-circle"></i> Minimum order amount is $120.
+          </div>
+
+        </div><!-- /cp-form-wrap -->
+
+        <!-- Place order button -->
+        <div class="cp-place-order-wrap">
+          <button class="cp-place-btn" id="place-order-btn" onclick="submitOrder()">
+            <i class="fa fa-paper-plane"></i> Place Order
+          </button>
+          <div class="cp-trust-note">
+            <i class="fa fa-shield-alt"></i>
+            Secure &amp; encrypted · Invoice sent to your email
           </div>
         </div>
-        <p id="min-order-notice" style="color:#ef4444;font-size:0.82rem;margin:0.5rem 0 0;display:none;font-weight:600;"><i class="fa fa-exclamation-circle"></i> Minimum order amount is $120.</p>
-      </div><!-- /summary-body -->
-      <div class="place-order-btn-wrap">
-        <button style="width:100%;padding:1rem;background:linear-gradient(135deg,#D4AF37,#b8860b);color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.6rem;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(212,175,55,0.3);transition:all 0.25s;" id="place-order-btn" onclick="submitOrder()" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 24px rgba(212,175,55,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(212,175,55,0.3)'">
-          <i class="fa fa-paper-plane"></i> Place Order
-        </button>
-        <p style="text-align:center;font-size:0.75rem;color:#9ca3af;margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:0.4rem;">
-          <i class="fa fa-shield-alt" style="color:#D4AF37;"></i> Secure order — invoice sent to your email
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+
+      </div><!-- /cp-card -->
+    </div><!-- /summary col -->
+
+  </div><!-- /cp-grid -->
+</div><!-- /cp-wrap -->
 
 <div id="toast"></div>
 
@@ -441,7 +821,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px;border-radius:4px;vertical-align:middle;margin-right:8px;"> Pokepluse</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -470,7 +850,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span>&copy; 2024 Pokepluse. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -481,129 +861,130 @@
 <script>
   const ORDER_EMAIL = 'contact@pokepluse.com';
 
+  /* ── Render cart ── */
   function renderCart() {
     const cart = getCart();
-    const listEl = document.getElementById('cart-items-list');
-    const summaryEl = document.getElementById('summary-items');
-    const totalEl = document.getElementById('summary-total');
+    const listEl   = document.getElementById('cart-items-list');
+    const sumEl    = document.getElementById('summary-items');
+    const subtotEl = document.getElementById('summary-subtotal');
+    const totalEl  = document.getElementById('summary-total');
+    const badge    = document.getElementById('cart-count-badge');
 
-    // Update count badge
-    const badge = document.getElementById('cart-count-badge');
-    if (badge) {
-      const totalQty = cart.reduce((s,i) => s + (i.qty||1), 0);
-      badge.textContent = totalQty > 0 ? totalQty + (totalQty === 1 ? ' item' : ' items') : '';
-    }
+    const qty = cart.reduce((s,i) => s + (i.qty||1), 0);
+    if (badge) badge.textContent = qty > 0 ? `${qty} item${qty !== 1 ? 's' : ''}` : '—';
 
     if (!cart.length) {
       listEl.innerHTML = `
         <div class="empty-cart">
-          <div style="width:72px;height:72px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;">
-            <i class="fa fa-shopping-bag" style="font-size:1.75rem;color:#9ca3af;"></i>
-          </div>
-          <h3 style="margin-bottom:0.4rem;font-size:1.15rem;color:#0f172a;">Your cart is empty</h3>
-          <p style="color:#9ca3af;margin-bottom:1.75rem;font-size:0.9rem;">Add some Pok&eacute;mon cards to get started</p>
-          <a href="catalog.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:linear-gradient(135deg,#D4AF37,#b8860b);color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:0.9rem;"><i class="fa fa-store"></i> Browse Products</a>
+          <div class="empty-cart-icon"><i class="fa fa-shopping-bag"></i></div>
+          <h3>Your cart is empty</h3>
+          <p>Add some Pok&eacute;mon cards to get started</p>
+          <a href="catalog.html"><i class="fa fa-store"></i> Browse Products</a>
         </div>`;
-      summaryEl.innerHTML = '';
+      sumEl.innerHTML = '';
+      if (subtotEl) subtotEl.textContent = '$0.00';
       totalEl.textContent = '$0.00';
       return;
     }
 
-    const total = cart.reduce((s,i)=>s+((i.qty||1)*i.price),0);
-    listEl.innerHTML = cart.map(item=>`
-      <div class="cart-item">
-        <img src="${encodeURI(item.image||'')}" alt="${item.name}" onerror="this.style.display='none'"/>
-        <div class="cart-item-info">
-          <h4>${item.name}</h4>
-          <div class="price">$${Number(item.price).toFixed(2)}</div>
-          <div class="qty-control" style="margin-top:0.5rem;">
-            <button class="qty-btn" onclick="changeQty('${item.id}',-1)"><i class="fa fa-minus" style="font-size:0.6rem;"></i></button>
-            <span class="qty-num">${item.qty||1}</span>
-            <button class="qty-btn" onclick="changeQty('${item.id}',1)"><i class="fa fa-plus" style="font-size:0.6rem;"></i></button>
+    const total = cart.reduce((s,i) => s + ((i.qty||1) * i.price), 0);
+
+    listEl.innerHTML = cart.map(item => {
+      const qty = item.qty || 1;
+      const price = Number(item.price).toFixed(2);
+      return `
+        <div class="cart-item">
+          <img src="${encodeURI(item.image||'')}" alt="${item.name}" onerror="this.style.display='none'"/>
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <div class="price">$${price}</div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty('${item.id}',-1)"><i class="fa fa-minus" style="font-size:10px;"></i></button>
+              <span class="qty-num">${qty}</span>
+              <button class="qty-btn" onclick="changeQty('${item.id}',1)"><i class="fa fa-plus" style="font-size:10px;"></i></button>
+            </div>
           </div>
-        </div>
-        <button class="cart-remove" onclick="removeFromCart('${item.id}');renderCart();" title="Remove"><i class="fa fa-trash"></i></button>
+          <button class="cart-remove" onclick="removeFromCart('${item.id}');renderCart();" title="Remove">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>`;
+    }).join('');
+
+    sumEl.innerHTML = cart.map(i => `
+      <div class="cp-sum-row" style="margin-bottom:2px;">
+        <span style="max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} &times;${i.qty||1}</span>
+        <span>$${((i.qty||1)*i.price).toFixed(2)}</span>
       </div>`).join('');
 
-    summaryEl.innerHTML = cart.map(i=>`
-      <div class="summary-row">
-        <span style="font-size:0.85rem;color:#6b7280;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.name} &times;${i.qty||1}</span>
-        <span style="font-weight:600;color:#111827;">$${((i.qty||1)*i.price).toFixed(2)}</span>
-      </div>`).join('');
+    if (subtotEl) subtotEl.textContent = `$${total.toFixed(2)}`;
     totalEl.textContent = `$${total.toFixed(2)}`;
 
-    const minOrderNotice = document.getElementById('min-order-notice');
-    const placeOrderBtn = document.getElementById('place-order-btn');
-    if (minOrderNotice && placeOrderBtn) {
+    const notice = document.getElementById('min-order-notice');
+    const btn    = document.getElementById('place-order-btn');
+    if (notice && btn) {
       if (total > 0 && total < 120) {
-        minOrderNotice.style.display = 'block';
-        placeOrderBtn.style.opacity = '0.45';
-        placeOrderBtn.style.pointerEvents = 'none';
+        notice.style.display = 'flex';
+        btn.style.opacity = '0.45';
+        btn.style.pointerEvents = 'none';
       } else {
-        minOrderNotice.style.display = 'none';
-        placeOrderBtn.style.opacity = '1';
-        placeOrderBtn.style.pointerEvents = 'auto';
+        notice.style.display = 'none';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
       }
     }
   }
 
   function changeQty(id, delta) {
     const cart = getCart();
-    const item = cart.find(i=>i.id===id);
+    const item = cart.find(i => i.id === id);
     if (!item) return;
     item.qty = Math.max(1, (item.qty||1) + delta);
     saveCart(cart);
     renderCart();
   }
+
+  /* ── Submit order ── */
   async function submitOrder() {
     const cart = getCart();
-    if (!cart.length) { showToast('â Œ Your cart is empty!','error'); return; }
-    
-    const total = cart.reduce((s,i)=>s+((i.qty||1)*i.price),0);
+    if (!cart.length) { showToast('Your cart is empty!', 'error'); return; }
+
+    const total = cart.reduce((s,i) => s + ((i.qty||1)*i.price), 0);
     if (total < 120) {
-      showToast('\u274C Minimum order amount is $120. Please add more items.', 'error');
+      showToast('Minimum order amount is $120. Please add more items.', 'error');
       return;
     }
 
-    const name = document.getElementById('inq-name').value.trim();
-    const email = document.getElementById('inq-email').value.trim();
+    const name    = document.getElementById('inq-name').value.trim();
+    const email   = document.getElementById('inq-email').value.trim();
     const payment = document.getElementById('inq-payment').value;
-    const notes = document.getElementById('inq-notes').value.trim();
+    const notes   = document.getElementById('inq-notes').value.trim();
 
-    // Shipping address fields
     let country = document.getElementById('inq-country').value;
     if (country === 'Other') {
-      const otherVal = document.getElementById('inq-country-other').value.trim();
-      if (!otherVal) { showToast('Please specify your country.', 'error'); return; }
-      country = otherVal;
+      const other = document.getElementById('inq-country-other').value.trim();
+      if (!other) { showToast('Please specify your country.', 'error'); return; }
+      country = other;
     }
-    const street  = document.getElementById('inq-street').value.trim();
-    const apt     = document.getElementById('inq-apt').value.trim();
-    const city    = document.getElementById('inq-city').value.trim();
-    const zip     = document.getElementById('inq-zip').value.trim();
+    const street = document.getElementById('inq-street').value.trim();
+    const apt    = document.getElementById('inq-apt').value.trim();
+    const city   = document.getElementById('inq-city').value.trim();
+    const zip    = document.getElementById('inq-zip').value.trim();
 
-    // Validate required fields
     if (!name || !email || !payment || !country || !street || !city || !zip) {
       if (!payment) {
         document.getElementById('pay-error').style.display = 'block';
         document.getElementById('pay-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      showToast('\u274C Please fill in all required fields including shipping address.', 'error');
+      showToast('Please fill in all required fields.', 'error');
       return;
     }
 
-    const shippingAddress = {
-      country,
-      street,
-      apt: apt || null,
-      city,
-      zip
-    };
+    const shippingAddress = { country, street, apt: apt || null, city, zip };
 
     const btn = document.getElementById('place-order-btn');
-    btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Placing Order…';
 
-    // Save to Supabase
     const { data, error } = await supabase.from('orders').insert({
       user_id: null,
       user_name: name,
@@ -616,87 +997,53 @@
       status: 'pending'
     }).select();
 
-    if (error || !data || !data.length) { 
-      showToast('Ã¢ÂÅ’ Failed to save order. Please try again.','error'); 
-      btn.disabled=false; 
-      btn.innerHTML='<i class="fa fa-paper-plane"></i> Place Order'; 
-      return; 
+    if (error || !data || !data.length) {
+      showToast('Failed to place order. Please try again.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa fa-paper-plane"></i> Place Order';
+      return;
     }
 
     const orderId = data[0].id;
-
     clearCart();
-    
-    // Show success screen with Order ID immediately
-    const container = document.querySelector('.cart-page');
-    if (container) {
-      container.innerHTML = `
-        <div style="text-align: center; padding: 4rem 1rem; max-width: 600px; margin: 0 auto;">
-          <div style="font-size: 4rem; color: var(--gold); margin-bottom: 1.5rem;"><i class="fa fa-check-circle"></i></div>
-          <h2 style="font-size: 2rem; margin-bottom: 1rem;">Order Submitted!</h2>
-          <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Thank you, ${name}. Your order has been placed successfully.</p>
-          
-          <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
-            <p style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Your Tracking ID</p>
-            <div style="font-family: monospace; font-size: 1.5rem; color: var(--gold); font-weight: 700; word-break: break-all; margin-bottom: 1rem;" id="tracking-id-display">${orderId}</div>
-            <button onclick="navigator.clipboard.writeText('${orderId}'); showToast('Tracking ID copied!', 'success');" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.4rem 0.8rem; margin: 0 auto;">
+
+    /* Success UI */
+    const grid = document.getElementById('cp-grid');
+    if (grid) {
+      grid.innerHTML = `
+        <div class="cp-success">
+          <div class="cp-success-icon"><i class="fa fa-check"></i></div>
+          <h2>Order Confirmed! 🎉</h2>
+          <p>Thank you, <strong>${name}</strong>. Your order has been placed and we'll be in touch shortly with payment details.</p>
+          <div class="cp-tracking-box">
+            <div class="label">Your Tracking ID</div>
+            <div class="id">${orderId}</div>
+            <button class="cp-copy-btn" onclick="navigator.clipboard.writeText('${orderId}');showToast('Tracking ID copied!','success');">
               <i class="fa fa-copy"></i> Copy ID
             </button>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1.5rem;">Please save this ID and the email address you used to track your order status on our tracking page.</p>
+            <p style="font-size:12px;color:#b45309;margin:10px 0 0;">Save this ID to track your order on the tracking page.</p>
           </div>
-          
-          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="track.html" class="btn btn-gold"><i class="fa fa-search"></i> Track Order Now</a>
-            <a href="catalog.html" class="btn btn-outline">Continue Shopping</a>
+          <div class="cp-success-actions">
+            <a href="track.html" class="cp-btn-gold"><i class="fa fa-search"></i> Track My Order</a>
+            <a href="catalog.html" class="cp-btn-outline"><i class="fa fa-store"></i> Continue Shopping</a>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
-    // Build email content
-    const orderDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const itemList  = cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
+    /* Send email invoice */
+    const orderDate   = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const itemList    = cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
-    // Call Supabase Edge Function to send professional HTML emails via Brevo
-    const emailPayload = {
-      email,
-      name,
-      orderId,
-      orderDate,
-      itemList,
-      shippingLine,
-      total: total.toFixed(2),
-      payment,
-      notes,
-      origin: window.location.origin + window.location.pathname.replace('cart.html', '')
-    };
-
     supabase.functions.invoke('send-invoice', {
-      body: emailPayload
+      body: { email, name, orderId, orderDate, itemList, shippingLine, total: total.toFixed(2), payment, notes, origin: window.location.origin + window.location.pathname.replace('cart.html','') }
     }).then(({ data, error }) => {
-      if (error) {
-        console.error('Failed to send invoice emails via Edge Function:', error);
-      } else {
-        console.log('Invoice emails sent successfully:', data);
-      }
+      if (error) console.error('Email send failed:', error);
+      else console.log('Emails sent:', data);
     });
   }
 
-  // Fields left empty for customer to fill in
-
-  // Mobile Menu Toggle
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const navLinks = document.querySelector('.nav-links');
-  if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-  }
-
-  renderCart();
-
-  // Payment logo card picker
+  /* ── Payment picker ── */
   function selectPay(card) {
     document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
@@ -704,17 +1051,21 @@
     document.getElementById('pay-error').style.display = 'none';
   }
 
-  // Handle 'Other' country selection
-  function toggleOtherCountry(selectEl) {
-    const otherInput = document.getElementById('inq-country-other');
-    if (selectEl.value === 'Other') {
-      otherInput.style.display = 'block';
-      otherInput.required = true;
-    } else {
-      otherInput.style.display = 'none';
-      otherInput.required = false;
-    }
+  /* ── Country toggle ── */
+  function toggleOtherCountry(sel) {
+    const wrap = document.getElementById('country-other-wrap');
+    if (sel.value === 'Other') { wrap.style.display = 'block'; }
+    else { wrap.style.display = 'none'; }
   }
+
+  /* ── Mobile menu ── */
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+  }
+
+  renderCart();
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -732,4 +1083,3 @@ window.smartsupp||(function(d) {
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>
-
