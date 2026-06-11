@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Order â€” Pokepluse</title>
-  <meta name="description" content="Track your Pokepluse order status securely."/>
+  <title>Track Order — Pok&eacute;mon Center</title>
+  <meta name="description" content="Track your Pok&eacute;mon Center order status securely."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
@@ -13,32 +13,27 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Pok&eacute;mon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English</a>
-        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese</a>
-        <a href="catalog.html?cat=korean-pokemon"><span class="lang-flag">KR</span> Korean</a>
-        <a href="catalog.html?cat=chinese-pokemon"><span class="lang-flag">CN</span> Chinese</a>
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
       </div>
     </li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--gold);margin-right:6px;"></i> All One Piece</a>
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
       </div>
     </li>
-    <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Accessories <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
-      <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--gold);margin-right:6px;"></i> All Accessories</a>
-      </div>
-    </li>
-    <li><a href="catalog.html">All Products</a></li>
-    <li><a href="track.html" class="active">Track Order</a></li>
+    <li><a href="track.html">Track Order</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
@@ -100,7 +95,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -129,7 +124,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span>� 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -154,13 +149,13 @@
     const resultDiv = document.getElementById('track-result');
 
     if (!orderId || !email) {
-      showToast('âŒ Please enter both Tracking ID and Email.', 'error');
+      showToast('❌ Please enter both Tracking ID and Email.', 'error');
       return;
     }
 
     // Basic UUID format check (optional but good for UX)
     if (orderId.length < 10) {
-      showToast('âŒ Invalid Tracking ID format.', 'error');
+      showToast('❌ Invalid Tracking ID format.', 'error');
       return;
     }
 
@@ -177,7 +172,7 @@
         .single();
 
       if (error || !data) {
-        showToast('âŒ Order not found. Check your ID and Email.', 'error');
+        showToast('❌ Order not found. Check your ID and Email.', 'error');
         btn.disabled = false;
         btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
         return;
@@ -233,7 +228,7 @@
       resultDiv.style.display = 'block';
 
     } catch (e) {
-      showToast('âŒ System error. Please try again later.', 'error');
+      showToast('❌ System error. Please try again later.', 'error');
     }
 
     btn.disabled = false;

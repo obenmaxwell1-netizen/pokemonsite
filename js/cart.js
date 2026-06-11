@@ -36,10 +36,21 @@ function clearCart() {
 function updateCartBadge() {
   const cart = getCart();
   const total = cart.reduce((s, i) => s + (i.qty || 1), 0);
-  const badge = document.getElementById('cart-count');
-  if (!badge) return;
-  if (total > 0) { badge.style.display = 'flex'; badge.textContent = total; }
-  else { badge.style.display = 'none'; }
+  const badges = document.querySelectorAll('.cart-badge'); // Use querySelectorAll to find all badges (top nav and bottom nav)
+  
+  badges.forEach(badge => {
+    if (total > 0) { 
+      badge.style.display = 'flex'; 
+      badge.textContent = total; 
+      
+      // Trigger pulse animation
+      badge.classList.remove('badge-pulse');
+      void badge.offsetWidth; // trigger reflow
+      badge.classList.add('badge-pulse');
+    } else { 
+      badge.style.display = 'none'; 
+    }
+  });
 }
 
 function showToast(msg, type = 'success') {

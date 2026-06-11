@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pokepluse &mdash; Premium International Pok&eacute;mon & One Piece Cards</title>
-  <meta name="description" content="Shop rare Japanese, Korean, and Chinese Pok&eacute;mon and One Piece TCG booster boxes and packs. Premium international cards at Pokepluse."/>
-  <link rel="preload" as="image" href="image%202.webp"/>
+  <title>Pok&eacute;mon Center &mdash; Premium International Pok&eacute;mon & One Piece Cards</title>
+  <meta name="description" content="Shop rare Japanese, Korean, and Chinese Pok&eacute;mon and One Piece TCG booster boxes and packs. Premium international cards at Pok&eacute;mon Center."/>
+  <link rel="preload" as="image" href="dark.webp"/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -15,7 +15,7 @@
     }
 
     .trust-bar {
-      background: #ffffff;
+      background: var(--bg-card);
       border-top: 1px solid var(--border-glass);
       border-bottom: 1px solid var(--border-glass);
       padding: 1.25rem 2rem;
@@ -26,13 +26,13 @@
     }
     .trust-item {
       display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.85rem; color: #4b5563; font-weight: 500;
+      font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;
     }
-    .trust-item i { color: #dc2626; font-size: 1.1rem; }
+    .trust-item i { color: var(--gold); font-size: 1.1rem; }
 
     .featured-banner {
-      background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(245,158,11,0.08));
-      border: 1px solid rgba(59,130,246,0.2);
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,197,253,0.04));
+      border: 1px solid var(--border-glass);
       border-radius: var(--radius-xl);
       padding: 3rem 2.5rem;
       display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
@@ -42,7 +42,7 @@
     .featured-banner::before {
       content: ''; position: absolute;
       width: 400px; height: 400px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(59,130,246,0.1), transparent);
+      background: radial-gradient(circle, rgba(59,130,246,0.15), transparent);
       top: -100px; right: -100px;
     }
     .featured-banner h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; }
@@ -60,14 +60,14 @@
       }
       50% {
         transform: translateY(-15px);
-        filter: drop-shadow(0 25px 40px rgba(212,175,55,0.5));
+        filter: drop-shadow(0 25px 40px rgba(139,92,246,0.5));
       }
     }
 
     @keyframes gloriousFloatMobile {
       0%, 100% {
         transform: translateY(0) scale(1) rotate(0deg);
-        filter: drop-shadow(0 10px 20px rgba(212,175,55,0.6)) brightness(1);
+        filter: drop-shadow(0 10px 20px rgba(139,92,246,0.6)) brightness(1);
       }
       33% {
         transform: translateY(-30px) scale(1.2) rotate(-6deg);
@@ -75,7 +75,7 @@
       }
       66% {
         transform: translateY(-15px) scale(1.1) rotate(5deg);
-        filter: drop-shadow(0 25px 40px rgba(212,175,55,0.8)) brightness(1.1);
+        filter: drop-shadow(0 25px 40px rgba(139,92,246,0.8)) brightness(1.1);
       }
     }
 
@@ -95,31 +95,26 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Pok&eacute;mon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English</a>
-        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese</a>
-        <a href="catalog.html?cat=korean-pokemon"><span class="lang-flag">KR</span> Korean</a>
-        <a href="catalog.html?cat=chinese-pokemon"><span class="lang-flag">CN</span> Chinese</a>
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
       </div>
     </li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--gold);margin-right:6px;"></i> All One Piece</a>
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
       </div>
     </li>
-    <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Accessories <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
-      <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--gold);margin-right:6px;"></i> All Accessories</a>
-      </div>
-    </li>
-    <li><a href="catalog.html">All Products</a></li>
     <li><a href="track.html">Track Order</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
@@ -153,18 +148,17 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-pika">
+    <img src="pika.webp" alt="Premium Pokemon" />
+  </div>
   <div class="hero-content">
     <div class="hero-badge"><i class="fa fa-crown"></i> Premium TCG International Store</div>
-    <h1>The Ultimate<br/><span>TCG Destination</span></h1>
+    <h1>Premium Pok&eacute;mon<br/><span>Cards & Collectibles</span></h1>
     <div class="hero-divider"></div>
-    <p>Discover the finest selection of English, Japanese, Korean, and Chinese Pok&eacute;mon, exclusive One Piece TCG collections, and premium accessories. Authentic quality. Delivered worldwide.</p>
+    <p>Your premier source for authentic international Pok&eacute;mon TCG and rare collectibles. We specialize in Japanese and English sealed products, exclusive booster boxes, and premium accessories for serious collectors worldwide.</p>
     <div class="hero-actions">
       <a href="catalog.html" class="btn btn-primary btn-lg"><i class="fa fa-store"></i>&nbsp; Explore The Vault</a>
     </div>
-  </div>
-  <div class="hero-scroll-hint">
-    <span>Scroll</span>
-    <i class="fa fa-chevron-down"></i>
   </div>
 </section>
 
@@ -277,13 +271,13 @@
 <section style="position:relative; padding:8rem 2rem; overflow:hidden; display:flex; align-items:center; justify-content:center; text-align:center;">
   <!-- Background Image with Blend -->
   <div style="position:absolute; inset:0; background:url('image%201.jpg') center/cover no-repeat; opacity:0.6;"></div>
-  <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(17,24,39,0.95) 0%, rgba(212,175,55,0.15) 100%); border-top:1px solid var(--border-glass); border-bottom:1px solid var(--border-glass);"></div>
+  <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(11,15,25,0.95) 0%, rgba(139,92,246,0.15) 100%); border-top:1px solid var(--border-glass); border-bottom:1px solid var(--border-glass);"></div>
   
   <div style="position:relative; z-index:1; max-width:800px; color:#fff;" class="reveal">
-    <i class="fa fa-crown" style="font-size:3rem; color:var(--gold); margin-bottom:1.5rem; filter:drop-shadow(0 0 15px rgba(212,175,55,0.4));"></i>
+    <i class="fa fa-crown" style="font-size:3rem; color:var(--gold); margin-bottom:1.5rem; filter:drop-shadow(0 0 15px rgba(139,92,246,0.4));"></i>
     <h2 style="font-size:3rem; font-weight:800; margin-bottom:1.25rem; letter-spacing:-1px; text-transform:uppercase;">Elevate Your Collection</h2>
     <p style="font-size:1.15rem; color:#d1d5db; margin-bottom:2.5rem; line-height:1.8; font-weight:300;">Discover the finest selection of premium trading cards. Impeccably sourced, carefully curated, and securely delivered to your doorstep. Experience the gold standard.</p>
-    <a href="catalog.html" class="btn btn-gold btn-lg" style="box-shadow:0 10px 25px rgba(212,175,55,0.3);"><i class="fa fa-gem"></i> Explore The Vault</a>
+    <a href="catalog.html" class="btn btn-gold btn-lg" style="box-shadow:0 10px 25px rgba(139,92,246,0.3);"><i class="fa fa-gem"></i> Explore The Vault</a>
   </div>
 </section>
 
@@ -291,7 +285,7 @@
 <section class="section-sm" style="background:var(--bg-secondary);border-top:1px solid var(--border-glass);">
   <div class="container">
     <div class="section-header reveal">
-      <div class="tag">Why Pokepluse</div>
+      <div class="tag">Why Pok&eacute;mon Center</div>
       <h2>The Premier TCG Store</h2>
     </div>
     <div class="features-grid reveal">
@@ -327,6 +321,18 @@
   </div>
 </section>
 
+<!-- VIP VAULT TEASER -->
+<section class="section" style="background: linear-gradient(to bottom, transparent, rgba(59,130,246,0.05), transparent);">
+  <div class="container" style="max-width:800px; text-align: center;">
+    <div class="reveal">
+      <i class="fa fa-lock" style="font-size: 2.5rem; color: var(--blue); margin-bottom: 1rem; filter: drop-shadow(0 0 15px rgba(59,130,246,0.4));"></i>
+      <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">The VIP Vault</h2>
+      <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">Our most exclusive inventory is hidden. Gain access to rare graded cards, vintage booster boxes, and secret drops.</p>
+      <a href="vip.html" class="btn btn-primary btn-lg" style="box-shadow: 0 10px 20px rgba(59,130,246,0.3);"><i class="fa fa-key"></i> Request Access</a>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="section" id="contact">
   <div class="container" style="max-width:600px;">
@@ -340,7 +346,7 @@
         <div class="glass-card" style="padding:1.25rem;text-align:center;">
           <i class="fa fa-envelope" style="font-size:1.5rem;color:var(--blue);margin-bottom:0.5rem;"></i>
           <div style="font-size:0.8rem;color:var(--text-secondary);">Email Us</div>
-          <div style="font-size:0.9rem;font-weight:600;">contact@pokepluse.com</div>
+          <div style="font-size:0.9rem;font-weight:600;">contact@pokemoncenter.com</div>
         </div>
         <div class="glass-card" style="padding:1.25rem;text-align:center;">
           <i class="fa fa-clock" style="font-size:1.5rem;color:var(--gold);margin-bottom:0.5rem;"></i>
@@ -359,7 +365,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -388,7 +394,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span>© 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -497,5 +503,28 @@ window.smartsupp||(function(d) {
 })(document);
 </script>
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-bottom-nav">
+  <div class="mobile-nav-items">
+    <a href="index.html" class="mobile-nav-item">
+      <i class="fa fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="catalog.html" class="mobile-nav-item">
+      <i class="fa fa-border-all"></i>
+      <span>Shop</span>
+    </a>
+    <a href="cart.html" class="mobile-nav-item">
+      <i class="fa fa-shopping-bag"></i>
+      <span>Cart</span>
+    </a>
+    <a href="track.html" class="mobile-nav-item">
+      <i class="fa fa-map-marker-alt"></i>
+      <span>Track</span>
+    </a>
+  </div>
+</nav>
+
 </body>
 </html>

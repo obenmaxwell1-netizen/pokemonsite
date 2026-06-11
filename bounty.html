@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bounty Board &mdash; Pok&eacute;mon Center</title>
+  <meta name="description" content="Submit a private sourcing request for rare Pok&eacute;mon and One Piece cards. Our concierge team will locate and authenticate it for you."/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .bounty-hero { padding: 10rem 2rem 4rem; text-align: center; max-width: 800px; margin: 0 auto; position: relative; z-index: 10; }
+    .bounty-hero h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-primary), var(--blue-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .bounty-hero p { color: var(--text-secondary); font-size: 1.15rem; line-height: 1.7; }
+    
+    .bounty-form-container { max-width: 650px; margin: 0 auto 8rem; background: rgba(22,24,29,0.7); backdrop-filter: blur(20px); padding: 3rem; border-radius: var(--radius-xl); border: 1px solid var(--border-glass); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05); position: relative; z-index: 10; }
+    .bounty-form-group { margin-bottom: 1.5rem; text-align: left; }
+    .bounty-form-group label { display: block; font-weight: 600; margin-bottom: 0.6rem; font-size: 0.95rem; color: var(--text-primary); letter-spacing: 0.5px; text-transform: uppercase; }
+    .bounty-form-group input, .bounty-form-group select, .bounty-form-group textarea { width: 100%; padding: 1rem 1.25rem; background: rgba(10,10,12,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary); font-family: inherit; transition: var(--transition); font-size: 1rem; }
+    .bounty-form-group input:focus, .bounty-form-group select:focus, .bounty-form-group textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(59,130,246,0.15); background: rgba(15,15,20,0.9); }
+    
+    /* Background effects */
+    .bounty-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% -20%, rgba(59,130,246,0.08), transparent 70%); z-index: 0; pointer-events: none; }
+  </style>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
+</head>
+<body>
+<div class="bounty-bg"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
+      </div>
+    </li>
+    <li><a href="track.html">Track Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="cart.html" class="cart-icon">
+      <i class="fa fa-shopping-bag"></i>
+      <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+    </a>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="bounty-hero">
+  <h1>The Bounty Board</h1>
+  <p>Submit a private sourcing request for a "Grail" card or exclusive sealed product. Our concierge team will locate, authenticate, and secure it for your collection.</p>
+</div>
+
+<div class="bounty-form-container">
+  <form onsubmit="event.preventDefault(); alert('Bounty request submitted successfully! Our private concierge team will contact you within 24 hours regarding sourcing availability and pricing.'); this.reset();">
+    <div class="bounty-form-group">
+      <label>Target Product / Card Name</label>
+      <input type="text" placeholder="e.g., 1st Edition Shadowless Charizard" required>
+    </div>
+    <div class="bounty-form-group">
+      <label>Desired Condition / Grade</label>
+      <select required>
+        <option value="" disabled selected>Select condition...</option>
+        <option value="raw_nm">Raw (Near Mint or Better)</option>
+        <option value="psa_10">PSA 10 (Gem Mint)</option>
+        <option value="psa_9">PSA 9 (Mint)</option>
+        <option value="bgs_10">BGS 10 (Pristine)</option>
+        <option value="sealed">Factory Sealed Box/Pack</option>
+        <option value="any">Any Condition</option>
+      </select>
+    </div>
+    <div class="bounty-form-group">
+      <label>Estimated Budget (USD)</label>
+      <input type="number" placeholder="e.g., 5000" required>
+    </div>
+    <div class="bounty-form-group">
+      <label>Your Email Address</label>
+      <input type="email" placeholder="concierge@example.com" required>
+    </div>
+    <div class="bounty-form-group">
+      <label>Additional Notes (Optional)</label>
+      <textarea rows="4" placeholder="Specific languages, grading companies, or centering requirements..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">
+      <i class="fa fa-paper-plane"></i> Submit Private Request
+    </button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
+    </div>
+    <div>
+      <h4>Store</h4>
+      <ul>
+        <li><a href="catalog.html">All Products</a></li>
+        <li><a href="bounty.html">Bounty Board</a></li>
+        <li><a href="vip.html">VIP Vault</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="shipping-policy.html">Shipping Policy</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Pok&eacute;mon Center. All rights reserved.</span>
+    <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
+  </div>
+</footer>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+</script>
+</body>
+</html>

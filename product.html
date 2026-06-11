@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="page-title">Product &mdash; Pokepluse</title>
+  <title id="page-title">Product &mdash; Pok&eacute;mon Center</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -25,11 +25,28 @@
 </head>
 <body>
 <nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="catalog.html">All Products</a></li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
+      </div>
+    </li>
     <li><a href="track.html">Track Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
     <div class="custom-lang-selector">
@@ -83,7 +100,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -112,7 +129,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span>© 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -139,7 +156,7 @@
     const { data: p, error } = await supabase.from('products').select('*').eq('id', productId).single();
     if (error || !p) { document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:8rem 2rem;"><h2>Product not found</h2><a href="catalog.html" class="btn btn-primary" style="margin-top:1rem;">Back to Catalog</a></div>'; return; }
 
-    document.title = `${p.name} &mdash; Pokepluse`;
+    document.title = `${p.name} &mdash; Pok&eacute;mon Center`;
     currentImages = p.images || [];
     if (!currentImages.length) currentImages = [''];
 
@@ -148,12 +165,12 @@
 
     document.getElementById('product-content').innerHTML = `
       <div class="product-layout">
-        <div class="product-gallery">
-          <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-glass);">
+        <div class="product-gallery">          <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-glass);">
             <img src="${encodeURI(currentImages[0]||'')}" alt="${p.name}" class="main-img" id="main-img" onerror="this.src='';this.style.display='flex';this.innerHTML='🃏'" style="border:none;"/>
+            <button onclick="openVault()" style="position:absolute; bottom:15px; right:15px; background:rgba(10,10,15,0.8); backdrop-filter:blur(8px); border:1px solid rgba(59,130,246,0.4); color:var(--text-primary); border-radius:var(--radius-md); padding:0.6rem 1rem; cursor:pointer; font-weight:600; font-size:0.85rem; transition:var(--transition); box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:10;"><i class="fa fa-magnifying-glass" style="color:var(--blue); margin-right:5px;"></i> Inspect Vault</button>
             ${currentImages.length > 1 ? `
-            <button onclick="prevImg()" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-left"></i></button>
-            <button onclick="nextImg()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-right"></i></button>
+            <button onclick="prevImg()" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-left"></i></button>
+            <button onclick="nextImg()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-right"></i></button>
             ` : ''}
           </div>
           <div class="thumb-strip">
@@ -166,7 +183,10 @@
             <span class="stock-badge ${stockClass}">${stockLabel}</span>
           </div>
           <h1>${p.name}</h1>
-          <div class="product-price-big">$${Number(p.price).toFixed(2)}</div>
+          <div style="display:flex; align-items:center; gap:1rem; margin:1rem 0; flex-wrap:wrap;">
+            <div class="product-price-big" style="margin:0;">$${Number(p.price).toFixed(2)}</div>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:0.4rem 0.8rem; border-radius:var(--radius-sm); font-size:0.85rem; color:var(--text-secondary); display:flex; align-items:center; gap:0.5rem; box-shadow:inset 0 0 10px rgba(0,0,0,0.2);"><i class="fa fa-chart-line" style="color:var(--blue);"></i> Est. Market Value: <span style="text-decoration:line-through;opacity:0.6;">$${(Number(p.price) * 1.08).toFixed(2)}</span></div>
+          </div>
           <p class="product-desc">${p.description || 'Authentic sealed product imported directly from ' + getCategoryLabel(p.category) + '. All products are 100% genuine and factory sealed.'}</p>
           <div class="product-meta">
             <div class="product-meta-row"><span>Category</span><span>${getCategoryLabel(p.category)}</span></div>
@@ -208,8 +228,39 @@
     setImg(idx);
   }
 
+  function openVault() {
+    const modal = document.getElementById('vault-modal');
+    if (!modal) return;
+    const img = document.getElementById('vault-img');
+    const container = document.getElementById('vault-image-container');
+    img.src = document.getElementById('main-img').src;
+    modal.style.display = 'block';
+  
+    container.addEventListener('mousemove', function(e) {
+      const rect = container.getBoundingClientRect();
+      const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+      const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+      img.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+      img.style.transform = 'scale(2.5)';
+    });
+  
+    container.addEventListener('mouseleave', function() {
+      img.style.transform = 'scale(1)';
+      img.style.transformOrigin = 'center center';
+    });
+  }
+
   loadProduct();
 </script>
+
+<!-- Vault Inspection Modal -->
+<div id="vault-modal" style="display:none; position:fixed; inset:0; background:rgba(5,5,5,0.95); z-index:9999; backdrop-filter:blur(10px);">
+  <button onclick="document.getElementById('vault-modal').style.display='none'" style="position:absolute; top:20px; right:30px; background:transparent; border:none; color:white; font-size:2.5rem; cursor:pointer; z-index:10000; transition:var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='white'"><i class="fa fa-times"></i></button>
+  <div style="position:absolute; top:25px; left:30px; color:var(--blue); font-size:1.2rem; font-weight:800; letter-spacing:2px; text-transform:uppercase;"><i class="fa fa-magnifying-glass"></i> Vault Inspection</div>
+  <div id="vault-image-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:crosshair;">
+    <img id="vault-img" src="" style="max-height:90vh; max-width:90vw; border-radius:var(--radius-lg); transition: transform 0.1s ease-out; transform-origin: center center; box-shadow: 0 0 50px rgba(59,130,246,0.1);" />
+  </div>
+</div>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Smartsupp Live Chat script -->

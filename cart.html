@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart &amp; Checkout – Pokepluse</title>
-  <meta name="description" content="Review your cart and place your order at Pokepluse — premier international Pokémon TCG cards."/>
+  <title>Cart &amp; Checkout – Pok&eacute;mon Center</title>
+  <meta name="description" content="Review your cart and place your order at Pok&eacute;mon Center — premier international Pokémon TCG cards."/>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ─── Base reset for cart page ─── */
     *, *::before, *::after { box-sizing: border-box; }
@@ -37,7 +37,7 @@
       letter-spacing: 1.5px;
       color: #9ca3af;
     }
-    .cp-breadcrumb span.active { color: #D4AF37; }
+    .cp-breadcrumb span.active { color: #8B5CF6; }
     .cp-breadcrumb i { color: #d1d5db; font-size: 10px; }
     .cp-title {
       font-size: 28px;
@@ -80,7 +80,7 @@
     }
     .cp-card-head-icon {
       width: 34px; height: 34px;
-      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      background: linear-gradient(135deg, #8B5CF6, #7C3AED);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       color: #fff;
@@ -103,7 +103,7 @@
       cursor: pointer;
       font-size: 12px;
       font-weight: 600;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -116,7 +116,7 @@
     /* ─── Shipping banner ─── */
     .cp-shipping-bar {
       padding: 11px 24px;
-      background: linear-gradient(135deg, rgba(212,175,55,0.07), rgba(212,175,55,0.03));
+      background: linear-gradient(135deg, rgba(139,92,246,0.07), rgba(139,92,246,0.03));
       border-bottom: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
@@ -125,8 +125,8 @@
       color: #6b7280;
       font-weight: 500;
     }
-    .cp-shipping-bar i { color: #D4AF37; }
-    .cp-shipping-bar strong { color: #D4AF37; }
+    .cp-shipping-bar i { color: #8B5CF6; }
+    .cp-shipping-bar strong { color: #8B5CF6; }
 
     /* ─── Cart items list ─── */
     #cart-items-list { padding: 8px 0; }
@@ -163,7 +163,7 @@
     .cart-item-info .price {
       font-size: 15px;
       font-weight: 800;
-      color: #D4AF37;
+      color: #8B5CF6;
       margin-bottom: 8px;
     }
 
@@ -181,7 +181,7 @@
       transition: all 0.18s;
       flex-shrink: 0;
     }
-    .qty-btn:hover { background: #D4AF37; border-color: #D4AF37; color: #fff; }
+    .qty-btn:hover { background: #8B5CF6; border-color: #8B5CF6; color: #fff; }
     .qty-num {
       font-size: 14px;
       font-weight: 700;
@@ -221,16 +221,16 @@
     .empty-cart a {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 28px;
-      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      background: linear-gradient(135deg, #8B5CF6, #7C3AED);
       color: #fff;
       text-decoration: none;
       border-radius: 10px;
       font-weight: 700;
       font-size: 14px;
-      box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+      box-shadow: 0 4px 14px rgba(139,92,246,0.3);
       transition: all 0.2s;
     }
-    .empty-cart a:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+    .empty-cart a:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.4); }
 
     /* ─── ORDER SUMMARY COLUMN ─── */
     .cp-summary-col { position: sticky; top: 90px; }
@@ -241,7 +241,7 @@
       padding: 18px 24px;
       display: flex; align-items: center; gap: 10px;
     }
-    .cp-summary-head i { color: #D4AF37; font-size: 16px; }
+    .cp-summary-head i { color: #8B5CF6; font-size: 16px; }
     .cp-summary-head h3 { color: #fff; font-size: 15px; font-weight: 700; margin: 0; }
 
     .cp-summary-body { padding: 20px 24px; }
@@ -262,7 +262,7 @@
       align-items: center;
     }
     .cp-sum-total .label { font-size: 15px; font-weight: 700; color: #0f172a; }
-    .cp-sum-total .amount { font-size: 26px; font-weight: 900; color: #D4AF37; }
+    .cp-sum-total .amount { font-size: 26px; font-weight: 900; color: #8B5CF6; }
 
     /* ─── CHECKOUT FORM ─── */
     .cp-form-wrap { padding: 0 24px 8px; }
@@ -278,7 +278,7 @@
       letter-spacing: 1.5px;
       margin: 20px 0 12px;
     }
-    .cp-section-label i { color: #D4AF37; font-size: 12px; }
+    .cp-section-label i { color: #8B5CF6; font-size: 12px; }
     .cp-section-label::after {
       content: '';
       flex: 1;
@@ -306,7 +306,7 @@
       border: 1.5px solid #e5e7eb;
       border-radius: 9px;
       color: #111827;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 14px;
       transition: all 0.2s;
       outline: none;
@@ -316,9 +316,9 @@
     .cp-field input:focus,
     .cp-field select:focus,
     .cp-field textarea:focus {
-      border-color: #D4AF37;
+      border-color: #8B5CF6;
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.12);
     }
     .cp-field input::placeholder,
     .cp-field textarea::placeholder { color: #c4c9d4; }
@@ -336,8 +336,8 @@
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
-      background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.04));
-      border: 1px solid rgba(212,175,55,0.2);
+      background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(139,92,246,0.04));
+      border: 1px solid rgba(139,92,246,0.2);
       border-radius: 9px;
       margin-bottom: 10px;
       font-size: 12px;
@@ -345,7 +345,7 @@
       font-weight: 500;
       line-height: 1.4;
     }
-    .cp-email-banner i { color: #D4AF37; flex-shrink: 0; }
+    .cp-email-banner i { color: #8B5CF6; flex-shrink: 0; }
 
     /* Payment grid */
     .cp-pay-grid {
@@ -367,22 +367,22 @@
       min-height: 54px;
     }
     .pay-card:hover {
-      border-color: #D4AF37;
+      border-color: #8B5CF6;
       background: #fffbf0;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(212,175,55,0.15);
+      box-shadow: 0 4px 12px rgba(139,92,246,0.15);
     }
     .pay-card.selected {
-      border-color: #D4AF37;
+      border-color: #8B5CF6;
       background: linear-gradient(135deg, #fffbf0, #fff8e1);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.18);
     }
     .pay-card.selected .pay-name { color: #92670a; font-weight: 700; }
     .pay-card.selected::after {
       content: '\f058';
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
-      color: #D4AF37;
+      color: #8B5CF6;
       font-size: 14px;
       margin-left: auto;
     }
@@ -432,22 +432,22 @@
     .cp-place-btn {
       width: 100%;
       padding: 15px;
-      background: linear-gradient(135deg, #D4AF37 0%, #c9a227 50%, #b8860b 100%);
+      background: linear-gradient(135deg, #8B5CF6 0%, #c9a227 50%, #7C3AED 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 10px;
       letter-spacing: 0.3px;
-      box-shadow: 0 4px 18px rgba(212,175,55,0.35);
+      box-shadow: 0 4px 18px rgba(139,92,246,0.35);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .cp-place-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(212,175,55,0.45);
+      box-shadow: 0 8px 28px rgba(139,92,246,0.45);
     }
     .cp-place-btn:active { transform: translateY(0); }
     .cp-trust-note {
@@ -459,7 +459,7 @@
       color: #9ca3af;
       margin-top: 10px;
     }
-    .cp-trust-note i { color: #D4AF37; }
+    .cp-trust-note i { color: #8B5CF6; }
 
     /* ─── Success screen ─── */
     .cp-success {
@@ -471,11 +471,11 @@
     }
     .cp-success-icon {
       width: 88px; height: 88px;
-      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      background: linear-gradient(135deg, #8B5CF6, #7C3AED);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 24px;
-      box-shadow: 0 8px 30px rgba(212,175,55,0.4);
+      box-shadow: 0 8px 30px rgba(139,92,246,0.4);
     }
     .cp-success-icon i { font-size: 36px; color: #fff; }
     .cp-success h2 { font-size: 28px; font-weight: 900; color: #0f172a; margin: 0 0 12px; }
@@ -509,7 +509,7 @@
       background: #fff;
       border: 1.5px solid #fbbf24;
       border-radius: 7px;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
       font-weight: 600;
       color: #d97706;
@@ -521,13 +521,13 @@
     .cp-btn-gold {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 28px;
-      background: linear-gradient(135deg, #D4AF37, #b8860b);
+      background: linear-gradient(135deg, #8B5CF6, #7C3AED);
       color: #fff; text-decoration: none;
       border-radius: 10px; font-weight: 700; font-size: 14px;
-      box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+      box-shadow: 0 4px 14px rgba(139,92,246,0.3);
       transition: all 0.2s;
     }
-    .cp-btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+    .cp-btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.4); }
     .cp-btn-outline {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 28px;
@@ -536,7 +536,7 @@
       border: 1.5px solid #e5e7eb; font-weight: 600; font-size: 14px;
       transition: all 0.2s;
     }
-    .cp-btn-outline:hover { border-color: #D4AF37; color: #92670a; }
+    .cp-btn-outline:hover { border-color: #8B5CF6; color: #92670a; }
 
     /* ─── Responsive ─── */
     @media (max-width: 860px) {
@@ -559,13 +559,30 @@
 <!-- ── NAVBAR ── -->
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img">
-    <span class="premium-logo-text">Pokepluse</span>
+    <img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img">
+    <span class="premium-logo-text">Pok&eacute;mon Center</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="catalog.html">Shop</a></li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
+      </div>
+    </li>
+    <li class="nav-dropdown">
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <div class="nav-dropdown-menu">
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
+      </div>
+    </li>
     <li><a href="track.html">Track Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
     <div class="custom-lang-selector">
@@ -821,7 +838,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px;border-radius:4px;vertical-align:middle;margin-right:8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px;border-radius:4px;vertical-align:middle;margin-right:8px;"> Pok&eacute;mon Center</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -850,7 +867,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2024 Pokepluse. All rights reserved.</span>
+    <span>&copy; 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -859,7 +876,7 @@
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
 <script>
-  const ORDER_EMAIL = 'contact@pokepluse.com';
+  const ORDER_EMAIL = 'contact@pokemoncenter.com';
 
   /* ── Render cart ── */
   function renderCart() {
@@ -1095,5 +1112,28 @@ window.smartsupp||(function(d) {
 })(document);
 </script>
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-bottom-nav">
+  <div class="mobile-nav-items">
+    <a href="index.html" class="mobile-nav-item">
+      <i class="fa fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="catalog.html" class="mobile-nav-item">
+      <i class="fa fa-border-all"></i>
+      <span>Shop</span>
+    </a>
+    <a href="cart.html" class="mobile-nav-item">
+      <i class="fa fa-shopping-bag"></i>
+      <span>Cart</span>
+    </a>
+    <a href="track.html" class="mobile-nav-item">
+      <i class="fa fa-map-marker-alt"></i>
+      <span>Track</span>
+    </a>
+  </div>
+</nav>
+
 </body>
 </html>

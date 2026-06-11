@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop All Products &mdash; Pokepluse</title>
+  <title>Shop All Products &mdash; Pok&eacute;mon Center</title>
   <meta name="description" content="Browse our full catalog of Japanese, Korean, and Chinese Pok&eacute;mon and One Piece TCG products."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -12,11 +12,11 @@
     .sidebar { position: sticky; top: 90px; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem; }
     .sidebar h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem; }
     .sidebar-filters { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
-    .sidebar-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border-radius: var(--radius-sm); border: none; background: none; color: var(--text-secondary); font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); text-align: left; width: 100%; }
+    .sidebar-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border-radius: var(--radius-sm); border: none; background: none; color: var(--text-secondary); font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); text-align: left; width: 100%; }
     .sidebar-btn:hover { background: var(--bg-card); color: var(--text-primary); }
     .sidebar-btn.active { background: rgba(59,130,246,0.15); color: var(--blue-light); }
     .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
-    .search-input { padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 50px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.875rem; outline: none; width: 240px; transition: var(--transition); }
+    .search-input { padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 50px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.875rem; outline: none; width: 240px; transition: var(--transition); }
     .search-input:focus { border-color: var(--blue); }
     @media (max-width: 900px) { .catalog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
   </style>
@@ -24,32 +24,28 @@
 </head>
 <body>
 <nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pokepluse" class="premium-logo-img"> <span class="premium-logo-text">Pokepluse</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Pok&eacute;mon <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English</a>
-        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese</a>
-        <a href="catalog.html?cat=korean-pokemon"><span class="lang-flag">KR</span> Korean</a>
-        <a href="catalog.html?cat=chinese-pokemon"><span class="lang-flag">CN</span> Chinese</a>
+        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
+        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
       </div>
     </li>
     <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">One Piece <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
+      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
       <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--gold);margin-right:6px;"></i> All One Piece</a>
+        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
+        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
       </div>
     </li>
-    <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Accessories <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
-      <div class="nav-dropdown-menu">
-        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--gold);margin-right:6px;"></i> All Accessories</a>
-      </div>
-    </li>
-    <li><a href="catalog.html" style="color:var(--blue-light);">All Products</a></li>
     <li><a href="track.html">Track Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
     <div class="custom-lang-selector">
@@ -87,17 +83,24 @@
 <section class="section">
   <div class="container">
     <div class="catalog-layout">
+      
+      <!-- Mobile Drawer Controls -->
+      <div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
+      <button class="mobile-filter-btn" onclick="toggleDrawer()">
+        <i class="fa fa-filter"></i>
+      </button>
+      
       <!-- SIDEBAR -->
       <aside class="sidebar">
         <h3>Game</h3>
         <div class="sidebar-filters">
-          <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)">🃏 All Products</button>
+          <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)">?? All Products</button>
           <button class="sidebar-btn" data-filter="english-pokemon" onclick="setFilter('english-pokemon',this)">&#x1F1EC;&#x1F1E7; English Pok&eacute;mon</button>
           <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)">&#x1F1EF;&#x1F1F5; Japanese Pok&eacute;mon</button>
           <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)">&#x1F1F0;&#x1F1F7; Korean Pok&eacute;mon</button>
           <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)">&#x1F1E8;&#x1F1F3; Chinese Pok&eacute;mon</button>
-          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">🏴‍☠ One Piece TCG</button>
-          <button class="sidebar-btn" data-filter="accessories" onclick="setFilter('accessories',this)">🎒 Accessories</button>
+          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)">???? One Piece TCG</button>
+          <button class="sidebar-btn" data-filter="accessories" onclick="setFilter('accessories',this)">?? Accessories</button>
         </div>
         <h3>Stock</h3>
         <div class="sidebar-filters">
@@ -137,7 +140,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pokepluse" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pokepluse</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
       <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
     </div>
     <div>
@@ -166,7 +169,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2024 Pokepluse. All rights reserved.</span>
+    <span>� 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -199,7 +202,18 @@
     });
   }
 
+
   async function loadProducts() {
+    const grid = document.getElementById('catalog-grid');
+    // Show 6 skeleton cards while loading
+    grid.innerHTML = Array(6).fill().map(() => `
+      <div class="skeleton-card">
+        <div class="skeleton-box skeleton-img"></div>
+        <div class="skeleton-box skeleton-title"></div>
+        <div class="skeleton-box skeleton-price"></div>
+      </div>
+    `).join('');
+
     const cached = sessionStorage.getItem('pokevault_all_products');
     if (cached) {
       try {
@@ -262,6 +276,23 @@
   }
 
   loadProducts();
+
+  /* ── Mobile Drawer Toggle ── */
+  function toggleDrawer() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+    if (sidebar && overlay) {
+      sidebar.classList.toggle('drawer-open');
+      overlay.classList.toggle('active');
+      
+      // Prevent body scrolling when drawer is open
+      if (sidebar.classList.contains('drawer-open')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -277,5 +308,28 @@ window.smartsupp||(function(d) {
 })(document);
 </script>
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-bottom-nav">
+  <div class="mobile-nav-items">
+    <a href="index.html" class="mobile-nav-item">
+      <i class="fa fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="catalog.html" class="mobile-nav-item">
+      <i class="fa fa-border-all"></i>
+      <span>Shop</span>
+    </a>
+    <a href="cart.html" class="mobile-nav-item">
+      <i class="fa fa-shopping-bag"></i>
+      <span>Cart</span>
+    </a>
+    <a href="track.html" class="mobile-nav-item">
+      <i class="fa fa-map-marker-alt"></i>
+      <span>Track</span>
+    </a>
+  </div>
+</nav>
+
 </body>
 </html>

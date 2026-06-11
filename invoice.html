@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Invoice – Pokepluse</title>
-  <meta name="description" content="Your official Pokepluse order invoice. View and download your purchase receipt."/>
+  <title>Invoice – Pok&eacute;mon Center</title>
+  <meta name="description" content="Your official Pok&eacute;mon Center order invoice. View and download your purchase receipt."/>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ── Root tokens ── */
     :root {
-      --gold:        #D4AF37;
+      --gold:        #8B5CF6;
       --gold-light:  #F5D76E;
-      --gold-dark:   #b8860b;
+      --gold-dark:   #7C3AED;
       --navy:        #0f172a;
       --navy-mid:    #1e293b;
       --blue:        #1A56DB;
@@ -36,7 +36,7 @@
     /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; }
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       margin: 0;
@@ -98,7 +98,7 @@
       gap: 0.5rem;
       padding: 0.65rem 1.35rem;
       border-radius: var(--radius-sm);
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -110,11 +110,11 @@
     .btn-gold {
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: #fff;
-      box-shadow: 0 4px 14px rgba(212,175,55,0.35);
+      box-shadow: 0 4px 14px rgba(139,92,246,0.35);
     }
     .btn-gold:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(212,175,55,0.45);
+      box-shadow: 0 6px 20px rgba(139,92,246,0.45);
     }
     .btn-outline {
       background: var(--surface);
@@ -145,7 +145,7 @@
       top: -60px; right: -60px;
       width: 220px; height: 220px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%);
+      background: radial-gradient(circle, rgba(139,92,246,0.12), transparent 70%);
     }
     .invoice-hero::after {
       content: '';
@@ -173,7 +173,7 @@
       width: 58px; height: 58px;
       border-radius: 12px;
       object-fit: cover;
-      border: 2px solid rgba(212,175,55,0.35);
+      border: 2px solid rgba(139,92,246,0.35);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .brand-name {
@@ -204,8 +204,8 @@
     }
     .invoice-badge {
       display: inline-block;
-      background: rgba(212,175,55,0.15);
-      border: 1px solid rgba(212,175,55,0.4);
+      background: rgba(139,92,246,0.15);
+      border: 1px solid rgba(139,92,246,0.4);
       border-radius: 6px;
       padding: 0.3rem 0.9rem;
       margin-top: 0.6rem;
@@ -530,9 +530,9 @@
       <div class="invoice-hero">
         <div class="hero-inner">
           <div class="brand-block">
-            <img src="logo.jpeg" alt="Pokepluse" class="brand-logo" onerror="this.style.display='none'">
+            <img src="logo.jpeg" alt="Pok&eacute;mon Center" class="brand-logo" onerror="this.style.display='none'">
             <div>
-              <h2 class="brand-name">Pokepluse</h2>
+              <h2 class="brand-name">Pok&eacute;mon Center</h2>
               <p class="brand-sub">Premier International TCG Cards</p>
             </div>
           </div>
@@ -627,19 +627,19 @@
 
         <!-- Footer note -->
         <div style="text-align:center;color:var(--text-muted);font-size:0.88rem;line-height:1.7;margin-bottom:0.5rem;">
-          Thank you for shopping with <strong style="color:var(--text);">Pokepluse</strong>! 🎉<br>
+          Thank you for shopping with <strong style="color:var(--text);">Pok&eacute;mon Center</strong>! 🎉<br>
           Questions about this order? Contact us at
-          <a href="mailto:contact@pokepluse.com" style="color:var(--blue);font-weight:600;">contact@pokepluse.com</a>
+          <a href="mailto:contact@pokemoncenter.com" style="color:var(--blue);font-weight:600;">contact@pokemoncenter.com</a>
         </div>
 
       </div><!-- /invoice-body -->
 
       <!-- Bottom bar -->
       <div class="invoice-footer-bar">
-        <div class="footer-brand">Pokepluse</div>
+        <div class="footer-brand">Pok&eacute;mon Center</div>
         <div class="footer-note">
-          <a href="mailto:contact@pokepluse.com">contact@pokepluse.com</a><br>
-          © <span id="yr"></span> Pokepluse · All rights reserved.
+          <a href="mailto:contact@pokemoncenter.com">contact@pokemoncenter.com</a><br>
+          © <span id="yr"></span> Pok&eacute;mon Center · All rights reserved.
         </div>
       </div>
 
