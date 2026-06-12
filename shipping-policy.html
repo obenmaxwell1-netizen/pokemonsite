@@ -80,7 +80,71 @@
     </div>
 
     <div class="glass-card policy-content" id="policy-content-container" style="padding: 3rem; line-height: 1.8;">
-      <p style="text-align:center;"><i class="fa fa-spinner fa-spin"></i> Loading policy...</p>
+      <p>Thank you for shopping with Pokémon Center. We are committed to delivering your orders quickly, securely, and efficiently across the USA, the EU, and other European countries.</p>
+      <p>Please review our shipping policy below to understand how and when you will receive your order.</p>
+
+      <h2>Shipping Locations</h2>
+      <p>We currently ship worldwide like the following regions:</p>
+      <ul>
+        <li><strong>United States (USA)</strong> &ndash; All 50 states</li>
+        <li><strong>European Union (EU)</strong> &ndash; All member countries</li>
+        <li><strong>Other European Countries</strong> &ndash; Including but not limited to the UK, Norway, Switzerland, and Iceland</li>
+      </ul>
+      <p>If your country is not listed at checkout, please contact us at <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a> for assistance.</p>
+
+      <h2>Processing Time</h2>
+      <ul>
+        <li>Orders are typically processed within 1&ndash;2 business days.</li>
+        <li>Orders placed on weekends or holidays will be processed the next business day.</li>
+        <li>You will receive a confirmation email with tracking information once your order is shipped.</li>
+      </ul>
+
+      <h2>Shipping Methods & Delivery Timeframes</h2>
+      <p><strong>📦 United States</strong></p>
+      <ul>
+        <li>Standard Shipping: 3&ndash;5 business days</li>
+        <li>Express Shipping: 1&ndash;3 business days</li>
+        <li><small><em>(Carrier: USPS, UPS, FedEx, etc. depending on your location)</em></small></li>
+      </ul>
+
+      <p><strong>🇪🇺 European Union & Other European Countries</strong></p>
+      <ul>
+        <li>Standard International Shipping: 4&ndash;8 business days</li>
+        <li>Express International Shipping: 2&ndash;5 business days</li>
+        <li><small><em>(Carrier: DHL, UPS, or local postal partners)</em></small></li>
+      </ul>
+      <blockquote><strong>Note:</strong> Delivery times are estimates and may vary due to customs clearance, local delivery conditions, or unforeseen delays.</blockquote>
+
+      <h2>Shipping Rates</h2>
+      <ul>
+        <li>Shipping costs are calculated at checkout based on your location, order weight, and shipping method selected.</li>
+        <li>Free Shipping may be available on qualifying orders (e.g., over $2000 USD) &mdash; check our current promotions or banner notices on the homepage.</li>
+      </ul>
+
+      <h2>Tracking Your Order</h2>
+      <p>Once your order ships, you will receive an email with a tracking number and link. You can track your order status anytime.</p>
+
+      <h2>Shipping Restrictions</h2>
+      <ul>
+        <li>All shipments require age verification to ensure compliance with local laws.</li>
+        <li>Some products may be restricted from international shipping due to carrier or customs regulations.</li>
+        <li>If an item cannot be shipped to your destination, we will contact you and provide a full refund.</li>
+      </ul>
+
+      <h2>Lost, Delayed, or Damaged Packages</h2>
+      <p>If your package is:</p>
+      <ul>
+        <li><strong>Delayed:</strong> Please allow up to 7 extra business days during peak seasons.</li>
+        <li><strong>Lost:</strong> Contact us at <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a> if your tracking hasn't updated in 7+ days.</li>
+        <li><strong>Damaged:</strong> Send photos of the damaged item and packaging within 48 hours of delivery. We'll work with you to resolve the issue quickly.</li>
+      </ul>
+
+      <h2>Contact Us</h2>
+      <p>For any shipping-related questions, please contact our support team:</p>
+      <ul>
+        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a></li>
+        <li><i class="fa fa-globe"></i> Website: <a href="https://xn--pokemoncenter-dhb.com" style="color: var(--blue);">https://xn--pokemoncenter-dhb.com</a></li>
+      </ul>
     </div>
   </div>
 </div>
@@ -134,17 +198,6 @@
       navLinks.classList.toggle('active');
     });
   }
-
-  // Fetch Shipping Policy
-  document.addEventListener('DOMContentLoaded', async () => {
-    const container = document.getElementById('policy-content-container');
-    const { data, error } = await supabase.from('site_content').select('content').eq('id', 'shipping-policy').single();
-    if (error || !data) {
-      container.innerHTML = '<p style="color:var(--red);text-align:center;">Failed to load policy. Please check back later.</p>';
-      return;
-    }
-    container.innerHTML = data.content;
-  });
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

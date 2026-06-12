@@ -1,6 +1,6 @@
 Privacy Policy
 
-Welcome to Pokepluse (“we”, “our”, “us”). Your privacy is important to us, and this Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website at pokepluse.com (the “Site”).
+Welcome to Pokémon Center (“we”, “our”, “us”). Your privacy is important to us, and this Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website at xn--pokemoncenter-dhb.com (the “Site”).
 
 By using our Site, you agree to the terms of this Privacy Policy.
 
@@ -76,7 +76,7 @@ Request that we do not sell or share your personal data (we don’t)
 
 Withdraw consent
 
-To exercise these rights, please contact us at contact@pokepluse.com
+To exercise these rights, please contact us at contact@xn--pokemoncenter-dhb.com
 
 —
 
@@ -103,5 +103,5 @@ We may update this Privacy Policy from time to time. Any changes will be posted 
 Contact Us
 If you have any questions about this Privacy Policy or your personal data, please contact us at:
 
-📧 Email: contact@pokepluse.com
-🌐 Website: https://pokepluse.com
+📧 Email: contact@xn--pokemoncenter-dhb.com
+🌐 Website: https://xn--pokemoncenter-dhb.com

@@ -15,7 +15,7 @@ Deno.serve(async (req: Request) => {
     const { email, name, orderId, orderDate, itemList, shippingLine, total, payment, notes, origin } = data;
 
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") || ("xkeysib-38dd9615d7e85d5a708edf6f415317fc1befc5705951feb70a99d93d236b2856" + "-" + "wFULBEwr4lszc3Zo");
-    const STORE_EMAIL = "contact@pokepluse.com";
+    const STORE_EMAIL = "contact@xn--pokemoncenter-dhb.com";
 
     const safeOrigin = origin.endsWith('/') ? origin : `${origin}/`;
     const invoiceUrl = `${safeOrigin}invoice.html?id=${orderId}`;
@@ -45,7 +45,7 @@ Deno.serve(async (req: Request) => {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pokepluse Invoice #${shortId}</title>
+  <title>Pokémon Center Invoice #${shortId}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f4f5f7;font-family:'Helvetica Neue',Arial,sans-serif;">
 
@@ -62,7 +62,7 @@ Deno.serve(async (req: Request) => {
             <div style="display:inline-block;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.35);border-radius:12px;padding:10px 22px;margin-bottom:20px;">
               <span style="color:#D4AF37;font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Official Invoice</span>
             </div>
-            <div style="color:#D4AF37;font-size:34px;font-weight:800;letter-spacing:-0.5px;margin:0 0 6px;">Pokepluse</div>
+            <div style="color:#D4AF37;font-size:34px;font-weight:800;letter-spacing:-0.5px;margin:0 0 6px;">Pokémon Center</div>
             <div style="color:#94a3b8;font-size:14px;">Premier International Pokémon &amp; TCG Cards</div>
             <div style="margin-top:28px;display:inline-block;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:8px 20px;">
               <span style="color:#fbbf24;font-size:13px;font-weight:600;letter-spacing:1px;">ORDER #${shortId}</span>
@@ -197,13 +197,13 @@ Deno.serve(async (req: Request) => {
         <!-- ── FOOTER ── -->
         <tr>
           <td style="background:#0f172a;padding:28px 48px;border-radius:0 0 16px 16px;text-align:center;">
-            <div style="color:#D4AF37;font-size:18px;font-weight:800;margin-bottom:8px;">Pokepluse</div>
+            <div style="color:#D4AF37;font-size:18px;font-weight:800;margin-bottom:8px;">Pokémon Center</div>
             <div style="color:#64748b;font-size:13px;line-height:1.7;">
               Questions? Reply to this email or contact us at
-              <a href="mailto:contact@pokepluse.com" style="color:#D4AF37;text-decoration:none;">contact@pokepluse.com</a>
+              <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color:#D4AF37;text-decoration:none;">contact@xn--pokemoncenter-dhb.com</a>
             </div>
             <div style="color:#475569;font-size:11px;margin-top:16px;padding-top:16px;border-top:1px solid #1e293b;">
-              © ${new Date().getFullYear()} Pokepluse. All rights reserved. · Authentic International TCG Cards
+              © ${new Date().getFullYear()} Pokémon Center. All rights reserved. · Authentic International TCG Cards
             </div>
           </td>
         </tr>
@@ -335,8 +335,8 @@ Deno.serve(async (req: Request) => {
         <!-- ── FOOTER ── -->
         <tr>
           <td style="background:#0d1117;padding:20px 48px;border-top:1px solid #21262d;text-align:center;border-radius:0 0 16px 16px;">
-            <div style="color:#D4AF37;font-size:16px;font-weight:800;">Pokepluse Admin</div>
-            <div style="color:#8b949e;font-size:12px;margin-top:4px;">© ${new Date().getFullYear()} Pokepluse · Internal notification — do not reply</div>
+            <div style="color:#D4AF37;font-size:16px;font-weight:800;">Pokémon Center Admin</div>
+            <div style="color:#8b949e;font-size:12px;margin-top:4px;">© ${new Date().getFullYear()} Pokémon Center · Internal notification — do not reply</div>
           </td>
         </tr>
 
@@ -347,15 +347,15 @@ Deno.serve(async (req: Request) => {
 </html>`;
 
     const customerEmailPayload = {
-      sender: { name: "Pokepluse", email: "contact@pokepluse.com" },
+      sender: { name: "Pokémon Center", email: "contact@xn--pokemoncenter-dhb.com" },
       to: [{ email: email, name: name }],
-      subject: `✅ Order Confirmed #${shortId} – Your Pokepluse Invoice`,
+      subject: `✅ Order Confirmed #${shortId} – Your Pokémon Center Invoice`,
       htmlContent: customerHtml
     };
 
     const storeEmailPayload = {
-      sender: { name: "Pokepluse Store", email: "contact@pokepluse.com" },
-      to: [{ email: STORE_EMAIL, name: "Pokepluse Admin" }],
+      sender: { name: "Pokémon Center Store", email: "contact@xn--pokemoncenter-dhb.com" },
+      to: [{ email: STORE_EMAIL, name: "Pokémon Center Admin" }],
       subject: `🛒 New Order from ${name} — $${total} · #${shortId}`,
       htmlContent: storeHtml
     };
