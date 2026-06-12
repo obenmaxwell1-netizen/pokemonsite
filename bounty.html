@@ -190,8 +190,8 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
         body: JSON.stringify({
-          sender: { name: 'Pokémon Center Bounty Board', email: 'contact@pokemoncenter.com' },
-          to: [{ email: 'obenmaxwell1@gmail.com', name: 'Admin' }],
+          sender: { name: 'Pokémon Center Bounty Board', email: 'contact@xn--pokemoncenter-dhb.com' },
+          to: [{ email: 'contact@xn--pokemoncenter-dhb.com', name: 'Admin' }],
           subject: `🎯 New Bounty Request: ${card_name}`,
           htmlContent: `<h2>New Bounty Request</h2><p><strong>Card:</strong> ${card_name}</p><p><strong>Condition:</strong> ${condition}</p><p><strong>Budget:</strong> $${budget}</p><p><strong>Client Email:</strong> ${email}</p><p><strong>Notes:</strong> ${notes || 'None'}</p><p>View all bounty requests in the <a href="https://obenmaxwell1-netizen.github.io/pokemonsite/admin.html">Admin Dashboard</a>.</p>`
         })
