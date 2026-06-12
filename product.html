@@ -167,7 +167,7 @@
       <div class="product-layout">
         <div class="product-gallery">          <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-glass);">
             <img src="${encodeURI(currentImages[0]||'')}" alt="${p.name}" class="main-img" id="main-img" onerror="this.src='';this.style.display='flex';this.innerHTML='🃏'" style="border:none;"/>
-            <button onclick="openVault()" style="position:absolute; bottom:15px; right:15px; background:rgba(10,10,15,0.8); backdrop-filter:blur(8px); border:1px solid rgba(59,130,246,0.4); color:var(--text-primary); border-radius:var(--radius-md); padding:0.6rem 1rem; cursor:pointer; font-weight:600; font-size:0.85rem; transition:var(--transition); box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:10;"><i class="fa fa-magnifying-glass" style="color:var(--blue); margin-right:5px;"></i> Inspect Vault</button>
+            <button onclick="openVault()" style="position:absolute; bottom:15px; right:15px; background:rgba(10,10,15,0.8); backdrop-filter:blur(8px); border:1px solid rgba(212, 175, 55,0.4); color:var(--text-primary); border-radius:var(--radius-md); padding:0.6rem 1rem; cursor:pointer; font-weight:600; font-size:0.85rem; transition:var(--transition); box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:10;"><i class="fa fa-magnifying-glass" style="color:var(--blue); margin-right:5px;"></i> Inspect Vault</button>
             ${currentImages.length > 1 ? `
             <button onclick="prevImg()" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-left"></i></button>
             <button onclick="nextImg()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition);" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'"><i class="fa fa-chevron-right"></i></button>
@@ -200,7 +200,7 @@
             </button>
             <a href="cart.html" class="btn btn-outline btn-lg"><i class="fa fa-shopping-bag"></i> View Cart</a>
           </div>` : `<div class="btn btn-outline btn-lg" style="opacity:0.5;cursor:not-allowed;">Out of Stock</div>`}
-          <div style="margin-top:1.5rem;padding:1rem;border-radius:var(--radius-md);background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);font-size:0.85rem;color:var(--text-secondary);">
+          <div style="margin-top:1.5rem;padding:1rem;border-radius:var(--radius-md);background:rgba(212, 175, 55,0.08);border:1px solid rgba(212, 175, 55,0.2);font-size:0.85rem;color:var(--text-secondary);">
             <i class="fa fa-shield-halved" style="color:var(--blue);margin-right:0.5rem;"></i>
             Add to your cart, then place an order. We'll process your order and get back to you within 24 hours.
           </div>
@@ -258,7 +258,7 @@
   <button onclick="document.getElementById('vault-modal').style.display='none'" style="position:absolute; top:20px; right:30px; background:transparent; border:none; color:white; font-size:2.5rem; cursor:pointer; z-index:10000; transition:var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='white'"><i class="fa fa-times"></i></button>
   <div style="position:absolute; top:25px; left:30px; color:var(--blue); font-size:1.2rem; font-weight:800; letter-spacing:2px; text-transform:uppercase;"><i class="fa fa-magnifying-glass"></i> Vault Inspection</div>
   <div id="vault-image-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:crosshair;">
-    <img id="vault-img" src="" style="max-height:90vh; max-width:90vw; border-radius:var(--radius-lg); transition: transform 0.1s ease-out; transform-origin: center center; box-shadow: 0 0 50px rgba(59,130,246,0.1);" />
+    <img id="vault-img" src="" style="max-height:90vh; max-width:90vw; border-radius:var(--radius-lg); transition: transform 0.1s ease-out; transform-origin: center center; box-shadow: 0 0 50px rgba(212, 175, 55,0.1);" />
   </div>
 </div>
 <script src="js/translate.js"></script>

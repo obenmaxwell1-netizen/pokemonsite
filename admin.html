@@ -399,7 +399,7 @@
           </div>
           <span class="stock-badge ${p.stock_status==='in_stock'?'stock-in':'stock-out'}" style="white-space:nowrap;">${p.stock_status==='in_stock'?'In Stock':'Sold Out'}</span>
           <span style="font-weight:700;color:var(--gold);">$${Number(p.price).toFixed(2)}</span>
-          ${p.featured ? '<span style="font-size:0.75rem; background:rgba(139,92,246,0.2); color:var(--gold); padding:2px 6px; border-radius:4px; font-weight:600;"><i class="fa fa-star"></i> Featured</span>' : ''}
+          ${p.featured ? '<span style="font-size:0.75rem; background:rgba(212, 175, 55,0.2); color:var(--gold); padding:2px 6px; border-radius:4px; font-weight:600;"><i class="fa fa-star"></i> Featured</span>' : ''}
           <div class="action-btns">
             <button class="btn-icon" onclick="editProduct('${p.id}')" title="Edit"><i class="fa fa-edit"></i></button>
             <button class="btn-icon" onclick="toggleStock('${p.id}','${p.stock_status}')" title="Toggle Stock"><i class="fa fa-toggle-${p.stock_status==='in_stock'?'on':'off'}"></i></button>
