@@ -508,7 +508,10 @@
 
       document.getElementById('featured-banner-desc').textContent = p.description || 'Grab yours before they sell out!';
       if (p.images && p.images.length > 0) {
-        document.getElementById('featured-banner-img').src = encodeURI(p.images[0]);
+        // Ensure image shows up correctly even if it has %20 or spaces
+        const imgEl = document.getElementById('featured-banner-img');
+        imgEl.style.display = 'block'; // reset in case it was hidden previously
+        imgEl.src = p.images[0];
       }
       document.getElementById('featured-banner-link').href = `product.html?id=${p.id}`;
     }
