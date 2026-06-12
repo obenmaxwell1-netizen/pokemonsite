@@ -63,6 +63,7 @@ CREATE POLICY "Admin can insert/update products" ON public.products FOR ALL USIN
 -- Orders: public insert (for manual inquiry without strict auth), user read
 CREATE POLICY "Anyone can insert an order" ON public.orders FOR INSERT WITH CHECK (true);
 CREATE POLICY "Users can view own orders" ON public.orders FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Anyone can view order by id" ON public.orders FOR SELECT USING (true);
 CREATE POLICY "Admin can view all orders" ON public.orders FOR ALL USING (auth.role() = 'service_role');
 
 -- Profiles: user read/update

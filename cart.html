@@ -995,7 +995,11 @@
     btn.disabled = true;
     btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Placing Order…';
 
-    const { data, error } = await supabase.from('orders').insert({
+    // Generate order ID client-side to avoid needing SELECT policy after insert
+    const orderId = crypto.randomUUID();
+
+    const { error } = await supabase.from('orders').insert({
+      id: orderId,
       user_id: null,
       user_name: name,
       user_email: email,
@@ -1005,16 +1009,16 @@
       notes: notes,
       shipping_address: shippingAddress,
       status: 'pending'
-    }).select();
+    });
 
-    if (error || !data || !data.length) {
+    if (error) {
+      console.error('Order insert error:', error);
       showToast('Failed to place order. Please try again.', 'error');
       btn.disabled = false;
       btn.innerHTML = '<i class="fa fa-paper-plane"></i> Place Order';
       return;
     }
 
-    const orderId = data[0].id;
     clearCart();
 
     /* Success UI */
