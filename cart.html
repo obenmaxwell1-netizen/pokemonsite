@@ -776,23 +776,7 @@
           <div class="cp-section-label"><i class="fa fa-map-marker-alt"></i> Shipping Address *</div>
           <div class="cp-addr-fields">
             <div class="cp-field" style="margin:0;">
-              <select id="inq-country" onchange="toggleOtherCountry(this)">
-                <option value="">Country / Region *</option>
-                <option>United States</option><option>United Kingdom</option><option>Canada</option>
-                <option>Australia</option><option>Malaysia</option><option>Singapore</option>
-                <option>Nigeria</option><option>South Africa</option><option>Ghana</option>
-                <option>Kenya</option><option>India</option><option>Japan</option>
-                <option>China</option><option>South Korea</option><option>Vietnam</option>
-                <option>Philippines</option><option>Indonesia</option><option>Thailand</option>
-                <option>Germany</option><option>France</option><option>Spain</option>
-                <option>Italy</option><option>Netherlands</option><option>Brazil</option>
-                <option>Mexico</option><option>United Arab Emirates</option><option>Saudi Arabia</option>
-                <option>New Zealand</option><option>Ireland</option><option>Sweden</option>
-                <option>Norway</option><option>Denmark</option><option>Other</option>
-              </select>
-            </div>
-            <div class="cp-field" id="country-other-wrap" style="margin:0;display:none;">
-              <input type="text" id="inq-country-other" placeholder="Please specify your country *"/>
+              <input type="text" id="inq-country" placeholder="Country / Region *" autocomplete="country-name"/>
             </div>
             <div class="cp-field" style="margin:0;">
               <input type="text" id="inq-street" placeholder="Street address *" autocomplete="street-address"/>
@@ -990,12 +974,7 @@
     const payment = document.getElementById('inq-payment').value;
     const notes   = document.getElementById('inq-notes').value.trim();
 
-    let country = document.getElementById('inq-country').value;
-    if (country === 'Other') {
-      const other = document.getElementById('inq-country-other').value.trim();
-      if (!other) { showToast('Please specify your country.', 'error'); return; }
-      country = other;
-    }
+    const country = document.getElementById('inq-country').value.trim();
     const street = document.getElementById('inq-street').value.trim();
     const apt    = document.getElementById('inq-apt').value.trim();
     const city   = document.getElementById('inq-city').value.trim();
@@ -1131,12 +1110,7 @@
     document.getElementById('pay-error').style.display = 'none';
   }
 
-  /* ── Country toggle ── */
-  function toggleOtherCountry(sel) {
-    const wrap = document.getElementById('country-other-wrap');
-    if (sel.value === 'Other') { wrap.style.display = 'block'; }
-    else { wrap.style.display = 'none'; }
-  }
+
 
   /* ── Mobile menu ── */
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
