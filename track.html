@@ -132,14 +132,66 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase.js"></script>
 <script src="js/cart.js"></script>
+<style>
+  .timeline { position:relative; padding:1.5rem 0; }
+  .timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:var(--border-glass); }
+  .timeline-step { position:relative; padding-left:56px; margin-bottom:1.5rem; }
+  .timeline-step:last-child { margin-bottom:0; }
+  .timeline-dot { position:absolute; left:8px; top:2px; width:24px; height:24px; border-radius:50%; border:2px solid var(--border-glass); background:var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--text-muted); transition:all 0.3s; }
+  .timeline-dot.done { background:var(--gold); border-color:var(--gold); color:#000; box-shadow:0 0 12px rgba(212,175,55,0.5); }
+  .timeline-dot.active { background:var(--blue); border-color:var(--blue); color:#fff; box-shadow:0 0 12px rgba(59,130,246,0.5); animation:pulse 2s infinite; }
+  .timeline-dot.cancelled { background:var(--red); border-color:var(--red); color:#fff; }
+  .timeline-label { font-weight:600; font-size:0.9rem; margin-bottom:2px; }
+  .timeline-label.done { color:var(--gold); }
+  .timeline-label.active { color:var(--text-primary); }
+  .timeline-label.pending-step { color:var(--text-muted); }
+  .timeline-sub { font-size:0.8rem; color:var(--text-muted); }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 8px rgba(59,130,246,0.5);} 50%{box-shadow:0 0 20px rgba(59,130,246,0.8);} }
+</style>
 <script>
-  // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
-  if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+  if (mobileMenuBtn && navLinks) { mobileMenuBtn.addEventListener('click', () => navLinks.classList.toggle('active')); }
+
+  // Auto-fill order ID from URL param (e.g. track.html?id=xxxx)
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
+    if (idParam) {
+      document.getElementById('track-id').value = idParam;
+      document.getElementById('track-email').focus();
+    }
+  });
+
+  const STEPS = [
+    { key: 'pending',      icon: 'fa-clock',        label: 'Order Placed',    sub: 'We have received your order.' },
+    { key: 'confirmed',    icon: 'fa-check-circle', label: 'Confirmed',       sub: 'Your order has been confirmed by our team.' },
+    { key: 'payment done',icon: 'fa-credit-card',  label: 'Payment Done',    sub: 'Payment has been verified.' },
+    { key: 'shipping now', icon: 'fa-truck',        label: 'Shipping Now',    sub: 'Your package is on its way!' },
+    { key: 'delivered',    icon: 'fa-box-open',     label: 'Delivered',       sub: 'Package delivered. Enjoy your cards!' },
+  ];
+
+  function buildTimeline(currentStatus) {
+    const isCancelled = currentStatus.toLowerCase() === 'cancelled';
+    const currentIdx = STEPS.findIndex(s => s.key === currentStatus.toLowerCase());
+    let html = '<div class="timeline">';
+    STEPS.forEach((step, i) => {
+      let state = 'pending-step';
+      let dotClass = '';
+      if (isCancelled) { dotClass = i === 0 ? 'done' : ''; state = i === 0 ? 'done' : 'pending-step'; }
+      else if (i < currentIdx) { state = 'done'; dotClass = 'done'; }
+      else if (i === currentIdx) { state = 'active'; dotClass = 'active'; }
+      html += `<div class="timeline-step">
+        <div class="timeline-dot ${dotClass}"><i class="fa ${step.icon}"></i></div>
+        <div class="timeline-label ${state}">${step.label}</div>
+        <div class="timeline-sub">${state === 'active' ? '<strong style="color:var(--blue);">' + step.sub + '</strong>' : step.sub}</div>
+      </div>`;
     });
+    if (isCancelled) {
+      html += `<div class="timeline-step"><div class="timeline-dot cancelled"><i class="fa fa-times"></i></div><div class="timeline-label" style="color:var(--red);">Cancelled</div><div class="timeline-sub">This order was cancelled.</div></div>`;
+    }
+    html += '</div>';
+    return html;
   }
 
   async function trackOrder() {
@@ -147,92 +199,52 @@
     const email = document.getElementById('track-email').value.trim();
     const btn = document.getElementById('track-btn');
     const resultDiv = document.getElementById('track-result');
-
-    if (!orderId || !email) {
-      showToast('❌ Please enter both Tracking ID and Email.', 'error');
-      return;
-    }
-
-    // Basic UUID format check (optional but good for UX)
-    if (orderId.length < 10) {
-      showToast('❌ Invalid Tracking ID format.', 'error');
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Searching...';
+    if (!orderId || !email) { showToast('Please enter both Tracking ID and Email.', 'error'); return; }
+    if (orderId.length < 10) { showToast('Invalid Tracking ID format.', 'error'); return; }
+    btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Searching...';
     resultDiv.style.display = 'none';
-
     try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .eq('user_email', email)
-        .single();
-
-      if (error || !data) {
-        showToast('❌ Order not found. Check your ID and Email.', 'error');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
-        return;
-      }
-
-      // Render Order Details
-      const date = new Date(data.created_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-      const statusClassMap = {
-        'pending': 'status-pending',
-        'confirmed': 'status-confirmed',
-        'payment done': 'status-payment-done',
-        'shipping now': 'status-shipping-now',
-        'cancelled': 'status-cancelled'
-      };
-      const statusClass = statusClassMap[data.status?.toLowerCase()] || 'status-pending';
-
+      const { data, error } = await supabase.from('orders').select('*').eq('id', orderId).eq('user_email', email).single();
+      if (error || !data) { showToast('Order not found. Please check your ID and Email.', 'error'); btn.disabled=false; btn.innerHTML='<i class="fa fa-search"></i> Track Order'; return; }
+      const date = new Date(data.created_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
       let itemsHtml = '';
-      if (data.items && data.items.length) {
-        itemsHtml = '<ul style="margin: 1rem 0; padding-left: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;">';
-        data.items.forEach(item => {
-          itemsHtml += `<li><strong>${item.qty}x</strong> ${item.name} - $${Number(item.price).toFixed(2)}</li>`;
-        });
-        itemsHtml += '</ul>';
+      if (data.items?.length) {
+        itemsHtml = data.items.map(item=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--border-glass);font-size:0.9rem;"><span><strong>${item.qty}x</strong> ${item.name}</span><span style="color:var(--gold);font-weight:700;">$${(Number(item.price)*(item.qty||1)).toFixed(2)}</span></div>`).join('');
       }
-
+      const shippingLine = data.shipping_address ? [data.shipping_address.street,data.shipping_address.apt,data.shipping_address.city,data.shipping_address.zip,data.shipping_address.country].filter(Boolean).join(', ') : 'N/A';
       resultDiv.innerHTML = `
-        <div class="glass-card" style="padding: 2rem;">
-          <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">Order Details</h2>
-          
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div class="glass-card" style="padding:2rem;margin-bottom:1.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border-glass);">
             <div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Status</div>
-              <div class="status-badge ${statusClass}" style="margin-top: 0.5rem; font-size: 1rem; padding: 6px 16px;">${data.status.toUpperCase()}</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.4rem;">Order ID</div>
+              <div style="font-family:monospace;font-size:0.8rem;color:var(--gold);word-break:break-all;">${data.id}</div>
             </div>
-            <div style="text-align: right;">
-              <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Date</div>
-              <div style="margin-top: 0.5rem; font-weight: 600;">${date}</div>
+            <div style="text-align:right;">
+              <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.4rem;">Placed On</div>
+              <div style="font-weight:600;font-size:0.9rem;">${date}</div>
             </div>
           </div>
-
-          <div style="margin-bottom: 1.5rem;">
-            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Items</div>
-            ${itemsHtml}
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid var(--border-glass);">
-            <span style="font-size: 1.1rem; font-weight: 600;">Total</span>
-            <span style="font-size: 1.5rem; font-weight: 800; color: var(--gold);">$${Number(data.total_price).toFixed(2)}</span>
+          <h3 style="margin-bottom:1.25rem;font-size:1rem;"><i class="fa fa-route" style="color:var(--gold);margin-right:8px;"></i>Order Status</h3>
+          ${buildTimeline(data.status || 'pending')}
+        </div>
+        <div class="glass-card" style="padding:2rem;margin-bottom:1.5rem;">
+          <h3 style="margin-bottom:1.25rem;font-size:1rem;"><i class="fa fa-shopping-bag" style="color:var(--gold);margin-right:8px;"></i>Order Summary</h3>
+          ${itemsHtml}
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:1rem;margin-top:0.5rem;">
+            <span style="font-weight:700;">Total</span>
+            <span style="font-size:1.4rem;font-weight:800;color:var(--gold);">$${Number(data.total_price).toFixed(2)}</span>
           </div>
         </div>
-      `;
-      
+        <div class="glass-card" style="padding:1.5rem;font-size:0.9rem;">
+          <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+            <div><div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.4rem;">Payment Method</div><div style="font-weight:600;">${data.payment_method||'N/A'}</div></div>
+            <div><div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.4rem;">Shipping To</div><div style="font-weight:600;">${shippingLine}</div></div>
+          </div>
+        </div>`;
       resultDiv.style.display = 'block';
-
-    } catch (e) {
-      showToast('❌ System error. Please try again later.', 'error');
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
+      resultDiv.scrollIntoView({behavior:'smooth', block:'start'});
+    } catch(e) { showToast('System error. Please try again.', 'error'); }
+    btn.disabled = false; btn.innerHTML = '<i class="fa fa-search"></i> Track Order';
   }
 </script>
 <script src="js/translate.js"></script>

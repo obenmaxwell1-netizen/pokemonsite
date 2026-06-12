@@ -79,10 +79,11 @@
   </div>
 </nav>
 
-<div class="page-header">
+<div class="page-header" id="catalog-page-header">
   <h1>Our Collection</h1>
   <p>Browse authentic international Pok&eacute;mon & One Piece TCG products</p>
 </div>
+<div id="vip-banner-container"></div>
 
 <section class="section">
   <div class="container">
@@ -199,6 +200,23 @@
   // Check URL param
   const urlParams = new URLSearchParams(window.location.search);
   const catParam = urlParams.get('cat');
+  const vipParam = urlParams.get('vip');
+  
+  if (vipParam === '1') {
+    sessionStorage.setItem('vip_access', 'true');
+  }
+
+  if (sessionStorage.getItem('vip_access') === 'true') {
+    document.getElementById('catalog-page-header').style.display = 'none';
+    document.getElementById('vip-banner-container').innerHTML = `
+      <div style="background:linear-gradient(135deg, #111, #000); padding:4rem 2rem; text-align:center; border-bottom:1px solid rgba(212,175,55,0.3); box-shadow:inset 0 -20px 50px rgba(212,175,55,0.05);">
+        <i class="fa fa-unlock" style="font-size:3rem; color:var(--gold); margin-bottom:1rem; filter:drop-shadow(0 0 10px rgba(212,175,55,0.5));"></i>
+        <h1 style="font-size:3rem; font-weight:900; text-transform:uppercase; letter-spacing:4px; margin-bottom:1rem; background:linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">The VIP Vault</h1>
+        <p style="color:var(--text-secondary); font-size:1.1rem;">You have successfully entered the Vault. Enjoy our most exclusive inventory.</p>
+      </div>
+    `;
+  }
+
   if (catParam) {
     currentFilter = catParam;
     document.querySelectorAll('[data-filter]').forEach(b => {
@@ -241,6 +259,18 @@
     document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts();
+    // Auto-scroll to products & close mobile drawer
+    setTimeout(() => {
+      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    // Close mobile drawer if open
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+    if (sidebar && sidebar.classList.contains('drawer-open')) {
+      sidebar.classList.remove('drawer-open');
+      overlay && overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
 
   function setStock(val, btn) {
@@ -248,6 +278,16 @@
     document.querySelectorAll('[data-stock]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts();
+    setTimeout(() => {
+      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+    if (sidebar && sidebar.classList.contains('drawer-open')) {
+      sidebar.classList.remove('drawer-open');
+      overlay && overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
 
   function setSort(val, btn) {
@@ -255,6 +295,16 @@
     document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts();
+    setTimeout(() => {
+      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+    if (sidebar && sidebar.classList.contains('drawer-open')) {
+      sidebar.classList.remove('drawer-open');
+      overlay && overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
 
   function renderProducts() {

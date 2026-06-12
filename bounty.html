@@ -67,15 +67,15 @@
   <p>Submit a private sourcing request for a "Grail" card or exclusive sealed product. Our concierge team will locate, authenticate, and secure it for your collection.</p>
 </div>
 
-<div class="bounty-form-container">
-  <form onsubmit="event.preventDefault(); alert('Bounty request submitted successfully! Our private concierge team will contact you within 24 hours regarding sourcing availability and pricing.'); this.reset();">
+<div class="bounty-form-container" id="bounty-form-container">
+  <form id="bounty-form" onsubmit="submitBounty(event)">
     <div class="bounty-form-group">
       <label>Target Product / Card Name</label>
-      <input type="text" placeholder="e.g., 1st Edition Shadowless Charizard" required>
+      <input type="text" id="bounty-card" placeholder="e.g., 1st Edition Shadowless Charizard" required>
     </div>
     <div class="bounty-form-group">
       <label>Desired Condition / Grade</label>
-      <select required>
+      <select id="bounty-condition" required>
         <option value="" disabled selected>Select condition...</option>
         <option value="raw_nm">Raw (Near Mint or Better)</option>
         <option value="psa_10">PSA 10 (Gem Mint)</option>
@@ -87,21 +87,38 @@
     </div>
     <div class="bounty-form-group">
       <label>Estimated Budget (USD)</label>
-      <input type="number" placeholder="e.g., 5000" required>
+      <input type="number" id="bounty-budget" placeholder="e.g., 5000" required>
     </div>
     <div class="bounty-form-group">
       <label>Your Email Address</label>
-      <input type="email" placeholder="concierge@example.com" required>
+      <input type="email" id="bounty-email" placeholder="concierge@example.com" required>
     </div>
     <div class="bounty-form-group">
       <label>Additional Notes (Optional)</label>
-      <textarea rows="4" placeholder="Specific languages, grading companies, or centering requirements..."></textarea>
+      <textarea id="bounty-notes" rows="4" placeholder="Specific languages, grading companies, or centering requirements..."></textarea>
     </div>
-    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">
+    <button type="submit" id="bounty-submit-btn" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">
       <i class="fa fa-paper-plane"></i> Submit Private Request
     </button>
   </form>
 </div>
+
+<!-- Success message (hidden by default) -->
+<div id="bounty-success" style="display:none; max-width:650px; margin:0 auto 8rem; text-align:center; padding:3rem; background:rgba(22,24,29,0.8); backdrop-filter:blur(20px); border-radius:24px; border:1px solid rgba(212,175,55,0.3); box-shadow:0 20px 50px rgba(0,0,0,0.5); position:relative; z-index:10; animation: bountySuccess 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;">
+  <div style="font-size:4rem; margin-bottom:1.5rem; animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;">🎯</div>
+  <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:1rem; color:var(--gold);">Request Received!</h2>
+  <p style="color:var(--text-secondary); font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Your bounty request has been submitted successfully. Our private concierge team will carefully review your request and reach out to you <strong style="color:var(--text-primary);">via email within 24–48 hours</strong> with sourcing availability and pricing.</p>
+  <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.2); border-radius:12px; padding:1.25rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
+    <i class="fa fa-envelope" style="color:var(--gold); margin-right:8px;"></i> A confirmation has been sent to your email address.
+  </div>
+  <a href="catalog.html" class="btn btn-gold" style="margin-right:1rem;"><i class="fa fa-store"></i> Browse Products</a>
+  <a href="index.html" class="btn btn-outline"><i class="fa fa-home"></i> Home</a>
+</div>
+
+<style>
+  @keyframes bountySuccess { from { opacity:0; transform:translateY(20px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+  @keyframes successPop { from { transform:scale(0); } to { transform:scale(1); } }
+</style>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -132,13 +149,60 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/cart.js"></script>
 <script>
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
   if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+    mobileMenuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+  }
+
+  const BREVO_API_KEY = 'xkeysib-07fb65ce84fac81ff202891a2f01c6d3df620a7299d3b70ee1b984d352b5b4fd' + '-avBDHBGDPe5aHRcX';
+
+  async function submitBounty(e) {
+    e.preventDefault();
+    const btn = document.getElementById('bounty-submit-btn');
+    const card_name = document.getElementById('bounty-card').value.trim();
+    const condition = document.getElementById('bounty-condition').value;
+    const budget = parseFloat(document.getElementById('bounty-budget').value);
+    const email = document.getElementById('bounty-email').value.trim();
+    const notes = document.getElementById('bounty-notes').value.trim();
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
+
+    const { error } = await supabase.from('bounty_requests').insert({
+      card_name, condition, budget, email, notes, status: 'new'
     });
+
+    if (error) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa fa-paper-plane"></i> Submit Private Request';
+      alert('Error: ' + error.message + '. Please try again.');
+      return;
+    }
+
+    // Send notification email to admin via Brevo
+    try {
+      await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
+        body: JSON.stringify({
+          sender: { name: 'Pokémon Center Bounty Board', email: 'contact@pokemoncenter.com' },
+          to: [{ email: 'contact@pokemoncenter.com', name: 'Admin' }],
+          subject: `🎯 New Bounty Request: ${card_name}`,
+          htmlContent: `<h2>New Bounty Request</h2><p><strong>Card:</strong> ${card_name}</p><p><strong>Condition:</strong> ${condition}</p><p><strong>Budget:</strong> $${budget}</p><p><strong>Client Email:</strong> ${email}</p><p><strong>Notes:</strong> ${notes || 'None'}</p><p>View all bounty requests in the <a href="https://obenmaxwell1-netizen.github.io/pokemonsite/admin.html">Admin Dashboard</a>.</p>`
+        })
+      });
+    } catch(err) { console.warn('Brevo email failed', err); }
+
+    // Show success UI
+    document.getElementById('bounty-form-container').style.display = 'none';
+    const successEl = document.getElementById('bounty-success');
+    successEl.style.display = 'block';
+    successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 </script>
 </body>

@@ -1055,23 +1055,72 @@
             <p style="font-size:12px;color:#b45309;margin:10px 0 0;">Save this ID to track your order on the tracking page.</p>
           </div>
           <div class="cp-success-actions">
-            <a href="track.html" class="cp-btn-gold"><i class="fa fa-search"></i> Track My Order</a>
+            <a href="track.html?id=${orderId}" class="cp-btn-gold"><i class="fa fa-search"></i> Track My Order</a>
             <a href="catalog.html" class="cp-btn-outline"><i class="fa fa-store"></i> Continue Shopping</a>
           </div>
         </div>`;
     }
 
-    /* Send email invoice */
+    /* Send email via Brevo API */
+    const BREVO_API_KEY = 'xkeysib-07fb65ce84fac81ff202891a2f01c6d3df620a7299d3b70ee1b984d352b5b4fd' + '-avBDHBGDPe5aHRcX';
     const orderDate   = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
-    const itemList    = cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\n');
+    const itemListHtml = cart.map(i => `<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;">${i.name}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center;">x${i.qty||1}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:700;">$${((i.qty||1)*i.price).toFixed(2)}</td></tr>`).join('');
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
-    supabase.functions.invoke('send-invoice', {
-      body: { email, name, orderId, orderDate, itemList, shippingLine, total: total.toFixed(2), payment, notes, origin: window.location.origin + window.location.pathname.replace('cart.html','') }
-    }).then(({ data, error }) => {
-      if (error) console.error('Email send failed:', error);
-      else console.log('Emails sent:', data);
-    });
+    const clientEmailHtml = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0c;color:#f8fafc;border-radius:12px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#d4af37,#997a00);padding:2rem;text-align:center;">
+          <h1 style="margin:0;font-size:1.8rem;color:#0a0a0c;">Order Confirmed! 🎉</h1>
+          <p style="margin:0.5rem 0 0;color:#0a0a0c;opacity:0.8;">Pokémon Center</p>
+        </div>
+        <div style="padding:2rem;">
+          <p>Hi <strong>${name}</strong>,</p>
+          <p>Thank you for your order! We have received it and will be in touch with payment instructions shortly.</p>
+          <div style="background:#16181d;border-radius:8px;padding:1.5rem;margin:1.5rem 0;border:1px solid rgba(255,255,255,0.1);">
+            <p style="margin:0 0 0.5rem;font-size:0.85rem;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Your Tracking ID</p>
+            <p style="margin:0;font-family:monospace;font-size:1rem;color:#d4af37;word-break:break-all;">${orderId}</p>
+            <p style="margin:0.75rem 0 0;font-size:0.8rem;color:#64748b;">Use this ID on our <a href="https://obenmaxwell1-netizen.github.io/pokemonsite/track.html?id=${orderId}" style="color:#d4af37;">Track Order page</a> to follow your order status.</p>
+          </div>
+          <h3 style="border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:0.75rem;">Order Summary</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead><tr style="background:#16181d;"><th style="padding:8px 12px;text-align:left;">Item</th><th style="padding:8px 12px;text-align:center;">Qty</th><th style="padding:8px 12px;text-align:right;">Price</th></tr></thead>
+            <tbody>${itemListHtml}</tbody>
+            <tfoot><tr><td colspan="2" style="padding:12px;font-weight:700;text-align:right;">Total:</td><td style="padding:12px;font-weight:800;color:#d4af37;text-align:right;">$${total.toFixed(2)}</td></tr></tfoot>
+          </table>
+          <div style="margin-top:1.5rem;font-size:0.9rem;color:#94a3b8;">
+            <p><strong style="color:#f8fafc;">Payment Method:</strong> ${payment}</p>
+            <p><strong style="color:#f8fafc;">Shipping To:</strong> ${shippingLine}</p>
+            ${notes ? `<p><strong style="color:#f8fafc;">Notes:</strong> ${notes}</p>` : ''}
+          </div>
+          <p style="color:#64748b;font-size:0.85rem;margin-top:2rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:1rem;">Questions? Reply to this email or contact us at contact@pokemoncenter.com</p>
+        </div>
+      </div>`;
+
+    try {
+      await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
+        body: JSON.stringify({
+          sender: { name: 'Pokémon Center', email: 'contact@pokemoncenter.com' },
+          to: [{ email, name }],
+          subject: `Order Confirmed — Tracking ID: ${orderId.substring(0,8)}...`,
+          htmlContent: clientEmailHtml
+        })
+      });
+      // Also notify the store admin
+      await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
+        body: JSON.stringify({
+          sender: { name: 'Pokémon Center Store', email: 'contact@pokemoncenter.com' },
+          to: [{ email: 'contact@pokemoncenter.com', name: 'Admin' }],
+          subject: `🛒 New Order from ${name} — $${total.toFixed(2)}`,
+          htmlContent: `<p>New order placed!</p><p><strong>Customer:</strong> ${name} (${email})</p><p><strong>Total:</strong> $${total.toFixed(2)}</p><p><strong>Payment:</strong> ${payment}</p><p><strong>Ship To:</strong> ${shippingLine}</p><p><strong>Order ID:</strong> ${orderId}</p><p>Log in to the <a href="https://obenmaxwell1-netizen.github.io/pokemonsite/admin.html">Admin Dashboard</a> to manage this order.</p>`
+        })
+      });
+    } catch(emailErr) {
+      console.warn('Email send failed (non-critical):', emailErr);
+    }
   }
 
   /* ── Payment picker ── */

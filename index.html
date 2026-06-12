@@ -177,15 +177,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-pika">
-    <img src="pika.webp" alt="Premium Pokemon" />
+    <img id="hero-img" src="pika.webp" alt="Featured Product" style="max-height:400px; object-fit:contain; filter:drop-shadow(0 20px 40px rgba(212,175,55,0.3)); transition:all 0.5s;" />
   </div>
   <div class="hero-content">
-    <div class="hero-badge"><i class="fa fa-crown"></i> Premium TCG International Store</div>
-    <h1>Premium Pok&eacute;mon<br/><span>Cards & Collectibles</span></h1>
+    <div class="hero-badge"><i class="fa fa-crown" style="color:var(--gold);"></i> <span id="hero-badge-text">Premium TCG International Store</span></div>
+    <h1 id="hero-title">Premium Pok&eacute;mon<br/><span style="background:linear-gradient(135deg,var(--blue-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Cards & Collectibles</span></h1>
     <div class="hero-divider"></div>
-    <p>Your premier source for authentic international Pok&eacute;mon TCG and rare collectibles. We specialize in Japanese and English sealed products, exclusive booster boxes, and premium accessories for serious collectors worldwide.</p>
+    <p id="hero-desc">Your premier source for authentic international Pok&eacute;mon TCG and rare collectibles. We specialize in Japanese and English sealed products, exclusive booster boxes, and premium accessories for serious collectors worldwide.</p>
     <div class="hero-actions">
-      <a href="catalog.html" class="btn btn-primary btn-lg"><i class="fa fa-store"></i>&nbsp; Explore The Vault</a>
+      <a id="hero-link" href="catalog.html" class="btn btn-gold btn-lg" style="box-shadow: 0 10px 25px rgba(212,175,55,0.4);"><i class="fa fa-store"></i>&nbsp; Shop Featured Item</a>
     </div>
   </div>
 </section>
@@ -492,7 +492,7 @@
     grid.innerHTML = data.map(p => buildProductCard(p)).join('');
   }
 
-  // Load featured banner
+  // Load featured banner into Hero section
   async function loadFeaturedBanner() {
     const { data, error } = await supabase.from('products').select('*').eq('featured', true).order('created_at', {ascending:false}).limit(1);
     if (!error && data && data.length > 0) {
@@ -501,19 +501,20 @@
       const parts = p.name.trim().split(' ');
       if (parts.length > 1) {
         const lastWord = parts.pop();
-        document.getElementById('featured-banner-title').innerHTML = `${parts.join(' ')} <span style="background:linear-gradient(135deg,var(--blue-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${lastWord}</span>`;
+        document.getElementById('hero-title').innerHTML = `${parts.join(' ')}<br/><span style="background:linear-gradient(135deg,var(--blue-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${lastWord}</span>`;
       } else {
-        document.getElementById('featured-banner-title').textContent = p.name;
+        document.getElementById('hero-title').textContent = p.name;
       }
 
-      document.getElementById('featured-banner-desc').textContent = p.description || 'Grab yours before they sell out!';
+      document.getElementById('hero-badge-text').textContent = "Featured Hot Item";
+      document.getElementById('hero-desc').textContent = p.description || 'Grab yours before they sell out! Extremely rare and highly sought after.';
       if (p.images && p.images.length > 0) {
-        // Ensure image shows up correctly even if it has %20 or spaces
-        const imgEl = document.getElementById('featured-banner-img');
-        imgEl.style.display = 'block'; // reset in case it was hidden previously
+        const imgEl = document.getElementById('hero-img');
         imgEl.src = p.images[0];
       }
-      document.getElementById('featured-banner-link').href = `product.html?id=${p.id}`;
+      const linkEl = document.getElementById('hero-link');
+      linkEl.href = `product.html?id=${p.id}`;
+      linkEl.innerHTML = '<i class="fa fa-shopping-cart"></i>&nbsp; Buy Now';
     }
   }
 
