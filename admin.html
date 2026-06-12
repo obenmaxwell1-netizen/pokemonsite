@@ -33,6 +33,13 @@
     .btn-icon.danger:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: var(--red); }
     .order-row { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-glass); }
     .order-row:hover { background: var(--bg-card); }
+    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .admin-sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border-glass); padding: 2rem 1.5rem; position: relative; display: flex; flex-direction: column; }
+    .admin-main { padding: 2rem; height: 100vh; overflow-y: auto; background: var(--bg-primary); }
+    .admin-nav { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+    .admin-nav-btn { display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left; background: none; border: none; padding: 0.85rem 1rem; border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; font-size: 0.95rem; font-weight: 500; font-family: 'Inter', sans-serif; transition: var(--transition); }
+    .admin-nav-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+    .admin-nav-btn.active { color: var(--gold); background: rgba(212,175,55,0.1); font-weight: 600; border: 1px solid rgba(212,175,55,0.2); }
     @media (max-width: 768px) {
       .admin-layout { grid-template-columns: 1fr; }
       .admin-sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border-glass); padding: 1.5rem 1rem 0 1rem; }
