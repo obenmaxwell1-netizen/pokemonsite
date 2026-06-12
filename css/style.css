@@ -185,11 +185,13 @@ body {
 
 .btn-primary {
   background: var(--text-primary);
-  color: #fff;
+  color: #0a0a0c;
+  font-weight: 800;
 }
 
 .btn-primary:hover {
   background: var(--text-secondary);
+  color: #0a0a0c;
 }
 
 .btn-gold {
@@ -862,8 +864,8 @@ body {
 
 /* ===== FOOTER ===== */
 .footer {
-  background: var(--text-primary);
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-primary);
   padding: 5rem 5% 2rem;
 }
 
@@ -874,22 +876,22 @@ body {
 
 .footer-logo {
   font-size: 1.75rem; font-weight: 900;
-  color: #fff; text-decoration: none;
+  color: var(--text-primary); text-decoration: none;
   margin-bottom: 1rem; display: block;
 }
 
-.footer p { color: #9ca3af; font-size: 0.95rem; line-height: 1.6; }
+.footer p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
 
-.footer h4 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; margin-bottom: 1.5rem; font-weight: 700; }
+.footer h4 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-primary); margin-bottom: 1.5rem; font-weight: 700; }
 .footer ul { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
-.footer ul a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; transition: var(--transition); }
-.footer ul a:hover { color: #fff; }
+.footer ul a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; transition: var(--transition); }
+.footer ul a:hover { color: var(--text-primary); }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;
+  border-top: 1px solid var(--border-glass); padding-top: 2rem;
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
   gap: 1rem; max-width: 1400px; margin-left: auto; margin-right: auto;
-  color: #6b7280; font-size: 0.9rem;
+  color: var(--text-muted); font-size: 0.9rem;
 }
 
 /* ===== ANIMATIONS ===== */
