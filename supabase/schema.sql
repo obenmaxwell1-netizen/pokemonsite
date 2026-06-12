@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS public.products (
     description text,
     price numeric NOT NULL DEFAULT 0,
     category text NOT NULL,
+    product_type text DEFAULT 'Booster Box',
     stock_status text NOT NULL DEFAULT 'in_stock',
     featured boolean DEFAULT false,
     images text[] DEFAULT '{}',
