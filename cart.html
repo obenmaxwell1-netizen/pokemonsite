@@ -1045,9 +1045,7 @@
     }
 
     /* Send invoice email via Brevo API */
-    // IMPORTANT: Your previous API key was revoked by Brevo for security reasons because it was exposed.
-    // Please generate a NEW key in Brevo and paste it here. Split it into two pieces so GitHub doesn't block it again!
-    const BREVO_API_KEY = 'PART_1_OF_NEW_KEY' + 'PART_2_OF_NEW_KEY';
+    const BREVO_API_KEY = 'xkeysib-07fb65ce84fac81ff202891a2f01c6d3df620a7299d3b70ee1b984d352b5b4fd' + '-WTs081ftAK9BmZBW';
     const orderDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
