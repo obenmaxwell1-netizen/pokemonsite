@@ -91,3 +91,35 @@ CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = '
 CREATE POLICY "Admin Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'products' AND auth.role() = 'authenticated');
 CREATE POLICY "Admin Update" ON storage.objects FOR UPDATE USING (bucket_id = 'products' AND auth.role() = 'authenticated');
 CREATE POLICY "Admin Delete" ON storage.objects FOR DELETE USING (bucket_id = 'products' AND auth.role() = 'authenticated');
+
+-- Bounty Requests Table
+CREATE TABLE IF NOT EXISTS public.bounty_requests (
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    card_name text NOT NULL,
+    condition text NOT NULL,
+    budget numeric NOT NULL,
+    email text NOT NULL,
+    status text DEFAULT 'pending',
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- VIP Requests Table
+CREATE TABLE IF NOT EXISTS public.vip_requests (
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    email text NOT NULL,
+    status text DEFAULT 'pending',
+    passcode text,
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- RLS for Bounty and VIP Requests
+ALTER TABLE public.bounty_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.vip_requests ENABLE ROW LEVEL SECURITY;
+
+-- Policies for Bounty and VIP Requests
+CREATE POLICY "Anyone can insert bounty requests" ON public.bounty_requests FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admin can view/update bounty requests" ON public.bounty_requests FOR ALL USING (true);
+
+CREATE POLICY "Anyone can insert vip requests" ON public.vip_requests FOR INSERT WITH CHECK (true);
+CREATE POLICY "Anyone can view granted vip requests by passcode" ON public.vip_requests FOR SELECT USING (true);
+CREATE POLICY "Admin can view/update vip requests" ON public.vip_requests FOR ALL USING (true);
