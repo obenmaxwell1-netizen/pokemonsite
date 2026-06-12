@@ -164,6 +164,10 @@
               <label>Featured? <i class="fa fa-info-circle" style="color:var(--text-muted);margin-left:4px;" title="Featured products appear in the Hot Right Now banner on the homepage."></i></label>
               <select id="prod-featured"><option value="false">No</option><option value="true">Yes</option></select>
             </div>
+            <div class="form-group">
+              <label>VIP Exclusive? <i class="fa fa-lock" style="color:var(--gold);margin-left:4px;" title="Hide this product from the public catalog and only show it in the VIP Vault."></i></label>
+              <select id="prod-is-vip"><option value="false">No</option><option value="true">Yes</option></select>
+            </div>
             <div class="form-group form-full"><label>Description</label><textarea id="prod-desc" rows="3" placeholder="Product description..."></textarea></div>
             <div class="form-group form-full" style="background:var(--bg-card);padding:1.5rem;border:1px solid var(--border-glass);border-radius:var(--radius-md);">
               <label style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;"><span>Images</span></label>
@@ -343,7 +347,10 @@
           <div><div style="font-weight:600;font-size:0.875rem;margin-bottom:2px;">${p.name}</div><div style="font-size:0.75rem;color:var(--text-muted);">${p.product_type||'Unknown Type'}</div></div>
           <span class="stock-badge ${p.stock_status==='in_stock'?'stock-in':'stock-out'}" style="white-space:nowrap;">${p.stock_status==='in_stock'?'In Stock':'Sold Out'}</span>
           <span style="font-weight:700;color:var(--gold);">$${Number(p.price).toFixed(2)}</span>
-          ${p.featured?'<span style="font-size:0.75rem;background:rgba(212,175,55,0.2);color:var(--gold);padding:2px 8px;border-radius:4px;font-weight:600;"><i class="fa fa-star"></i> Featured</span>':'<span></span>'}
+          <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+            ${p.featured?'<span style="font-size:0.7rem;background:rgba(212,175,55,0.2);color:var(--gold);padding:2px 6px;border-radius:4px;font-weight:600;"><i class="fa fa-star"></i> Featured</span>':''}
+            ${p.is_vip?'<span style="font-size:0.7rem;background:rgba(220,38,38,0.2);color:var(--red);padding:2px 6px;border-radius:4px;font-weight:600;"><i class="fa fa-lock"></i> VIP Only</span>':''}
+          </div>
           <div class="action-btns">
             <button class="btn-icon" onclick="editProduct('${p.id}')" title="Edit"><i class="fa fa-edit"></i></button>
             <button class="btn-icon" onclick="toggleStock('${p.id}','${p.stock_status}')" title="Toggle Stock"><i class="fa fa-toggle-${p.stock_status==='in_stock'?'on':'off'}"></i></button>
@@ -363,10 +370,11 @@
     const stock_status = document.getElementById('prod-stock').value;
     const description = document.getElementById('prod-desc').value.trim();
     const featured = document.getElementById('prod-featured').value === 'true';
+    const is_vip = document.getElementById('prod-is-vip').value === 'true';
     const images = document.getElementById('prod-images').value.split('\n').map(s=>s.trim()).filter(Boolean);
     const msgEl = document.getElementById('form-msg');
     if (!name||!price||!category) { msgEl.style.cssText='display:block;color:var(--red);'; msgEl.textContent='Please fill in Name, Price and Category.'; return; }
-    const payload = { name, price, category, product_type, stock_status, description, featured, images };
+    const payload = { name, price, category, product_type, stock_status, description, featured, is_vip, images };
     if (featured) { await supabase.from('products').update({featured:false}).eq('featured',true); }
     let error;
     if (id) { ({error} = await supabase.from('products').update(payload).eq('id',id)); }
@@ -386,6 +394,7 @@
     document.getElementById('prod-stock').value=p.stock_status;
     document.getElementById('prod-desc').value=p.description||'';
     document.getElementById('prod-featured').value=String(p.featured);
+    document.getElementById('prod-is-vip').value=String(!!p.is_vip);
     document.getElementById('prod-images').value=(p.images||[]).join('\n');
     document.getElementById('form-title').innerHTML='<i class="fa fa-edit" style="color:var(--gold);"></i> Edit Product';
     renderImagePreviews();
@@ -398,6 +407,7 @@
     document.getElementById('prod-type').value='Booster Box';
     document.getElementById('prod-stock').value='in_stock';
     document.getElementById('prod-featured').value='false';
+    document.getElementById('prod-is-vip').value='false';
     document.getElementById('prod-image-upload').value='';
     document.getElementById('form-title').innerHTML='<i class="fa fa-plus-circle" style="color:var(--gold);"></i> Add New Product';
     renderImagePreviews();

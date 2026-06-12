@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS public.products (
     product_type text DEFAULT 'Booster Box',
     stock_status text NOT NULL DEFAULT 'in_stock',
     featured boolean DEFAULT false,
+    is_vip boolean DEFAULT false,
     images text[] DEFAULT '{}',
     created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );

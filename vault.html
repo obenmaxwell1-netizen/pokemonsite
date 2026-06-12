@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop All Products &mdash; Pok&eacute;mon Center</title>
+  <title>The VIP Vault &mdash; Pok&eacute;mon Center</title>
   <meta name="description" content="Browse our full catalog of Japanese, Korean, and Chinese Pok&eacute;mon and One Piece TCG products."/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -79,11 +79,25 @@
   </div>
 </nav>
 
-<div class="page-header" id="catalog-page-header">
-  <h1>Our Collection</h1>
-  <p>Browse authentic international Pok&eacute;mon & One Piece TCG products</p>
+<div id="vip-auth-check" style="display:none; position:fixed; inset:0; background:#050505; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:var(--gold);">
+  <i class="fa fa-lock fa-3x" style="margin-bottom:1rem; animation:pulseLock 2s infinite;"></i>
+  <h2 style="font-family:'Outfit'; text-transform:uppercase; letter-spacing:3px;">Verifying Access...</h2>
 </div>
-<div id="vip-banner-container"></div>
+<script>
+  if (sessionStorage.getItem('vip_access') !== 'true') {
+    window.location.href = 'vip.html';
+  } else {
+    document.getElementById('vip-auth-check').style.display = 'none';
+  }
+</script>
+
+<div id="vip-banner-container">
+  <div style="background:linear-gradient(135deg, #111, #000); padding:4rem 2rem; text-align:center; border-bottom:1px solid rgba(212,175,55,0.3); box-shadow:inset 0 -20px 50px rgba(212,175,55,0.05);">
+    <i class="fa fa-gem" style="font-size:3rem; color:var(--gold); margin-bottom:1rem; filter:drop-shadow(0 0 15px rgba(212,175,55,0.5));"></i>
+    <h1 style="font-size:3.5rem; font-weight:900; text-transform:uppercase; letter-spacing:4px; margin-bottom:1rem; background:linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">The Vault</h1>
+    <p style="color:var(--text-secondary); font-size:1.1rem; max-width:600px; margin:0 auto;">Welcome to our most exclusive inventory. These items are strictly available to verified VIP members and are completely hidden from the public catalog.</p>
+  </div>
+</div>
 
 <section class="section">
   <div class="container">
@@ -174,7 +188,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>� 2024 Pok&eacute;mon Center. All rights reserved.</span>
+    <span>&copy; 2024 Pok&eacute;mon Center. All rights reserved.</span>
     <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
   </div>
 </footer>
@@ -200,22 +214,6 @@
   // Check URL param
   const urlParams = new URLSearchParams(window.location.search);
   const catParam = urlParams.get('cat');
-  const vipParam = urlParams.get('vip');
-  
-  if (vipParam === '1') {
-    sessionStorage.setItem('vip_access', 'true');
-  }
-
-  if (sessionStorage.getItem('vip_access') === 'true') {
-    document.getElementById('catalog-page-header').style.display = 'none';
-    document.getElementById('vip-banner-container').innerHTML = `
-      <div style="background:linear-gradient(135deg, #111, #000); padding:4rem 2rem; text-align:center; border-bottom:1px solid rgba(212,175,55,0.3); box-shadow:inset 0 -20px 50px rgba(212,175,55,0.05);">
-        <i class="fa fa-unlock" style="font-size:3rem; color:var(--gold); margin-bottom:1rem; filter:drop-shadow(0 0 10px rgba(212,175,55,0.5));"></i>
-        <h1 style="font-size:3rem; font-weight:900; text-transform:uppercase; letter-spacing:4px; margin-bottom:1rem; background:linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">The VIP Vault</h1>
-        <p style="color:var(--text-secondary); font-size:1.1rem;">You have successfully entered the Vault. Enjoy our most exclusive inventory.</p>
-      </div>
-    `;
-  }
 
   if (catParam) {
     currentFilter = catParam;
@@ -236,21 +234,12 @@
       </div>
     `).join('');
 
-    const cached = sessionStorage.getItem('pokevault_all_products');
-    if (cached) {
-      try {
-        allProducts = JSON.parse(cached);
-        renderProducts();
-      } catch (e) {}
-    }
-    
-    const { data, error } = await supabase.from('products').select('*').order('created_at', {ascending:false});
-    if (error || !data) { 
-      if (!cached) document.getElementById('catalog-grid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem;">No products found.</p>'; 
+    const { data, error } = await supabase.from('products').select('*').eq('is_vip', true).order('created_at', {ascending:false});
+    if (error || !data || data.length === 0) { 
+      document.getElementById('catalog-grid').innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:5rem 2rem; background:rgba(0,0,0,0.5); border-radius:var(--radius-lg); border:1px solid rgba(212,175,55,0.1);"><i class="fa fa-gem" style="font-size:3rem; color:var(--gold); margin-bottom:1rem; opacity:0.5;"></i><h3 style="color:var(--gold); margin-bottom:0.5rem;">The Vault is Currently Empty</h3><p style="color:var(--text-muted);">Check back soon for new exclusive drops.</p></div>'; 
       return; 
     }
-    allProducts = data.filter(p => !p.is_vip);
-    sessionStorage.setItem('pokevault_all_products', JSON.stringify(allProducts));
+    allProducts = data;
     renderProducts();
   }
 
