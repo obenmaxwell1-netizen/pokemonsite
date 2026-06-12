@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    .catalog-layout { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; align-items: start; }
+    .catalog-layout { display: block; margin-top: 1rem; }
     .sidebar { position: sticky; top: 90px; background: rgba(18, 20, 24, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 2rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
     .sidebar h3 { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 1.25rem; padding-left: 0.5rem; }
     .sidebar-filters { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2.5rem; }
@@ -120,39 +120,7 @@
   <div class="container">
     <div class="catalog-layout">
       
-      <!-- Mobile Drawer Controls -->
-      <div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
-      <button class="mobile-filter-btn" onclick="toggleDrawer()">
-        <i class="fa fa-filter"></i>
-      </button>
-      
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-        <h3>Game</h3>
-        <div class="sidebar-filters">
-          <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all',this)"><i class="fa fa-border-all"></i> All Products</button>
-          <button class="sidebar-btn" data-filter="english-pokemon" onclick="setFilter('english-pokemon',this)"><span class="lang-flag" style="margin-right:0;">GB</span> English Pok&eacute;mon</button>
-          <button class="sidebar-btn" data-filter="japanese-pokemon" onclick="setFilter('japanese-pokemon',this)"><span class="lang-flag" style="margin-right:0;">JP</span> Japanese Pok&eacute;mon</button>
-          <button class="sidebar-btn" data-filter="korean-pokemon" onclick="setFilter('korean-pokemon',this)"><span class="lang-flag" style="margin-right:0;">KR</span> Korean Pok&eacute;mon</button>
-          <button class="sidebar-btn" data-filter="chinese-pokemon" onclick="setFilter('chinese-pokemon',this)"><span class="lang-flag" style="margin-right:0;">CN</span> Chinese Pok&eacute;mon</button>
-          <button class="sidebar-btn" data-filter="one-piece" onclick="setFilter('one-piece',this)"><i class="fa fa-layer-group"></i> One Piece TCG</button>
-          <button class="sidebar-btn" data-filter="accessories" onclick="setFilter('accessories',this)"><i class="fa fa-star"></i> Accessories</button>
-        </div>
-        <h3>Stock</h3>
-        <div class="sidebar-filters">
-          <button class="sidebar-btn active" data-stock="all" onclick="setStock('all',this)"><i class="fa fa-cubes"></i> All Items</button>
-          <button class="sidebar-btn" data-stock="in_stock" onclick="setStock('in_stock',this)"><i class="fa fa-check-circle"></i> In Stock Only</button>
-        </div>
-        <h3>Sort By</h3>
-        <div class="sidebar-filters">
-          <button class="sidebar-btn active" data-sort="newest" onclick="setSort('newest',this)"><i class="fa fa-clock"></i> Newest First</button>
-          <button class="sidebar-btn" data-sort="price-asc" onclick="setSort('price-asc',this)"><i class="fa fa-arrow-up-short-wide"></i> Price: Low to High</button>
-          <button class="sidebar-btn" data-sort="price-desc" onclick="setSort('price-desc',this)"><i class="fa fa-arrow-down-wide-short"></i> Price: High to Low</button>
-        </div>
-      </aside>
 
-      <!-- PRODUCTS -->
-      <div>
         <div style="margin-bottom:1rem;">
           <input type="text" class="search-input" placeholder="Search products..." id="search-input" oninput="renderProducts()" style="width:100%; max-width:100%;"/>
         </div>
@@ -161,7 +129,22 @@
           <div class="catalog-toolbar-text" id="result-count">Showing 0 results</div>
           
           <div class="catalog-toolbar-actions">
-            <select class="catalog-sort-select" onchange="setSort(this.value, null)">
+            <select class="catalog-sort-select" id="filter-select" onchange="setFilter(this.value)">
+              <option value="all">ALL GAMES</option>
+              <option value="english-pokemon">ENGLISH POKÉMON</option>
+              <option value="japanese-pokemon">JAPANESE POKÉMON</option>
+              <option value="korean-pokemon">KOREAN POKÉMON</option>
+              <option value="chinese-pokemon">CHINESE POKÉMON</option>
+              <option value="one-piece">ONE PIECE TCG</option>
+              <option value="accessories">ACCESSORIES</option>
+            </select>
+            
+            <select class="catalog-sort-select" id="stock-select" onchange="setStock(this.value)">
+              <option value="all">ALL STOCK</option>
+              <option value="in_stock">IN STOCK ONLY</option>
+            </select>
+            
+            <select class="catalog-sort-select" id="sort-select" onchange="setSort(this.value)">
               <option value="newest">DEFAULT SORTING</option>
               <option value="price-asc">PRICE: LOW TO HIGH</option>
               <option value="price-desc">PRICE: HIGH TO LOW</option>
@@ -251,9 +234,8 @@
 
   if (catParam) {
     currentFilter = catParam;
-    document.querySelectorAll('[data-filter]').forEach(b => {
-      b.classList.toggle('active', b.dataset.filter === catParam);
-    });
+    const fs = document.getElementById('filter-select');
+    if (fs) fs.value = catParam;
   }
 
 
@@ -277,57 +259,28 @@
     renderProducts();
   }
 
-  function setFilter(val, btn) {
+  function setFilter(val) {
     currentFilter = val;
-    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
     renderProducts();
-    // Auto-scroll to products & close mobile drawer
     setTimeout(() => {
       document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
-    // Close mobile drawer if open
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('drawer-overlay');
-    if (sidebar && sidebar.classList.contains('drawer-open')) {
-      sidebar.classList.remove('drawer-open');
-      overlay && overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
   }
 
-  function setStock(val, btn) {
+  function setStock(val) {
     currentStock = val;
-    document.querySelectorAll('[data-stock]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
     renderProducts();
     setTimeout(() => {
       document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('drawer-overlay');
-    if (sidebar && sidebar.classList.contains('drawer-open')) {
-      sidebar.classList.remove('drawer-open');
-      overlay && overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
   }
 
-  function setSort(val, btn) {
+  function setSort(val) {
     currentSort = val;
-    document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
     renderProducts();
     setTimeout(() => {
       document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('drawer-overlay');
-    if (sidebar && sidebar.classList.contains('drawer-open')) {
-      sidebar.classList.remove('drawer-open');
-      overlay && overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
   }
 
   function renderProducts() {
@@ -354,22 +307,7 @@
 
   loadProducts();
 
-  /* ── Mobile Drawer Toggle ── */
-  function toggleDrawer() {
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('drawer-overlay');
-    if (sidebar && overlay) {
-      sidebar.classList.toggle('drawer-open');
-      overlay.classList.toggle('active');
-      
-      // Prevent body scrolling when drawer is open
-      if (sidebar.classList.contains('drawer-open')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    }
-  }
+
 </script>
 <script src="js/translate.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
