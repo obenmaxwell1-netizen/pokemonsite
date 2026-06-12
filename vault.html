@@ -19,10 +19,27 @@
     .sidebar-btn:hover i { color: var(--gold); }
     .sidebar-btn.active { background: linear-gradient(135deg, rgba(212, 175, 55,0.15), rgba(212, 175, 55,0.05)); color: var(--gold); border-color: rgba(212, 175, 55,0.2); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1); }
     .sidebar-btn.active i { color: var(--gold); }
-    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
-    .search-input { padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 50px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.875rem; outline: none; width: 240px; transition: var(--transition); }
+    
+    .catalog-toolbar { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .catalog-toolbar-text { color: var(--text-muted); font-size: 0.95rem; }
+    .catalog-toolbar-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .catalog-sort-select { background: transparent; border: none; border-bottom: 1px solid var(--text-muted); color: var(--text-primary); font-family: 'Inter', sans-serif; outline: none; padding-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
+    .catalog-sort-select option { color: #000; }
+    .view-toggles { display: flex; gap: 0.75rem; color: var(--text-muted); font-size: 1.1rem; }
+    .view-toggles i.active { color: var(--gold); }
+    .view-toggles i { cursor: pointer; transition: color 0.2s; }
+    .view-toggles i:hover { color: var(--text-primary); }
+    
+    .search-input { padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border-glass); border-radius: 50px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.875rem; outline: none; width: 100%; max-width: 300px; transition: var(--transition); }
     .search-input:focus { border-color: var(--blue); }
-    @media (max-width: 900px) { .catalog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
+    @media (max-width: 900px) { 
+      .catalog-layout { grid-template-columns: 1fr; } 
+      .sidebar { position: static; } 
+    }
+    @media (max-width: 600px) {
+      .catalog-toolbar { flex-direction: column; justify-content: center; text-align: center; padding: 1.5rem 1rem; }
+      .search-input { max-width: 100%; width: 100%; }
+    }
   </style>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
 </head>
@@ -136,10 +153,27 @@
 
       <!-- PRODUCTS -->
       <div>
-        <div class="results-header">
-          <span id="result-count" style="color:var(--text-muted);font-size:0.9rem;"></span>
-          <input type="text" class="search-input" placeholder="Search products..." id="search-input" oninput="renderProducts()"/>
+        <div style="margin-bottom:1rem;">
+          <input type="text" class="search-input" placeholder="Search products..." id="search-input" oninput="renderProducts()" style="width:100%; max-width:100%;"/>
         </div>
+        
+        <div class="catalog-toolbar">
+          <div class="catalog-toolbar-text" id="result-count">Showing 0 results</div>
+          
+          <div class="catalog-toolbar-actions">
+            <select class="catalog-sort-select" onchange="setSort(this.value, null)">
+              <option value="newest">DEFAULT SORTING</option>
+              <option value="price-asc">PRICE: LOW TO HIGH</option>
+              <option value="price-desc">PRICE: HIGH TO LOW</option>
+            </select>
+            
+            <div class="view-toggles">
+              <i class="fa fa-border-all active" title="Grid View"></i>
+              <i class="fa fa-list" title="List View" onclick="showToast('List view coming soon!','info')"></i>
+            </div>
+          </div>
+        </div>
+        
         <div class="products-grid" id="catalog-grid">
           <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
           <div class="skeleton" style="height:320px;border-radius:var(--radius-lg);"></div>
@@ -309,7 +343,7 @@
     else if (currentSort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
 
     const grid = document.getElementById('catalog-grid');
-    document.getElementById('result-count').textContent = `${filtered.length} product${filtered.length!==1?'s':''} found`;
+    document.getElementById('result-count').textContent = `Showing all ${filtered.length} results`;
 
     if (!filtered.length) {
       grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);"><div style="font-size:3rem;margin-bottom:1rem;"><i class="fa fa-search"></i></div><p>No products match your filters.</p></div>';
