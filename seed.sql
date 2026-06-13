@@ -1,6 +1,6 @@
 
 INSERT INTO public.site_content (id, content) VALUES 
-('privacy-policy', $BODY$<p>Welcome to Pokémon Center ("we", "our", "us"). Your privacy is important to us, and this Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website at xn--pokemoncenter-dhb.com (the "Site").</p>
+('privacy-policy', $BODY$<p>Welcome to Pokémon Center ("we", "our", "us"). Your privacy is important to us, and this Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website at pokéemoncenter.com (the "Site").</p>
       <p>By using our Site, you agree to the terms of this Privacy Policy.</p>
 
       <h2>Information We Collect</h2>
@@ -51,7 +51,7 @@ INSERT INTO public.site_content (id, content) VALUES
         <li>Request that we do not sell or share your personal data (we don't)</li>
         <li>Withdraw consent</li>
       </ul>
-      <p>To exercise these rights, please contact us at contact@xn--pokemoncenter-dhb.com</p>
+      <p>To exercise these rights, please contact us at contact@pokéemoncenter.com</p>
 
       <h2>Data Security</h2>
       <p>We use industry-standard security measures (SSL encryption, secure payment gateways, etc.) to protect your data. However, no method of transmission is 100% secure.</p>
@@ -68,8 +68,8 @@ INSERT INTO public.site_content (id, content) VALUES
       <h2>Contact Us</h2>
       <p>If you have any questions about this Privacy Policy or your personal data, please contact us at:</p>
       <ul>
-        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a></li>
-        <li><i class="fa fa-globe"></i> Website: <a href="https://xn--pokemoncenter-dhb.com" style="color: var(--blue);">https://xn--pokemoncenter-dhb.com</a></li>
+        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@pokéemoncenter.com" style="color: var(--blue);">contact@pokéemoncenter.com</a></li>
+        <li><i class="fa fa-globe"></i> Website: <a href="https://pokéemoncenter.com" style="color: var(--blue);">https://pokéemoncenter.com</a></li>
       </ul>$BODY$),
 ('shipping-policy', $BODY$<p>Thank you for shopping with Pokémon Center. We are committed to delivering your orders quickly, securely, and efficiently across the USA, the EU, and other European countries.</p>
       <p>Please review our shipping policy below to understand how and when you will receive your order.</p>
@@ -81,7 +81,7 @@ INSERT INTO public.site_content (id, content) VALUES
         <li><strong>European Union (EU)</strong> &ndash; All member countries</li>
         <li><strong>Other European Countries</strong> &ndash; Including but not limited to the UK, Norway, Switzerland, and Iceland</li>
       </ul>
-      <p>If your country is not listed at checkout, please contact us at <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a> for assistance.</p>
+      <p>If your country is not listed at checkout, please contact us at <a href="mailto:contact@pokéemoncenter.com" style="color: var(--blue);">contact@pokéemoncenter.com</a> for assistance.</p>
 
       <h2>Processing Time</h2>
       <ul>
@@ -126,14 +126,14 @@ INSERT INTO public.site_content (id, content) VALUES
       <p>If your package is:</p>
       <ul>
         <li><strong>Delayed:</strong> Please allow up to 7 extra business days during peak seasons.</li>
-        <li><strong>Lost:</strong> Contact us at <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a> if your tracking hasn't updated in 7+ days.</li>
+        <li><strong>Lost:</strong> Contact us at <a href="mailto:contact@pokéemoncenter.com" style="color: var(--blue);">contact@pokéemoncenter.com</a> if your tracking hasn't updated in 7+ days.</li>
         <li><strong>Damaged:</strong> Send photos of the damaged item and packaging within 48 hours of delivery. We'll work with you to resolve the issue quickly.</li>
       </ul>
 
       <h2>Contact Us</h2>
       <p>For any shipping-related questions, please contact our support team:</p>
       <ul>
-        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color: var(--blue);">contact@xn--pokemoncenter-dhb.com</a></li>
-        <li><i class="fa fa-globe"></i> Website: <a href="https://xn--pokemoncenter-dhb.com" style="color: var(--blue);">https://xn--pokemoncenter-dhb.com</a></li>
+        <li><i class="fa fa-envelope"></i> Email: <a href="mailto:contact@pokéemoncenter.com" style="color: var(--blue);">contact@pokéemoncenter.com</a></li>
+        <li><i class="fa fa-globe"></i> Website: <a href="https://pokéemoncenter.com" style="color: var(--blue);">https://pokéemoncenter.com</a></li>
       </ul>$BODY$)
 ON CONFLICT (id) DO UPDATE SET content = EXCLUDED.content;

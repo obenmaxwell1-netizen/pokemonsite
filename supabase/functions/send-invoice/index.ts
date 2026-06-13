@@ -15,7 +15,7 @@ Deno.serve(async (req: Request) => {
     const { email, name, orderId, orderDate, itemList, shippingLine, total, payment, notes, origin } = data;
 
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") || ("xkeysib-38dd9615d7e85d5a708edf6f415317fc1befc5705951feb70a99d93d236b2856" + "-" + "wFULBEwr4lszc3Zo");
-    const STORE_EMAIL = "contact@xn--pokemoncenter-dhb.com";
+    const STORE_EMAIL = "contact@pokéemoncenter.com";
 
     const safeOrigin = origin.endsWith('/') ? origin : `${origin}/`;
     const invoiceUrl = `${safeOrigin}invoice.html?id=${orderId}`;
@@ -200,7 +200,7 @@ Deno.serve(async (req: Request) => {
             <div style="color:#D4AF37;font-size:18px;font-weight:800;margin-bottom:8px;">Pokémon Center</div>
             <div style="color:#64748b;font-size:13px;line-height:1.7;">
               Questions? Reply to this email or contact us at
-              <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color:#D4AF37;text-decoration:none;">contact@xn--pokemoncenter-dhb.com</a>
+              <a href="mailto:contact@pokéemoncenter.com" style="color:#D4AF37;text-decoration:none;">contact@pokéemoncenter.com</a>
             </div>
             <div style="color:#475569;font-size:11px;margin-top:16px;padding-top:16px;border-top:1px solid #1e293b;">
               © ${new Date().getFullYear()} Pokémon Center. All rights reserved. · Authentic International TCG Cards
@@ -347,14 +347,14 @@ Deno.serve(async (req: Request) => {
 </html>`;
 
     const customerEmailPayload = {
-      sender: { name: "Pokémon Center", email: "contact@xn--pokemoncenter-dhb.com" },
+      sender: { name: "Pokémon Center", email: "contact@pokéemoncenter.com" },
       to: [{ email: email, name: name }],
       subject: `✅ Order Confirmed #${shortId} – Your Pokémon Center Invoice`,
       htmlContent: customerHtml
     };
 
     const storeEmailPayload = {
-      sender: { name: "Pokémon Center Store", email: "contact@xn--pokemoncenter-dhb.com" },
+      sender: { name: "Pokémon Center Store", email: "contact@pokéemoncenter.com" },
       to: [{ email: STORE_EMAIL, name: "Pokémon Center Admin" }],
       subject: `🛒 New Order from ${name} — $${total} · #${shortId}`,
       htmlContent: storeHtml

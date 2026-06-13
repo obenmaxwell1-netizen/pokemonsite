@@ -7,7 +7,7 @@ We currently ship worldwide like the following regions:
 United States (USA) – All 50 states
 European Union (EU) – All member countries
 Other European Countries – Including but not limited to the UK, Norway, Switzerland, and Iceland
-If your country is not listed at checkout, please contact us at contact@xn--pokemoncenter-dhb.com for assistance.
+If your country is not listed at checkout, please contact us at contact@pokéemoncenter.com for assistance.
 —
 Processing Time
 Orders are typically processed within 1–2 business days.
@@ -46,5 +46,5 @@ We’ll work with you to resolve the issue quickly.
 —
 Contact Us
 For any shipping-related questions, please contact our support team:
-📧 Email: contact@xn--pokemoncenter-dhb.com
-🌐 Website: https://xn--pokemoncenter-dhb.com
+📧 Email: contact@pokéemoncenter.com
+🌐 Website: https://pokéemoncenter.com
