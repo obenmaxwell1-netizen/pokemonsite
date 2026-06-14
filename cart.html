@@ -1048,7 +1048,10 @@
     // NOTE: Brevo requires sender domain to EXACTLY match the authenticated domain.
     // The authenticated domain is xn--pokemoncenter-dhb.com (Punycode for pokéemoncenter.com)
     const BREVO_API_KEY = 'xkeysib-07fb65ce84fac81ff202891a2f01c6d3df620a7299d3b70ee1b984d352b5b4fd' + '-WTs081ftAK9BmZBW';
-    const SENDER_EMAIL = 'contact@xn--pokemoncenter-dhb.com'; // Must match authenticated domain exactly
+    // IMPORTANT: Brevo only allows sending FROM verified senders.
+    // The only verified sender on this account is obenmaxwell1@gmail.com
+    const SENDER_EMAIL = 'obenmaxwell1@gmail.com';
+    const SENDER_NAME = 'Pokemon Center';
     const orderDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
@@ -1161,9 +1164,9 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
         body: JSON.stringify({
-          sender: { name: 'Pokemon Center', email: SENDER_EMAIL },
+          sender: { name: SENDER_NAME, email: SENDER_EMAIL },
           to: [{ email: email, name: name }],
-          subject: `Invoice #${orderId.substring(0,8).toUpperCase()} – Your Pokemon Center Order`,
+          subject: `Your Pokemon Center Invoice #${orderId.substring(0,8).toUpperCase()}`,
           htmlContent: clientEmailHtml,
           textContent: `Dear ${name},\n\nThank you for your order at Pokemon Center. Your order reference is ${orderId.substring(0,18).toUpperCase()}.\nAmount Due: $${total.toFixed(2)}\n\nOur team will contact you shortly with payment instructions.\n\nTrack your order at: https://obenmaxwell1-netizen.github.io/pokemonsite/track.html?id=${orderId}\n\nPokemon Center`
         })
@@ -1180,7 +1183,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
         body: JSON.stringify({
-          sender: { name: 'Pokemon Center Store', email: SENDER_EMAIL },
+          sender: { name: SENDER_NAME, email: SENDER_EMAIL },
           to: [
             { email: 'obenmaxwell1@gmail.com', name: 'Maxwell' }
           ],
