@@ -14,7 +14,7 @@ Deno.serve(async (req: Request) => {
     const data = await req.json();
     const { email, name, orderId, orderDate, itemList, shippingLine, total, payment, notes, origin } = data;
 
-    const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") || ("xkeysib-38dd9615d7e85d5a708edf6f415317fc1befc5705951feb70a99d93d236b2856" + "-" + "wFULBEwr4lszc3Zo");
+    const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") || (""
     const STORE_EMAIL = "contact@pokéemoncenter.com";
 
     const safeOrigin = origin.endsWith('/') ? origin : `${origin}/`;

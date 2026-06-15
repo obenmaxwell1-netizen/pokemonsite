@@ -1,214 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bounty Board &mdash; Pok&eacute;mon Center</title>
-  <meta name="description" content="Submit a private sourcing request for rare Pok&eacute;mon and One Piece cards. Our concierge team will locate and authenticate it for you."/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta name="description"
+    content="Submit a private sourcing request for rare Pok&eacute;mon and One Piece cards. Our concierge team will locate and authenticate it for you." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    .bounty-hero { padding: 10rem 2rem 4rem; text-align: center; max-width: 800px; margin: 0 auto; position: relative; z-index: 10; }
-    .bounty-hero h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-primary), var(--blue-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .bounty-hero p { color: var(--text-secondary); font-size: 1.15rem; line-height: 1.7; }
-    
-    .bounty-form-container { max-width: 650px; margin: 0 auto 8rem; background: rgba(22,24,29,0.7); backdrop-filter: blur(20px); padding: 3rem; border-radius: var(--radius-xl); border: 1px solid var(--border-glass); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05); position: relative; z-index: 10; }
-    .bounty-form-group { margin-bottom: 1.5rem; text-align: left; }
-    .bounty-form-group label { display: block; font-weight: 600; margin-bottom: 0.6rem; font-size: 0.95rem; color: var(--text-primary); letter-spacing: 0.5px; text-transform: uppercase; }
-    .bounty-form-group input, .bounty-form-group select, .bounty-form-group textarea { width: 100%; padding: 1rem 1.25rem; background: rgba(10,10,12,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: var(--text-primary); font-family: inherit; transition: var(--transition); font-size: 1rem; }
-    .bounty-form-group input:focus, .bounty-form-group select:focus, .bounty-form-group textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(212, 175, 55,0.15); background: rgba(15,15,20,0.9); }
-    
+    .bounty-hero {
+      padding: 10rem 2rem 4rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .bounty-hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--blue-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bounty-hero p {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
+
+    .bounty-form-container {
+      max-width: 650px;
+      margin: 0 auto 8rem;
+      background: rgba(22, 24, 29, 0.7);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-glass);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 10;
+    }
+
+    .bounty-form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .bounty-form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .bounty-form-group input,
+    .bounty-form-group select,
+    .bounty-form-group textarea {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      background: rgba(10, 10, 12, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: inherit;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    .bounty-form-group input:focus,
+    .bounty-form-group select:focus,
+    .bounty-form-group textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+      background: rgba(15, 15, 20, 0.9);
+    }
+
     /* Background effects */
-    .bounty-bg { position: fixed; inset: 0; background: radial-gradient(circle at 50% -20%, rgba(212, 175, 55,0.08), transparent 70%); z-index: 0; pointer-events: none; }
+    .bounty-bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.08), transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .bounty-hero {
+        padding: 7rem 1rem 2rem;
+      }
+      .bounty-hero h1 {
+        font-size: 2.2rem;
+      }
+      .bounty-hero p {
+        font-size: 1rem;
+      }
+      .bounty-form-container {
+        padding: 1.5rem;
+        margin: 0 1rem 4rem;
+        border-radius: 16px;
+      }
+      .bounty-form-group input,
+      .bounty-form-group select,
+      .bounty-form-group textarea {
+        padding: 0.8rem 1rem;
+      }
+      #bounty-success {
+        padding: 2rem 1rem !important;
+        margin: 0 1rem 4rem !important;
+      }
+    }
   </style>
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
 </head>
+
 <body>
-<div class="bounty-bg"></div>
+  <div class="bounty-bg"></div>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img"> <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
-      <div class="nav-dropdown-menu">
-        <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All Products</a>
-        <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
-        <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
-        <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group" style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
-        <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i> Accessories</a>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" class="premium-logo-img">
+      <span class="premium-logo-text">Pok&eacute;mon Center</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn">Shop <i class="fa fa-chevron-down"
+            style="font-size:0.7rem;margin-left:4px;"></i></button>
+        <div class="nav-dropdown-menu">
+          <a href="catalog.html"><i class="fa fa-border-all" style="color:var(--blue);margin-right:6px;"></i> All
+            Products</a>
+          <a href="catalog.html?cat=english-pokemon"><span class="lang-flag">GB</span> English Pok&eacute;mon</a>
+          <a href="catalog.html?cat=japanese-pokemon"><span class="lang-flag">JP</span> Japanese Pok&eacute;mon</a>
+          <a href="catalog.html?cat=one-piece"><i class="fa fa-layer-group"
+              style="color:var(--blue);margin-right:6px;"></i> One Piece TCG</a>
+          <a href="catalog.html?cat=accessories"><i class="fa fa-star" style="color:var(--blue);margin-right:6px;"></i>
+            Accessories</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down"
+            style="font-size:0.7rem;margin-left:4px;"></i></button>
+        <div class="nav-dropdown-menu">
+          <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty
+            Board</a>
+          <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
+        </div>
+      </li>
+      <li><a href="track.html">Track Order</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-icon">
+        <i class="fa fa-shopping-bag"></i>
+        <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+      </a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="bounty-hero">
+    <h1>The Bounty Board</h1>
+    <p>Submit a private sourcing request for a "Grail" card or exclusive sealed product. Our concierge team will locate,
+      authenticate, and secure it for your collection.</p>
+  </div>
+
+  <div class="bounty-form-container" id="bounty-form-container">
+    <form id="bounty-form" onsubmit="submitBounty(event)">
+      <div class="bounty-form-group">
+        <label>Target Product / Card Name</label>
+        <input type="text" id="bounty-card" placeholder="e.g., 1st Edition Shadowless Charizard" required>
       </div>
-    </li>
-    <li class="nav-dropdown">
-      <button class="nav-dropdown-btn">Premium <i class="fa fa-chevron-down" style="font-size:0.7rem;margin-left:4px;"></i></button>
-      <div class="nav-dropdown-menu">
-        <a href="bounty.html"><i class="fa fa-crosshairs" style="color:var(--blue);margin-right:6px;"></i> Bounty Board</a>
-        <a href="vip.html"><i class="fa fa-lock" style="color:var(--blue);margin-right:6px;"></i> VIP Vault</a>
+      <div class="bounty-form-group">
+        <label>Desired Condition / Grade</label>
+        <select id="bounty-condition" required>
+          <option value="" disabled selected>Select condition...</option>
+          <option value="raw_nm">Raw (Near Mint or Better)</option>
+          <option value="psa_10">PSA 10 (Gem Mint)</option>
+          <option value="psa_9">PSA 9 (Mint)</option>
+          <option value="bgs_10">BGS 10 (Pristine)</option>
+          <option value="sealed">Factory Sealed Box/Pack</option>
+          <option value="any">Any Condition</option>
+        </select>
       </div>
-    </li>
-    <li><a href="track.html">Track Order</a></li>
-    <li><a href="index.html#contact">Contact</a></li>
-  </ul>
-  <div class="nav-actions">
-    <a href="cart.html" class="cart-icon">
-      <i class="fa fa-shopping-bag"></i>
-      <span class="cart-badge" id="cart-count" style="display:none;">0</span>
-    </a>
-    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
-      <i class="fa fa-bars"></i>
-    </button>
+      <div class="bounty-form-group">
+        <label>Estimated Budget (USD)</label>
+        <input type="number" id="bounty-budget" placeholder="e.g., 5000" required>
+      </div>
+      <div class="bounty-form-group">
+        <label>Your Email Address</label>
+        <input type="email" id="bounty-email" placeholder="concierge@example.com" required>
+      </div>
+      <div class="bounty-form-group">
+        <label>Additional Notes (Optional)</label>
+        <textarea id="bounty-notes" rows="4"
+          placeholder="Specific languages, grading companies, or centering requirements..."></textarea>
+      </div>
+      <button type="submit" id="bounty-submit-btn" class="btn btn-primary btn-lg"
+        style="width: 100%; justify-content: center; margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">
+        <i class="fa fa-paper-plane"></i> Submit Private Request
+      </button>
+    </form>
   </div>
-</nav>
 
-<div class="bounty-hero">
-  <h1>The Bounty Board</h1>
-  <p>Submit a private sourcing request for a "Grail" card or exclusive sealed product. Our concierge team will locate, authenticate, and secure it for your collection.</p>
-</div>
-
-<div class="bounty-form-container" id="bounty-form-container">
-  <form id="bounty-form" onsubmit="submitBounty(event)">
-    <div class="bounty-form-group">
-      <label>Target Product / Card Name</label>
-      <input type="text" id="bounty-card" placeholder="e.g., 1st Edition Shadowless Charizard" required>
+  <!-- Success message (hidden by default) -->
+  <div id="bounty-success"
+    style="display:none; max-width:650px; margin:0 auto 8rem; text-align:center; padding:3rem; background:rgba(22,24,29,0.8); backdrop-filter:blur(20px); border-radius:24px; border:1px solid rgba(212,175,55,0.3); box-shadow:0 20px 50px rgba(0,0,0,0.5); position:relative; z-index:10; animation: bountySuccess 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;">
+    <div
+      style="font-size:4rem; margin-bottom:1.5rem; animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;">
+      🎯</div>
+    <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:1rem; color:var(--gold);">Request Received!</h2>
+    <p style="color:var(--text-secondary); font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Your bounty request
+      has been submitted successfully. Our private concierge team will carefully review your request and reach out to
+      you <strong style="color:var(--text-primary);">via email within 24–48 hours</strong> with sourcing availability
+      and pricing.</p>
+    <div
+      style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.2); border-radius:12px; padding:1.25rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
+      <i class="fa fa-envelope" style="color:var(--gold); margin-right:8px;"></i> A confirmation has been sent to your
+      email address.
     </div>
-    <div class="bounty-form-group">
-      <label>Desired Condition / Grade</label>
-      <select id="bounty-condition" required>
-        <option value="" disabled selected>Select condition...</option>
-        <option value="raw_nm">Raw (Near Mint or Better)</option>
-        <option value="psa_10">PSA 10 (Gem Mint)</option>
-        <option value="psa_9">PSA 9 (Mint)</option>
-        <option value="bgs_10">BGS 10 (Pristine)</option>
-        <option value="sealed">Factory Sealed Box/Pack</option>
-        <option value="any">Any Condition</option>
-      </select>
-    </div>
-    <div class="bounty-form-group">
-      <label>Estimated Budget (USD)</label>
-      <input type="number" id="bounty-budget" placeholder="e.g., 5000" required>
-    </div>
-    <div class="bounty-form-group">
-      <label>Your Email Address</label>
-      <input type="email" id="bounty-email" placeholder="concierge@example.com" required>
-    </div>
-    <div class="bounty-form-group">
-      <label>Additional Notes (Optional)</label>
-      <textarea id="bounty-notes" rows="4" placeholder="Specific languages, grading companies, or centering requirements..."></textarea>
-    </div>
-    <button type="submit" id="bounty-submit-btn" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">
-      <i class="fa fa-paper-plane"></i> Submit Private Request
-    </button>
-  </form>
-</div>
-
-<!-- Success message (hidden by default) -->
-<div id="bounty-success" style="display:none; max-width:650px; margin:0 auto 8rem; text-align:center; padding:3rem; background:rgba(22,24,29,0.8); backdrop-filter:blur(20px); border-radius:24px; border:1px solid rgba(212,175,55,0.3); box-shadow:0 20px 50px rgba(0,0,0,0.5); position:relative; z-index:10; animation: bountySuccess 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;">
-  <div style="font-size:4rem; margin-bottom:1.5rem; animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;">🎯</div>
-  <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:1rem; color:var(--gold);">Request Received!</h2>
-  <p style="color:var(--text-secondary); font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Your bounty request has been submitted successfully. Our private concierge team will carefully review your request and reach out to you <strong style="color:var(--text-primary);">via email within 24–48 hours</strong> with sourcing availability and pricing.</p>
-  <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.2); border-radius:12px; padding:1.25rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
-    <i class="fa fa-envelope" style="color:var(--gold); margin-right:8px;"></i> A confirmation has been sent to your email address.
+    <a href="catalog.html" class="btn btn-gold" style="margin-right:1rem;"><i class="fa fa-store"></i> Browse
+      Products</a>
+    <a href="index.html" class="btn btn-outline"><i class="fa fa-home"></i> Home</a>
   </div>
-  <a href="catalog.html" class="btn btn-gold" style="margin-right:1rem;"><i class="fa fa-store"></i> Browse Products</a>
-  <a href="index.html" class="btn btn-outline"><i class="fa fa-home"></i> Home</a>
-</div>
 
-<style>
-  @keyframes bountySuccess { from { opacity:0; transform:translateY(20px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
-  @keyframes successPop { from { transform:scale(0); } to { transform:scale(1); } }
-</style>
+  <style>
+    @keyframes bountySuccess {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center" style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center</div>
-      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare international Pok&eacute;mon and One Piece Trading Card Game products.</p>
-    </div>
-    <div>
-      <h4>Store</h4>
-      <ul>
-        <li><a href="catalog.html">All Products</a></li>
-        <li><a href="bounty.html">Bounty Board</a></li>
-        <li><a href="vip.html">VIP Vault</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="shipping-policy.html">Shipping Policy</a></li>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2024 Pok&eacute;mon Center. All rights reserved.</span>
-    <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
-<script src="js/cart.js"></script>
-<script>
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const navLinks = document.querySelector('.nav-links');
-  if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-  }
-
-  const BREVO_API_KEY = 'xkeysib-07fb65ce84fac81ff202891a2f01c6d3df620a7299d3b70ee1b984d352b5b4fd' + '-WTs081ftAK9BmZBW';
-
-  async function submitBounty(e) {
-    e.preventDefault();
-    const btn = document.getElementById('bounty-submit-btn');
-    const card_name = document.getElementById('bounty-card').value.trim();
-    const condition = document.getElementById('bounty-condition').value;
-    const budget = parseFloat(document.getElementById('bounty-budget').value);
-    const email = document.getElementById('bounty-email').value.trim();
-    const notes = document.getElementById('bounty-notes').value.trim();
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
-
-    const { error } = await supabase.from('bounty_requests').insert({
-      card_name, condition, budget, email, notes, status: 'new'
-    });
-
-    if (error) {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa fa-paper-plane"></i> Submit Private Request';
-      alert('Error: ' + error.message + '. Please try again.');
-      return;
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    // Send notification email to admin via Brevo
-    try {
-      await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
-        body: JSON.stringify({
-          sender: { name: 'Pokémon Center Bounty Board', email: 'contact@xn--pokemoncenter-dhb.com' },
-          to: [
-            { email: 'contact@xn--pokemoncenter-dhb.com', name: 'Admin' },
-            { email: 'obenmaxwell1@gmail.com', name: 'Maxwell' }
-          ],
-          replyTo: { email: email, name: name },
-          subject: `New Bounty Request: ${card_name}`,
-          htmlContent: `<div style="font-family:-apple-system,Arial,sans-serif;max-width:500px;margin:0 auto;background:#ffffff;padding:30px;border:1px solid #eeeeee;"><h2 style="margin:0 0 20px;border-bottom:2px solid #000;padding-bottom:10px;">New Bounty Request</h2><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:10px 0;border-bottom:1px solid #eee;color:#666;width:120px;">Card</td><td style="padding:10px 0;border-bottom:1px solid #eee;font-weight:600;">${card_name}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #eee;color:#666;">Condition</td><td style="padding:10px 0;border-bottom:1px solid #eee;">${condition}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #eee;color:#666;">Budget</td><td style="padding:10px 0;border-bottom:1px solid #eee;font-weight:600;">$${budget}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #eee;color:#666;">Client Email</td><td style="padding:10px 0;border-bottom:1px solid #eee;">${email}</td></tr><tr><td style="padding:10px 0;color:#666;vertical-align:top;">Notes</td><td style="padding:10px 0;">${notes || 'None'}</td></tr></table><div style="margin-top:30px;text-align:center;"><a href="https://obenmaxwell1-netizen.github.io/pokemonsite/admin.html" style="background:#000;color:#fff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:600;text-transform:uppercase;">View Dashboard</a></div></div>`,
-          textContent: `New Bounty Request\nCard: ${card_name}\nCondition: ${condition}\nBudget: $${budget}\nClient Email: ${email}`
-        })
-      });
-    } catch(err) { console.warn('Brevo email failed', err); }
+    @keyframes successPop {
+      from {
+        transform: scale(0);
+      }
 
-    // Show success UI
-    document.getElementById('bounty-form-container').style.display = 'none';
-    const successEl = document.getElementById('bounty-success');
-    successEl.style.display = 'block';
-    successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-</script>
+      to {
+        transform: scale(1);
+      }
+    }
+  </style>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.jpeg" alt="Pok&eacute;mon Center"
+            style="height:32px; border-radius:4px; vertical-align:middle; margin-right: 8px;"> Pok&eacute;mon Center
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">Your premier destination for rare
+          international Pok&eacute;mon and One Piece Trading Card Game products.</p>
+      </div>
+      <div>
+        <h4>Store</h4>
+        <ul>
+          <li><a href="catalog.html">All Products</a></li>
+          <li><a href="bounty.html">Bounty Board</a></li>
+          <li><a href="vip.html">VIP Vault</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="shipping-policy.html">Shipping Policy</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Pok&eacute;mon Center. All rights reserved.</span>
+      <span style="color:var(--blue-light);">Authentic International TCG Cards</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileMenuBtn && navLinks) {
+      mobileMenuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+    }
+
+    const BREVO_API_KEY = ''; // REMOVED: Do not put API keys in frontend code
+
+    async function submitBounty(e) {
+      e.preventDefault();
+      const btn = document.getElementById('bounty-submit-btn');
+      const card_name = document.getElementById('bounty-card').value.trim();
+      const condition = document.getElementById('bounty-condition').value;
+      const budget = parseFloat(document.getElementById('bounty-budget').value);
+      const email = document.getElementById('bounty-email').value.trim();
+      const notes = document.getElementById('bounty-notes').value.trim();
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
+
+      // Combine notes into card_name to bypass the missing column error in the database
+      const finalCardName = notes ? card_name + " | Notes: " + notes : card_name;
+      
+      const { error } = await supabase.from('bounty_requests').insert({
+        card_name: finalCardName.substring(0, 800), // Prevent DB length errors
+        condition, 
+        budget, 
+        email, 
+        status: 'new'
+      });
+
+      if (error) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa fa-paper-plane"></i> Submit Private Request';
+        alert('Error: ' + error.message + '. Please try again.');
+        return;
+      }
+
+      // Email notification code was removed because it exposed API keys and was blocked by CORS.
+      // You must use a Supabase Edge Function to send emails securely.
+
+      // Show success UI
+      document.getElementById('bounty-form-container').style.display = 'none';
+      const successEl = document.getElementById('bounty-success');
+      successEl.style.display = 'block';
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-nav-items">
+      <a href="index.html" class="mobile-nav-item">
+        <i class="fa fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="catalog.html" class="mobile-nav-item">
+        <i class="fa fa-border-all"></i>
+        <span>Shop</span>
+      </a>
+      <a href="bounty.html" class="mobile-nav-item">
+        <i class="fa fa-crosshairs"></i>
+        <span>Bounty</span>
+      </a>
+      <a href="track.html" class="mobile-nav-item">
+        <i class="fa fa-map-marker-alt"></i>
+        <span>Track</span>
+      </a>
+      <!-- Empty spacer to prevent overlap with chat widget -->
+      <div style="flex: 1;"></div>
+    </div>
+  </nav>
 </body>
+
 </html>
