@@ -84,6 +84,46 @@
     });
   }
 
+  function showSuccessModal(title, message) {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.inset = '0';
+    modal.style.background = 'rgba(0,0,0,0.8)';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '9999';
+    modal.style.backdropFilter = 'blur(10px)';
+    modal.style.opacity = '0';
+    modal.style.transition = 'opacity 0.4s ease';
+
+    const content = document.createElement('div');
+    content.style.background = 'linear-gradient(135deg, #12141a, #1a1c23)';
+    content.style.border = '1px solid rgba(212, 175, 55, 0.3)';
+    content.style.borderRadius = '24px';
+    content.style.padding = '3rem';
+    content.style.textAlign = 'center';
+    content.style.maxWidth = '400px';
+    content.style.transform = 'translateY(30px)';
+    content.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    content.style.boxShadow = '0 30px 60px rgba(0,0,0,0.6)';
+
+    content.innerHTML = `
+      <i class="fa fa-check-circle" style="font-size: 4rem; color: var(--gold); margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(212,175,55,0.5);"></i>
+      <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #fff;">${title}</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">${message}</p>
+      <button class="btn btn-gold" style="width: 100%;" onclick="this.parentElement.parentElement.remove()">Close</button>
+    `;
+
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+      modal.style.opacity = '1';
+      content.style.transform = 'translateY(0)';
+    }, 10);
+  }
+
   // Handle Request Access
   document.getElementById('vip-request-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -103,7 +143,7 @@
     if (error) {
       alert('Error requesting access. Please try again.');
     } else {
-      alert('Access Request Received. If approved, you will receive a one-time passcode via email within 48 hours.');
+      showSuccessModal('Request Received', 'If approved, you will receive a secret passcode via email within 48 hours.');
       document.getElementById('vip-request-form').reset();
     }
   });

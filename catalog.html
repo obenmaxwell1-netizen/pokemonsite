@@ -269,6 +269,14 @@
     document.querySelectorAll('[data-filter]').forEach(b => {
       b.classList.toggle('active', b.dataset.filter === catParam);
     });
+    // Auto-scroll to the products section if a category filter was passed in the URL
+    setTimeout(() => {
+      const target = document.querySelector('.catalog-layout');
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 500);
   }
 
 
@@ -315,7 +323,11 @@
     }
     renderProducts();
     setTimeout(() => {
-      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.querySelector('.catalog-layout');
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }, 100);
   }
 
@@ -333,7 +345,11 @@
     }
     renderProducts();
     setTimeout(() => {
-      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.querySelector('.catalog-layout');
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }, 100);
   }
 
@@ -351,7 +367,11 @@
     }
     renderProducts();
     setTimeout(() => {
-      document.getElementById('catalog-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.querySelector('.catalog-layout');
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }, 100);
   }
 

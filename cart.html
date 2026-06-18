@@ -14,7 +14,7 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     /* ─── Page background ─── */
-    body { background: #f4f6f9; }
+    body { background: #f4f6f9; overflow-x: hidden; }
 
     /* ─── Page wrapper ─── */
     .cp-wrap {
@@ -50,7 +50,7 @@
     /* ─── Two-column grid ─── */
     .cp-grid {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: minmax(0, 1fr) 420px;
       gap: 24px;
       align-items: start;
     }
@@ -540,7 +540,7 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 860px) {
-      .cp-grid { grid-template-columns: 1fr; }
+      .cp-grid { grid-template-columns: minmax(0, 1fr); }
       .cp-summary-col { position: static; }
     }
     @media (max-width: 540px) {
@@ -551,6 +551,9 @@
       .cart-item img { width: 56px; height: 56px; }
       .cp-card-head, .cp-summary-body, .cp-form-wrap, .cp-place-order-wrap { padding-left: 16px; padding-right: 16px; }
       .cp-shipping-bar { padding-left: 16px; }
+    }
+    @media (max-width: 400px) {
+      .cp-pay-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -1044,160 +1047,30 @@
         </div>`;
     }
 
-    /* Send invoice email via Brevo API */
-    // NOTE: Brevo requires sender domain to EXACTLY match the authenticated domain.
-    // The authenticated domain is xn--pokemoncenter-dhb.com (Punycode for pokéemoncenter.com)
-    const BREVO_API_KEY = ''; // Removed for security
-    // Verified sender (confirmed working via live test 2026-06-14)
-    const SENDER_EMAIL = 'contact@xn--pokemoncenter-dhb.com';
-    const SENDER_NAME = 'Pokemon Center';
-
+    /* Send invoice email via Supabase Edge Function */
     const orderDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
     const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
 
-    const clientEmailHtml = `
-      <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:640px;margin:0 auto;background:#ffffff;color:#333333;border:1px solid #e5e5e5;">
-        <!-- HEADER -->
-        <div style="padding:40px;border-bottom:2px solid #000000;">
-          <table style="width:100%;border-collapse:collapse;"><tr>
-            <td style="vertical-align:top;">
-              <h1 style="margin:0;font-size:24px;font-weight:700;color:#000000;letter-spacing:-0.5px;">POKE&#769;MON CENTER</h1>
-              <div style="font-size:12px;color:#666666;margin-top:4px;text-transform:uppercase;letter-spacing:1px;">International TCG Cards</div>
-            </td>
-            <td style="vertical-align:top;text-align:right;">
-              <div style="font-size:20px;font-weight:300;color:#000000;letter-spacing:2px;text-transform:uppercase;">Invoice</div>
-              <div style="font-size:12px;color:#666666;margin-top:4px;">${orderDate}</div>
-            </td>
-          </tr></table>
-        </div>
-        
-        <!-- ORDER DETAILS -->
-        <table style="width:100%;border-collapse:collapse;background:#fcfcfc;border-bottom:1px solid #eeeeee;"><tr>
-          <td style="padding:30px 40px;vertical-align:top;">
-            <div style="font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px;">Order Reference ID</div>
-            <div style="font-family:monospace;font-size:14px;color:#000000;font-weight:600;">${orderId.substring(0,18).toUpperCase()}</div>
-          </td>
-          <td style="padding:30px 40px;vertical-align:top;text-align:right;">
-            <div style="font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px;">Amount Due</div>
-            <div style="font-size:18px;font-weight:700;color:#000000;">$${total.toFixed(2)}</div>
-          </td>
-        </tr></table>
-
-        <!-- BODY -->
-        <div style="padding:40px;">
-          <p style="margin:0 0 10px;font-size:15px;color:#000000;">Dear <strong>${name}</strong>,</p>
-          <p style="margin:0 0 30px;font-size:14px;color:#555555;line-height:1.6;">Thank you for your order. This document serves as your official invoice. Our team will contact you shortly with the next steps to finalize your payment and shipment.</p>
-          
-          <!-- BILLED TO + SHIP TO -->
-          <table style="width:100%;border-collapse:collapse;margin-bottom:40px;">
-            <tr>
-              <td style="width:50%;vertical-align:top;padding-right:20px;">
-                <div style="font-size:10px;font-weight:700;color:#999999;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border-bottom:1px solid #eeeeee;padding-bottom:4px;">Billed To</div>
-                <div style="font-size:14px;font-weight:600;color:#000000;margin-bottom:2px;">${name}</div>
-                <div style="font-size:13px;color:#555555;">${email}</div>
-              </td>
-              <td style="width:50%;vertical-align:top;padding-left:20px;">
-                <div style="font-size:10px;font-weight:700;color:#999999;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border-bottom:1px solid #eeeeee;padding-bottom:4px;">Ship To</div>
-                <div style="font-size:13px;color:#555555;line-height:1.6;">${shippingLine}</div>
-              </td>
-            </tr>
-          </table>
-
-          <!-- ITEMS TABLE -->
-          <div style="margin-bottom:30px;">
-            <table style="width:100%;border-collapse:collapse;font-size:13px;">
-              <thead>
-                <tr>
-                  <th style="padding:10px 0;text-align:left;color:#000000;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #000000;">Description</th>
-                  <th style="padding:10px 0;text-align:center;color:#000000;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #000000;">Qty</th>
-                  <th style="padding:10px 0;text-align:right;color:#000000;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #000000;">Unit Price</th>
-                  <th style="padding:10px 0;text-align:right;color:#000000;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #000000;">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${cart.map((i) => `<tr><td style="padding:14px 0;border-bottom:1px solid #eeeeee;color:#000000;font-weight:500;">${i.name}</td><td style="padding:14px 0;border-bottom:1px solid #eeeeee;text-align:center;color:#555555;">${i.qty||1}</td><td style="padding:14px 0;border-bottom:1px solid #eeeeee;text-align:right;color:#555555;">$${Number(i.price).toFixed(2)}</td><td style="padding:14px 0;border-bottom:1px solid #eeeeee;text-align:right;font-weight:600;color:#000000;">$${((i.qty||1)*i.price).toFixed(2)}</td></tr>`).join('')}
-              </tbody>
-            </table>
-            
-            <!-- TOTALS -->
-            <table style="width:100%;font-size:13px;margin-top:20px;">
-              <tr>
-                <td style="width:60%;"></td>
-                <td style="width:40%;">
-                  <table style="width:100%;border-collapse:collapse;">
-                    <tr><td style="padding:6px 0;color:#555555;">Subtotal</td><td style="padding:6px 0;text-align:right;font-weight:500;color:#000000;">$${total.toFixed(2)}</td></tr>
-                    <tr><td style="padding:6px 0;color:#555555;border-bottom:1px solid #eeeeee;">Shipping</td><td style="padding:6px 0;text-align:right;font-weight:500;color:#000000;border-bottom:1px solid #eeeeee;">${total >= 2000 ? 'Free' : 'Calculated separately'}</td></tr>
-                    <tr><td style="padding:12px 0;font-weight:700;font-size:14px;color:#000000;">Total Due</td><td style="padding:12px 0;text-align:right;font-weight:700;font-size:18px;color:#000000;">$${total.toFixed(2)}</td></tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <!-- PAYMENT & NOTES -->
-          <div style="background:#f9f9f9;border-left:4px solid #000000;padding:16px 20px;margin-bottom:20px;">
-            <div style="font-size:11px;font-weight:700;color:#000000;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Payment Method Selected: ${payment}</div>
-            <div style="font-size:13px;color:#555555;line-height:1.5;">Our billing department will send payment details to ${email} within 24 hours.</div>
-          </div>
-
-          ${notes ? `<div style="background:#f9f9f9;border-left:4px solid #666666;padding:16px 20px;margin-bottom:20px;"><div style="font-size:11px;font-weight:700;color:#000000;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Order Notes</div><div style="font-size:13px;color:#555555;line-height:1.5;">${notes}</div></div>` : ''}
-
-          <!-- TRACKING -->
-          <div style="text-align:center;margin-top:40px;padding-top:30px;border-top:1px solid #eeeeee;">
-            <div style="font-size:11px;color:#999999;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Tracking ID</div>
-            <div style="font-family:monospace;font-size:14px;color:#000000;font-weight:600;margin-bottom:16px;">${orderId}</div>
-            <a href="https://obenmaxwell1-netizen.github.io/pokemonsite/track.html?id=${orderId}" style="display:inline-block;background:#000000;color:#ffffff;font-weight:600;font-size:13px;text-decoration:none;padding:12px 30px;border-radius:4px;letter-spacing:1px;">Track Order Status</a>
-          </div>
-        </div>
-        
-        <!-- FOOTER -->
-        <div style="background:#f5f5f5;padding:30px 40px;text-align:center;border-top:1px solid #eeeeee;">
-          <div style="font-size:12px;font-weight:600;color:#000000;margin-bottom:4px;">POKE&#769;MON CENTER</div>
-          <div style="font-size:11px;color:#666666;margin-bottom:16px;">Contact: <a href="mailto:contact@xn--pokemoncenter-dhb.com" style="color:#000000;text-decoration:none;font-weight:500;">contact@pokéemoncenter.com</a></div>
-          <div style="font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:0.5px;">This is a system generated document. Please retain for your records.</div>
-        </div>
-      </div>`;
-
     try {
-      // ── CLIENT invoice email ──
-      const clientRes = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
-        body: JSON.stringify({
-          sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-          to: [{ email: email, name: name }],
-          subject: `Your Pokemon Center Invoice #${orderId.substring(0,8).toUpperCase()}`,
-          htmlContent: clientEmailHtml,
-          textContent: `Dear ${name},\n\nThank you for your order at Pokemon Center. Your order reference is ${orderId.substring(0,18).toUpperCase()}.\nAmount Due: $${total.toFixed(2)}\n\nOur team will contact you shortly with payment instructions.\n\nTrack your order at: https://obenmaxwell1-netizen.github.io/pokemonsite/track.html?id=${orderId}\n\nPokemon Center`
-        })
+      const { data: invoiceData, error: invoiceError } = await supabase.functions.invoke('send-invoice', {
+        body: {
+          email: email,
+          name: name,
+          orderId: orderId,
+          orderDate: orderDate,
+          itemList: cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\\n'),
+          shippingLine: shippingLine,
+          total: total.toFixed(2),
+          payment: payment,
+          notes: notes,
+          origin: window.location.origin
+        }
       });
-      if (!clientRes.ok) {
-        const errText = await clientRes.text();
-        console.error('CLIENT email Brevo error:', clientRes.status, errText);
-      } else {
-        console.log('Client invoice email sent OK to:', email);
-      }
 
-      // ── ADMIN notification email ──
-      const adminRes = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
-        body: JSON.stringify({
-          sender: { name: SENDER_NAME, email: SENDER_EMAIL },
-          to: [
-            { email: 'obenmaxwell1@gmail.com', name: 'Maxwell' }
-          ],
-          replyTo: { email: email, name: name },
-          subject: `New Order from ${name} – $${total.toFixed(2)} – ${orderDate}`,
-          htmlContent: `<div style="font-family:-apple-system,Arial,sans-serif;max-width:600px;margin:0 auto;background:#ffffff;padding:30px;border:1px solid #eeeeee;"><h2 style="color:#000000;margin-top:0;font-size:20px;border-bottom:2px solid #000000;padding-bottom:10px;">New Order Received</h2><table style="width:100%;font-size:14px;border-collapse:collapse;margin-bottom:20px;"><tr><td style="padding:10px 0;color:#666666;width:140px;border-bottom:1px solid #f5f5f5;">Customer</td><td style="padding:10px 0;font-weight:600;color:#000000;border-bottom:1px solid #f5f5f5;">${name}</td></tr><tr><td style="padding:10px 0;color:#666666;border-bottom:1px solid #f5f5f5;">Email</td><td style="padding:10px 0;color:#000000;border-bottom:1px solid #f5f5f5;">${email}</td></tr><tr><td style="padding:10px 0;color:#666666;border-bottom:1px solid #f5f5f5;">Total</td><td style="padding:10px 0;font-weight:700;color:#000000;font-size:16px;border-bottom:1px solid #f5f5f5;">$${total.toFixed(2)}</td></tr><tr><td style="padding:10px 0;color:#666666;border-bottom:1px solid #f5f5f5;">Payment</td><td style="padding:10px 0;color:#000000;border-bottom:1px solid #f5f5f5;">${payment}</td></tr><tr><td style="padding:10px 0;color:#666666;border-bottom:1px solid #f5f5f5;">Ship To</td><td style="padding:10px 0;color:#000000;border-bottom:1px solid #f5f5f5;">${shippingLine}</td></tr><tr><td style="padding:10px 0;color:#666666;border-bottom:1px solid #f5f5f5;">Order ID</td><td style="padding:10px 0;font-family:monospace;font-size:13px;color:#000000;border-bottom:1px solid #f5f5f5;">${orderId}</td></tr><tr><td style="padding:10px 0;color:#666666;">Date</td><td style="padding:10px 0;color:#000000;">${orderDate}</td></tr></table><h3 style="color:#000000;font-size:16px;margin-bottom:10px;">Items Ordered</h3><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr><th style="padding:10px;color:#000000;text-align:left;border-bottom:2px solid #000000;text-transform:uppercase;font-size:11px;">Item</th><th style="padding:10px;color:#000000;text-align:center;border-bottom:2px solid #000000;text-transform:uppercase;font-size:11px;">Qty</th><th style="padding:10px;color:#000000;text-align:right;border-bottom:2px solid #000000;text-transform:uppercase;font-size:11px;">Total</th></tr></thead><tbody>${cart.map((i) => `<tr><td style="padding:12px 10px;border-bottom:1px solid #eeeeee;">${i.name}</td><td style="padding:12px 10px;border-bottom:1px solid #eeeeee;text-align:center;">${i.qty||1}</td><td style="padding:12px 10px;border-bottom:1px solid #eeeeee;text-align:right;font-weight:600;">$${((i.qty||1)*i.price).toFixed(2)}</td></tr>`).join('')}</tbody></table><div style="margin-top:30px;text-align:center;"><a href="https://obenmaxwell1-netizen.github.io/pokemonsite/admin.html" style="background:#000000;color:#ffffff;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:4px;display:inline-block;font-size:13px;letter-spacing:1px;text-transform:uppercase;">Go to Admin Dashboard</a></div></div>`,
-          textContent: `New Order Received from ${name}\nTotal: $${total.toFixed(2)}\nOrder ID: ${orderId}\nPayment: ${payment}`
-        })
-      });
-      if (!adminRes.ok) {
-        const errText = await adminRes.text();
-        console.error('ADMIN email Brevo error:', adminRes.status, errText);
+      if (invoiceError) {
+        console.error('Invoice edge function error:', invoiceError);
       } else {
-        console.log('Admin notification email sent OK');
+        console.log('Invoice email triggered successfully', invoiceData);
       }
     } catch(emailErr) {
       console.error('Email send exception:', emailErr);
