@@ -347,14 +347,36 @@
       <p>Send us a message and we'll get back to you within 24 hours.</p>
     </div>
     <div class="glass-card" style="padding:2rem;" class="reveal">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
-        <div class="glass-card" style="padding:1.25rem;text-align:center;">
+      <style>
+        .contact-card-link {
+          text-decoration: none !important;
+          color: inherit !important;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          display: block;
+        }
+        .contact-card-link:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+      </style>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:1.25rem;margin-bottom:1.25rem;">
+        <a href="mailto:contact@pokemoncenter.com" class="glass-card contact-card-link" style="padding:1.25rem;text-align:center;">
           <i class="fa fa-envelope" style="font-size:1.5rem;color:var(--blue);margin-bottom:0.5rem;"></i>
           <div style="font-size:0.8rem;color:var(--text-secondary);">Email Us</div>
           <div style="font-size:0.9rem;font-weight:600;">contact@pokemoncenter.com</div>
-        </div>
+        </a>
+        <a href="tel:+19406227259" class="glass-card contact-card-link" style="padding:1.25rem;text-align:center;">
+          <i class="fa fa-phone-alt" style="font-size:1.5rem;color:var(--gold);margin-bottom:0.5rem;"></i>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Call Support</div>
+          <div style="font-size:0.9rem;font-weight:600;">+1 (940) 622-7259</div>
+        </a>
+        <a href="https://wa.me/13853981378" target="_blank" rel="noopener noreferrer" class="glass-card contact-card-link" style="padding:1.25rem;text-align:center;">
+          <i class="fab fa-whatsapp" style="font-size:1.5rem;color:#25D366;margin-bottom:0.5rem;"></i>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">WhatsApp</div>
+          <div style="font-size:0.9rem;font-weight:600;">+1 (385) 398-1378</div>
+        </a>
         <div class="glass-card" style="padding:1.25rem;text-align:center;">
-          <i class="fa fa-clock" style="font-size:1.5rem;color:var(--gold);margin-bottom:0.5rem;"></i>
+          <i class="fa fa-clock" style="font-size:1.5rem;color:#94a3b8;margin-bottom:0.5rem;"></i>
           <div style="font-size:0.8rem;color:var(--text-secondary);">Response Time</div>
           <div style="font-size:0.9rem;font-weight:600;">Within 24 hours</div>
         </div>
