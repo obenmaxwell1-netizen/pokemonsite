@@ -14,8 +14,8 @@ Deno.serve(async (req: Request) => {
     const data = await req.json();
     const { email, name, orderId, orderDate, itemList, shippingLine, total, payment, notes, origin } = data;
 
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
-    const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "orders@pokéemoncenter.com";
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "re_F9LM1idE_GeEtTYTLZXb6oM7Qk22QyzFA";
+    const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "onboarding@resend.dev";
     const STORE_EMAIL = Deno.env.get("STORE_EMAIL") ?? "obenmaxwell1@gmail.com";
 
     if (!RESEND_API_KEY) {
