@@ -1,4 +1,4 @@
-﻿import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -248,7 +248,7 @@ Deno.serve(async (req: Request) => {
             <div style="color:#D4AF37;font-size:20px;font-weight:800;margin-bottom:8px;">Pokeemon Center</div>
             <div style="color:#64748b;font-size:13px;line-height:1.7;">
               Questions? Reply to this email or contact us at<br/>
-              <a href="mailto:contact@pokeemoncenter.com" style="color:#D4AF37;text-decoration:none;font-weight:600;">contact@pokeemoncenter.com</a>
+              <a href="mailto:support@pokeemoncenter.com" style="color:#D4AF37;text-decoration:none;font-weight:600;">support@pokeemoncenter.com</a>
             </div>
             <div style="color:#334155;font-size:11px;margin-top:20px;padding-top:16px;border-top:1px solid #1e293b;">
               © ${new Date().getFullYear()} Pokeemon Center. All rights reserved. · Authentic International TCG Cards
