@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -1022,6 +1022,35 @@
       return;
     }
 
+    /* Send invoice email via Supabase Edge Function */
+    const orderDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
+
+    try {
+      const { data: invoiceData, error: invoiceError } = await supabase.functions.invoke('send-invoice', {
+        body: {
+          email: email,
+          name: name,
+          orderId: orderId,
+          orderDate: orderDate,
+          itemList: cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\n'),
+          shippingLine: shippingLine,
+          total: total.toFixed(2),
+          payment: payment,
+          notes: notes,
+          origin: window.location.origin
+        }
+      });
+
+      if (invoiceError) {
+        console.error('Invoice edge function error:', invoiceError);
+      } else {
+        console.log('Invoice email triggered successfully', invoiceData);
+      }
+    } catch(emailErr) {
+      console.error('Email send exception:', emailErr);
+    }
+
     clearCart();
 
     /* Success UI */
@@ -1045,35 +1074,6 @@
             <a href="catalog.html" class="cp-btn-outline"><i class="fa fa-store"></i> Continue Shopping</a>
           </div>
         </div>`;
-    }
-
-    /* Send invoice email via Supabase Edge Function */
-    const orderDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
-    const shippingLine = [shippingAddress.street, shippingAddress.apt, shippingAddress.city, shippingAddress.zip, shippingAddress.country].filter(Boolean).join(', ');
-
-    try {
-      const { data: invoiceData, error: invoiceError } = await supabase.functions.invoke('send-invoice', {
-        body: {
-          email: email,
-          name: name,
-          orderId: orderId,
-          orderDate: orderDate,
-          itemList: cart.map(i => `- ${i.name}  x${i.qty||1}  =  $${((i.qty||1)*i.price).toFixed(2)}`).join('\\n'),
-          shippingLine: shippingLine,
-          total: total.toFixed(2),
-          payment: payment,
-          notes: notes,
-          origin: window.location.origin
-        }
-      });
-
-      if (invoiceError) {
-        console.error('Invoice edge function error:', invoiceError);
-      } else {
-        console.log('Invoice email triggered successfully', invoiceData);
-      }
-    } catch(emailErr) {
-      console.error('Email send exception:', emailErr);
     }
   }
 
