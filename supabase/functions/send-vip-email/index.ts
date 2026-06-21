@@ -1,7 +1,7 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+﻿import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
-const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'contact@xn--pokemoncenter-dhb.com';
+const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'support@pokeemoncenter.com';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
