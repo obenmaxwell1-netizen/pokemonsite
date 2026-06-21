@@ -14,7 +14,7 @@ Deno.serve(async (req: Request) => {
     const data = await req.json();
     const { email, name, orderId, orderDate, itemList, shippingLine, total, payment, notes, origin } = data;
 
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "re_F9LM1idE_GeEtTYTLZXb6oM7Qk22QyzFA";
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "re_SLiYyaJt_M6XvRLR8grHpaEiZRetStmgf";
     const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "orders@xn--pokemoncenter-dhb.com";
     const STORE_EMAIL = Deno.env.get("STORE_EMAIL") ?? "obenmaxwell1@gmail.com";
 
@@ -49,7 +49,7 @@ Deno.serve(async (req: Request) => {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pokémon Center Invoice #${shortId}</title>
+  <title>Pokeemon Center Invoice #${shortId}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f4f5f7;font-family:'Helvetica Neue',Arial,sans-serif;">
 
@@ -66,7 +66,7 @@ Deno.serve(async (req: Request) => {
             <div style="display:inline-block;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.4);border-radius:50px;padding:8px 24px;margin-bottom:24px;">
               <span style="color:#D4AF37;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">✦ Official Invoice ✦</span>
             </div>
-            <div style="color:#D4AF37;font-size:38px;font-weight:800;letter-spacing:-1px;margin:0 0 6px;text-shadow:0 2px 10px rgba(212,175,55,0.3);">Pokémon Center</div>
+            <div style="color:#D4AF37;font-size:38px;font-weight:800;letter-spacing:-1px;margin:0 0 6px;text-shadow:0 2px 10px rgba(212,175,55,0.3);">Pokeemon Center</div>
             <div style="color:#94a3b8;font-size:13px;letter-spacing:1px;">Premier International Pokémon &amp; TCG Cards</div>
             <div style="margin-top:28px;">
               <div style="display:inline-block;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:10px 28px;">
@@ -92,7 +92,7 @@ Deno.serve(async (req: Request) => {
           <td style="padding:40px 48px 0;">
             <p style="margin:0 0 8px;font-size:24px;font-weight:700;color:#0f172a;">Hello, ${name}! 👋</p>
             <p style="margin:0;font-size:15px;color:#64748b;line-height:1.7;">
-              Thank you for your order at <strong>Pokémon Center</strong>. We've received your purchase and it's now being carefully processed by our team.
+              Thank you for your order at <strong>Pokeemon Center</strong>. We've received your purchase and it's now being carefully processed by our team.
               Below you'll find a complete summary of your transaction.
             </p>
           </td>
@@ -245,13 +245,13 @@ Deno.serve(async (req: Request) => {
         <!-- ── FOOTER ── -->
         <tr>
           <td style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:32px 48px;border-radius:0 0 20px 20px;text-align:center;">
-            <div style="color:#D4AF37;font-size:20px;font-weight:800;margin-bottom:8px;">Pokémon Center</div>
+            <div style="color:#D4AF37;font-size:20px;font-weight:800;margin-bottom:8px;">Pokeemon Center</div>
             <div style="color:#64748b;font-size:13px;line-height:1.7;">
               Questions? Reply to this email or contact us at<br/>
-              <a href="mailto:contact@pokéemoncenter.com" style="color:#D4AF37;text-decoration:none;font-weight:600;">contact@pokéemoncenter.com</a>
+              <a href="mailto:contact@pokeemoncenter.com" style="color:#D4AF37;text-decoration:none;font-weight:600;">contact@pokeemoncenter.com</a>
             </div>
             <div style="color:#334155;font-size:11px;margin-top:20px;padding-top:16px;border-top:1px solid #1e293b;">
-              © ${new Date().getFullYear()} Pokémon Center. All rights reserved. · Authentic International TCG Cards
+              © ${new Date().getFullYear()} Pokeemon Center. All rights reserved. · Authentic International TCG Cards
             </div>
           </td>
         </tr>
@@ -365,8 +365,8 @@ Deno.serve(async (req: Request) => {
         </tr>
         <tr>
           <td style="background:#0d1117;padding:20px 48px;border-top:1px solid #21262d;text-align:center;border-radius:0 0 16px 16px;">
-            <div style="color:#D4AF37;font-size:16px;font-weight:800;">Pokémon Center Admin</div>
-            <div style="color:#8b949e;font-size:12px;margin-top:4px;">© ${new Date().getFullYear()} Pokémon Center · Internal notification</div>
+            <div style="color:#D4AF37;font-size:16px;font-weight:800;">Pokeemon Center Admin</div>
+            <div style="color:#8b949e;font-size:12px;margin-top:4px;">© ${new Date().getFullYear()} Pokeemon Center · Internal notification</div>
           </td>
         </tr>
       </table>
@@ -386,7 +386,7 @@ Deno.serve(async (req: Request) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          from: `Pokémon Center <${FROM_EMAIL}>`,
+          from: `Pokeemon Center <${FROM_EMAIL}>`,
           to: to,
           reply_to: STORE_EMAIL,
           subject: subject,
@@ -406,13 +406,13 @@ Deno.serve(async (req: Request) => {
       sendEmail(
         email,
         name,
-        `✅ Order Confirmed #${shortId} – Your Pokémon Center Invoice`,
+        `✅ Order Confirmed #${shortId} – Your Pokeemon Center Invoice`,
         customerHtml
       ),
       // Store admin notification
       sendEmail(
         STORE_EMAIL,
-        "Pokémon Center Admin",
+        "Pokeemon Center Admin",
         `🛒 New Order from ${name} — $${total} · #${shortId}`,
         storeHtml
       )
