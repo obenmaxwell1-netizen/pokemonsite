@@ -1,6 +1,0 @@
-﻿{
-    "subject":  "Test Order Notification",
-    "from":  "onboarding@resend.dev",
-    "to":  "bioleanhw@gmail.com",
-    "html":  "\u003cp\u003eThis is a test to confirm the email route works.\u003c/p\u003e"
-}
