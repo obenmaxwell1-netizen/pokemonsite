@@ -4,6 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title id="page-title">Product &mdash; Pok&eacute;mon Center</title>
+  <meta name="description" id="meta-desc" content="Authentic Pok&eacute;mon and One Piece TCG Products."/>
+  <meta property="og:title" id="og-title" content="Product &mdash; Pok&eacute;mon Center"/>
+  <meta property="og:description" id="og-desc" content="Authentic Pok&eacute;mon and One Piece TCG Products."/>
+  <meta property="og:image" id="og-image" content="https://pokeemoncenter.com/logo.jpeg"/>
+  <meta property="og:type" content="product"/>
+  <meta property="og:url" id="og-url" content="https://pokeemoncenter.com/product.html"/>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -156,9 +162,39 @@
     const { data: p, error } = await supabase.from('products').select('*').eq('id', productId).single();
     if (error || !p) { document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:8rem 2rem;"><h2>Product not found</h2><a href="catalog.html" class="btn btn-primary" style="margin-top:1rem;">Back to Catalog</a></div>'; return; }
 
-    document.title = `${p.name} &mdash; Pok&eacute;mon Center`;
+    document.title = `${p.name} \u2014 Pok\u00e9mon Center`;
     currentImages = p.images || [];
     if (!currentImages.length) currentImages = [''];
+    
+    // Dynamic SEO Update
+    const shortDesc = p.description ? p.description.substring(0, 160) : 'Authentic sealed product imported directly. All products are 100% genuine and factory sealed.';
+    document.getElementById('meta-desc').content = shortDesc;
+    document.getElementById('og-title').content = p.name;
+    document.getElementById('og-desc').content = shortDesc;
+    document.getElementById('og-image').content = currentImages[0] || 'https://pokeemoncenter.com/logo.jpeg';
+    document.getElementById('og-url').content = window.location.href;
+
+    // JSON-LD Structured Data
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": p.name,
+      "image": currentImages,
+      "description": p.description || shortDesc,
+      "sku": p.id,
+      "offers": {
+        "@type": "Offer",
+        "url": window.location.href,
+        "priceCurrency": "USD",
+        "price": p.price,
+        "priceValidUntil": new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
+        "itemCondition": "https://schema.org/NewCondition",
+        "availability": p.stock_status === 'in_stock' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+      }
+    });
+    document.head.appendChild(script);
 
     const stockClass = p.stock_status === 'in_stock' ? 'stock-in' : 'stock-out';
     const stockLabel = p.stock_status === 'in_stock' ? '<i class="fa fa-check"></i> In Stock' : '<i class="fa fa-times"></i> Sold Out';
